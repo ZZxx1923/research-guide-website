@@ -217,17 +217,19 @@ a:hover {
 
 /* Hero Section */
 .hero-section {
-    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('images/hero_background.jpg') no-repeat center center fixed; /* إضافة الصورة وتعديل الخصائص */
-    background-size: cover; 
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('images/hero_background.jpg') no-repeat center center;
+    background-size: cover; /* التأكد من تغطية الصورة للمساحة بالكامل */
+    background-attachment: scroll; /* التأكد من أن الخلفية تتحرك مع التمرير */
     color: #f0f0f0;
     text-align: center;
     padding: 100px 0;
     display: flex;
     flex-direction: column; 
-    justify-content: center; /
+    justify-content: center; 
     align-items: center;
-    min-height: 100vh; 
+    min-height: 100vh; /* التأكد من أن الخلفية تغطي كامل الارتفاع */
 }
+
 
 #sanad-link {
     background-image: url('images/sanad.png');

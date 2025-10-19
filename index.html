@@ -24,6 +24,7 @@
 
         </div>
 
+
 <script src="chatbot.js"></script>
 
 
@@ -76,8 +77,7 @@
     <section class="video-section section-padding">
         <div class="container">
             <div class="video-container">
-                <h2>شرح التعذرات بالفيديو</h2>
-                <p class="video-description">شاهد شرح تفصيلي للتعذرات الممنوعة والإجراءات الصحيحة</p>
+                <h2>شرح طريقة تنفيذ الزيارة </h2>
                 <div class="video-wrapper">
                     <video controls>
                         <source src="videos/الدليل الارشادي.mp4" type="video/mp4">
@@ -88,47 +88,7 @@
         </div>
     </section>
 
-    <section id="links" class="links-section section-padding bg-light">
-        <div class="container">
-            <h2>روابط مهمة</h2>
-            <div class="links-grid">
-                <a href="https://hrsd-scs.sa/admin/account/login" class="link-item">منصة وصول (الضمان الاجتماعي)</a>
-                <a href="https://citizens.bpo-hq.com/admin/account/login" class="link-item">منصة وصول (حساب المواطن)</a>
-                <a href="https://elmiyaar.bpo-hq.com/published/public/3a16c23c-bfe6-9c1f-1454-d1b077b34aad" class="link-item">مبادرة تفريج كربة</a>
-                <a href="https://elmiyaar.bpo-hq.com/published/public/3a161317-0e40-85f2-072b-229e4cbf08ab" class="link-item">معيار (المشكلات التقنية)</a>
-                <a href="https://snapchat.com/t/MRIvntDt" class="link-item">سناب المشروع</a>
-                <a href="https://emdad.kayanhr.com/" class="link-item" id="sanad-link">سند</a>
-                <a href="https://app.ziwo.io/login" class="link-item"id="ziwo">زيو</a>
-                <a href="https://hrsd-scs.sa/bahasv4.apk" class="link-item" id="apk">تنزيل تطبيق المساعد للباحث</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- قسم ملفات PDF المتقدم -->
-    <section class="projects" id="projects">
-        <div class="container">
-            <div class="projects-header">
-                <h2 class="title">أهم ملفات ال PDF</h2>
-                <button id="pdf-lock-btn" class="lock-button pdf-lock" onclick="togglePdfPasswordDialog()" title="اضغط لإدارة ملفات PDF" style="display: none;">
-                    <i class="fas fa-lock"></i>
-                </button>
-            </div>
-            <div class="content" id="pdf-content">
-                <!-- سيتم ملء ملفات PDF من JavaScript -->
-            </div>
-
-            <!-- زر إضافة ملف PDF جديد (مرئي فقط عند فتح القفل) -->
-            <button id="add-pdf-btn" class="add-pdf-btn" onclick="openAddPdfDialog()" style="display: none;">
-                <i class="fas fa-plus"></i> إضافة ملف PDF جديد
-            </button>
-        </div>
-    </section>
-
-    <!-- ============================================
-         Dialogs والنوافذ المنفثقة
-         ============================================ -->
-
-    <!-- Password Dialog للتعذرات -->
+    <!-- Password Dialog -->
     <div id="password-modal" class="modal" style="display: none;">
         <div class="modal-content">
             <span class="close" onclick="closePasswordDialog()">&times;</span>
@@ -167,46 +127,52 @@
         </div>
     </div>
 
-    <!-- Password Dialog لملفات PDF -->
-    <div id="pdf-password-modal" class="modal" style="display: none;">
-        <div class="modal-content">
-            <span class="close" onclick="closePdfPasswordDialog()">&times;</span>
-            <h2>إدخال كلمة السر</h2>
-            <input type="password" id="pdf-password-input" placeholder="أدخل كلمة السر" onkeypress="handlePdfPasswordKeyPress(event)">
-            <div class="modal-buttons">
-                <button onclick="closePdfPasswordDialog()" class="btn-cancel">إلغاء</button>
-                <button onclick="checkPdfPassword()" class="btn-submit">فتح</button>
+    <section id="links" class="links-section section-padding bg-light">
+        <div class="container">
+            <h2>روابط مهمة</h2>
+            <div class="links-grid">
+                <a href="https://hrsd-scs.sa/admin/account/login" class="link-item">منصة وصول (الضمان الاجتماعي)</a>
+                <a href="https://citizens.bpo-hq.com/admin/account/login" class="link-item">منصة وصول (حساب المواطن)</a>
+                <a href="https://elmiyaar.bpo-hq.com/published/public/3a16c23c-bfe6-9c1f-1454-d1b077b34aad" class="link-item">مبادرة تفريج كربة</a>
+                <a href="https://elmiyaar.bpo-hq.com/published/public/3a161317-0e40-85f2-072b-229e4cbf08ab" class="link-item">معيار (المشكلات التقنية)</a>
+                <a href="https://chatgpt.com/g/g-67fa231bdeb88191a5c6e7909176dce2-lms-d-lftrdy-llbhth-ljtm-y"  id="GPT" class="link-item"> </a>
+                <a href="https://emdad.kayanhr.com/" class="link-item" id="sanad-link">سند</a>
+                <a href="https://app.ziwo.io/login" class="link-item"id="ziwo">زيو</a>
+                <a href="https://hrsd-scs.sa/bahasv4.apk" class="link-item" id="apk">تنزيل تطبيق المساعد للباحث</a>
+                <a href="https://snapchat.com/t/MRIvntDt" id="snap" class="link-item">سناب المشروع</a>
             </div>
         </div>
-    </div>
+    </section>
 
-    <!-- Add PDF Dialog -->
-    <div id="add-pdf-modal" class="modal" style="display: none;">
-        <div class="modal-content">
-            <span class="close" onclick="closeAddPdfDialog()">&times;</span>
-            <h2>إضافة ملف PDF جديد</h2>
-            <input type="text" id="pdf-name-input" placeholder="اسم الملف" onkeypress="handleAddPdfKeyPress(event)">
-            <input type="text" id="pdf-url-input" placeholder="رابط الملف (مثال: pdf/اسم-الملف.pdf)" onkeypress="handleAddPdfKeyPress(event)">
-            <div class="modal-buttons">
-                <button onclick="closeAddPdfDialog()" class="btn-cancel">إلغاء</button>
-                <button onclick="addPdf()" class="btn-submit">إضافة</button>
+    <section class="projects" id="projects">
+        <h2 class="title">أهم ملفات ال pdf</h2>
+        <div class="content">
+            <div class="project-card">
+                <div class="project-image">
+                    <img src="images/1.jpeg" />
+                </div>
+                <div class="project-info">
+                    <p class="project-category"></p>
+                    <strong class="project-title">
+                        <span>أسباب التعذر والاجراءات والشرح_المحدث</span>
+                        <a href="pdf/أسباب التعذر والاجراءات والشرح_المحدث.pdf" class="more-details">OPEN</a>
+                    </strong>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-image">
+                    <img src="images/2.jpeg" />
+                </div>
+                <div class="project-info">
+                    <p class="project-category"></p>
+                    <strong class="project-title">
+                        <span>كيفية  عمل الزيارة في وضع عدم الاتصال بالاترنت </span>
+                        <a href="pdf/كيفية  عمل الزيارة في وضع عدم الاتصال بالاترنت .pdf"    class="more-details">  OPEN</a>
+                    </strong>
+                </div>
             </div>
         </div>
-    </div>
-
-    <!-- Edit PDF Dialog -->
-    <div id="edit-pdf-modal" class="modal" style="display: none;">
-        <div class="modal-content">
-            <span class="close" onclick="closeEditPdfDialog()">&times;</span>
-            <h2>تعديل ملف PDF</h2>
-            <input type="text" id="edit-pdf-name-input" placeholder="اسم الملف" onkeypress="handleEditPdfKeyPress(event)">
-            <input type="text" id="edit-pdf-url-input" placeholder="رابط الملف" onkeypress="handleEditPdfKeyPress(event)">
-            <div class="modal-buttons">
-                <button onclick="closeEditPdfDialog()" class="btn-cancel">إلغاء</button>
-                <button onclick="saveEditPdf()" class="btn-submit">حفظ</button>
-            </div>
-        </div>
-    </div>
+    </section>
 
     <section class="new-contact-section">
 		        <h2 class="title">للاستفسارات أو المساعدة، لا تتردد في التواصل معنا.</h2>
@@ -248,4 +214,3 @@
         <script src="script.js"></script>
 </body>
 </html>
-

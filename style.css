@@ -80,12 +80,13 @@ a:hover {
 
 /* Header */
 .main-header {
-    background-image: url("images/hrsd_logo.png"); 
-    background-size: cover; 
-    background-repeat: no-repeat; 
-    height: 0px; 
-    padding: 0; 
+    /* background-image: url("images/hrsd_logo.png"); */ /* تم نقل الشعار ليكون عنصر <img> */
+    /* background-size: cover; */
+    /* background-repeat: no-repeat; */
+    height: auto; /* تم تعديل الارتفاع للسماح للمحتوى بالظهور */
+    padding: 15px 0; /* إضافة بعض المساحة العلوية والسفلية */
     position: relative;
+    background-color: #343a40; /* إضافة لون خلفية للـ header */
     z-index: 1000;
     box-shadow: flex;
    
@@ -154,7 +155,7 @@ a:hover {
 .main-header .container,
 .main-header .logo,
 .main-header .main-nav {
-    display: flex !important; 
+    display: flex;
 }
 
 .main-header h2, .main-header p, .main-header span {
@@ -167,7 +168,8 @@ a:hover {
 }
 
 .main-header .logo-img {
-    height: 150px; 
+    height: 50px; /* حجم الشعار الافتراضي */
+    width: auto; /* الحفاظ على نسبة العرض إلى الارتفاع */
     margin-left: 25px;
 }
 
@@ -216,7 +218,7 @@ a:hover {
 
 /* Hero Section */
 .hero-section {
-    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('images/hero_background.jpg') no-repeat center center fixed; /* إضافة الصورة وتعديل الخصائص */
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('images/hero_background.jpg') no-repeat center center; /* إزالة fixed لتجنب مشاكل الجوال */ /* إضافة الصورة وتعديل الخصائص */
     background-size: cover; 
     color: #f0f0f0;
     text-align: center;
@@ -225,7 +227,8 @@ a:hover {
     flex-direction: column; 
     justify-content: center; /
     align-items: center;
-    min-height: 100vh; 
+    min-height: 100vh; /* التأكد من أن الخلفية تغطي كامل الارتفاع */
+    background-attachment: scroll; /* التأكد من أن الخلفية تتحرك مع التمرير */
 }
 
 
@@ -442,7 +445,7 @@ a:hover {
 
 @media (max-width: 480px) {
     .main-header .logo-img {
-        height: 35px;
+        height: 40px; /* زيادة حجم الشعار قليلاً على الجوال */
     }
 
     .main-header .site-title {

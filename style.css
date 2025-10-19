@@ -80,13 +80,12 @@ a:hover {
 
 /* Header */
 .main-header {
-    /* background-image: url("images/hrsd_logo.png"); */ /* تم نقل الشعار ليكون عنصر <img> */
-    /* background-size: cover; */
-    /* background-repeat: no-repeat; */
-    height: auto; /* تم تعديل الارتفاع للسماح للمحتوى بالظهور */
-    padding: 15px 0; /* إضافة بعض المساحة العلوية والسفلية */
+    background-image: url("images/hrsd_logo.png"); 
+    background-size: cover; 
+    background-repeat: no-repeat; 
+    height: 0px; 
+    padding: 0; 
     position: relative;
-    background-color: #343a40; /* إضافة لون خلفية للـ header */
     z-index: 1000;
     box-shadow: flex;
    
@@ -155,7 +154,7 @@ a:hover {
 .main-header .container,
 .main-header .logo,
 .main-header .main-nav {
-    display: flex;
+    display: flex !important; 
 }
 
 .main-header h2, .main-header p, .main-header span {
@@ -168,8 +167,8 @@ a:hover {
 }
 
 .main-header .logo-img {
-    height: 50px; /* حجم الشعار الافتراضي */
-    width: auto; /* الحفاظ على نسبة العرض إلى الارتفاع */
+    height: 150px; 
+    width: auto; 
     margin-left: 25px;
 }
 
@@ -218,7 +217,7 @@ a:hover {
 
 /* Hero Section */
 .hero-section {
-    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('images/hero_background.jpg') no-repeat center center; /* إزالة fixed لتجنب مشاكل الجوال */ /* إضافة الصورة وتعديل الخصائص */
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('images/hero_background.jpg') no-repeat center center fixed; /* إضافة الصورة وتعديل الخصائص */
     background-size: cover; 
     color: #f0f0f0;
     text-align: center;
@@ -227,11 +226,96 @@ a:hover {
     flex-direction: column; 
     justify-content: center; /
     align-items: center;
-    min-height: 100vh; /* التأكد من أن الخلفية تغطي كامل الارتفاع */
-    background-attachment: scroll; /* التأكد من أن الخلفية تتحرك مع التمرير */
+    min-height: 100vh; 
 }
 
+#sanad-link {
+    background-image: url('images/sanad.png');
+    background-size: 60%; 
+    background-repeat: no-repeat;
+    background-position: center; 
+    color: transparent; 
+    text-shadow: none; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0; 
+    position: relative;
+}
 
+#sanad-link::before {
+    content: "سند"; 
+    color: #fff; 
+    font-size: 1.2em; 
+    font-weight: 600;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+}
+
+#sanad-link:hover::before {
+    color: var(--primary-color); 
+}
+#ziwo {
+    background-image: url('images/ziwo.png');
+    background-size: 60%; 
+    background-repeat: no-repeat;
+    background-position: center; 
+    color: transparent; 
+    text-shadow: none; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0; 
+    position: relative;
+}
+
+#ziwo::before {
+    content: "سند"; 
+    color: #fff; 
+    font-size: 1.2em; 
+    font-weight: 600;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+}
+
+#ziwo:hover::before {
+    color: var(--primary-color); 
+}
+#apk {
+    background-image: url('images/apk.jpg');
+    background-size: 60%; 
+    background-repeat: no-repeat;
+    background-position: center; 
+    color: transparent; 
+    text-shadow: none; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0; 
+    position: relative;
+}
+
+#sanad-link::before {
+    content: "سند"; 
+    color: #fff; 
+    font-size: 1.2em; 
+    font-weight: 600;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+}
+
+#apk:hover::before {
+    color: var(--primary-color); 
+}
 .hero-content h1 {
     font-size: 3.5em;
     margin-bottom: 20px;
@@ -445,7 +529,7 @@ a:hover {
 
 @media (max-width: 480px) {
     .main-header .logo-img {
-        height: 40px; /* زيادة حجم الشعار قليلاً على الجوال */
+        height: 35px;
     }
 
     .main-header .site-title {

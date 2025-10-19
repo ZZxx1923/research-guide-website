@@ -1,12 +1,15 @@
 /* General Styles */
 :root {
-    --primary-color: #e0e0e0; 
+    --primary-color: #FF6B6B; 
     --secondary-color: #28a745; 
     --dark-color: #343a40;
     --light-color: #f8f9fa;
     --text-color: #333;
     --heading-color: #212529;
     --border-color: #000000;
+    --accent-blue: #0056b3;
+    --accent-purple: #6C5CE7;
+    --accent-teal: #00B894;
 }
 
 body {
@@ -90,66 +93,6 @@ a:hover {
     box-shadow: flex;
    
 }
-#chatbot-button {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  width: 60px;
-  height: 60px;
-  background: #007bff;
-  color: white;
-  border-radius: 50%;
-  text-align: center;
-  line-height: 60px;
-  font-size: 30px;
-  cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-  transition: transform 0.2s;
-  z-index: 9999;
-}
-
-#chatbot-wrapper {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  text-align: center;
-  z-index: 9999;
-}
-
-#chatbot-label {
-  margin-bottom: 5px;
-  background: #007bff;
-  color: white;
-  padding: 5px 10px;
-  border-radius: 10px;
-  font-size: 14px;
-  font-weight: bold;
-}
-
-#chatbot-button {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background: #007bff;
-  color: white;
-  border-radius: 50px;
-  padding: 12px 90px;
-  font-size: 13px;
-  font-weight: bold;
-  cursor: pointer;
-  box-shadow: 0 4cap 12px rgba(0,0,0,0.3);
-  z-index: 9999;
-  display: flex;
-  align-items: center;
-  gap: 8px; /* مسافة بين الأيقونة والكلام */
-  white-space: nowrap; /* يمنع التفاف النص */
-  transition: transform 0.2s;
-}
-
-#chatbot-button:hover {
-  transform: scale(1.05);
-}
-
 
 .main-header .container,
 .main-header .logo,
@@ -218,8 +161,8 @@ a:hover {
 /* Hero Section */
 .hero-section {
     background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('images/hero_background.jpg') no-repeat center center;
-    background-size: cover; /* التأكد من تغطية الصورة للمساحة بالكامل */
-    background-attachment: scroll; /* التأكد من أن الخلفية تتحرك مع التمرير */
+    background-size: cover;
+    background-attachment: scroll;
     color: #f0f0f0;
     text-align: center;
     padding: 100px 0;
@@ -227,9 +170,424 @@ a:hover {
     flex-direction: column; 
     justify-content: center; 
     align-items: center;
-    min-height: 100vh; /* التأكد من أن الخلفية تغطي كامل الارتفاع */
+    min-height: 20vh;
 }
 
+.hero-content h1 {
+    font-size: 3.5em;
+    margin-bottom: 20px;
+    color: #fff;
+}
+
+.hero-content p {
+    font-size: 1.3em;
+    margin-bottom: 40px;
+    color: #eee;
+}
+
+/* ============================================
+   مربع التعذرات الجديد - التصميم الحديث
+   ============================================ */
+
+.guide-section {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    padding: 80px 0;
+    text-align: center;
+}
+
+.guide-section h2 {
+    font-size: 2.5em;
+    margin-bottom: 15px;
+    color: #2c3e50;
+}
+
+.excuses-container {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+    max-width: 900px;
+    margin: 40px auto;
+    border-top: 5px solid var(--primary-color);
+    transition: all 0.3s ease;
+}
+
+.excuses-container:hover {
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.2);
+    transform: translateY(-5px);
+}
+
+.excuses-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.excuses-title-section h3 {
+    font-size: 1.8em;
+    color: var(--primary-color);
+    margin: 0 0 8px 0;
+    font-weight: 700;
+}
+
+.excuses-subtitle {
+    font-size: 0.95em;
+    color: #7f8c8d;
+    margin: 0;
+    font-weight: 400;
+}
+
+.lock-button {
+    background: linear-gradient(135deg, var(--primary-color) 0%, #5552ff 100%);
+    border: none;
+    padding: 12px 16px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.3em;
+    color: white;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+}
+
+.lock-button:hover {
+    transform: scale(1.15) rotate(10deg);
+    box-shadow: 0 8px 20px rgba(236, 235, 235, 0.4);
+}
+
+.lock-button.unlocked {
+    background: linear-gradient(135deg, var(--accent-blue) 0%, #0056b3 100%);
+    box-shadow: 0 5px 15px rgba(0, 86, 179, 0.3);
+}
+
+.lock-button.unlocked:hover {
+    box-shadow: 0 8px 20px rgba(0, 86, 179, 0.4);
+}
+
+/* قائمة التعذرات */
+.excuses-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 25px 0;
+}
+
+.excuses-list li {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    margin-bottom: 15px;
+    padding: 18px 22px;
+    border-radius: 12px;
+    border-left: 4px solid var(--primary-color);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    font-size: 1.05em;
+    color: #2c3e50;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.excuses-list li::before {
+    content: "✗";
+    position: absolute;
+    right: -15px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.5em;
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
+.excuses-list li:hover {
+    transform: translateX(-8px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+    background: linear-gradient(135deg, #fff5f5 0%, #fffbfb 100%);
+}
+
+.excuse-text {
+    flex: 1;
+    text-align: right;
+    font-weight: 500;
+}
+
+.excuse-actions {
+    display: flex;
+    gap: 12px;
+    margin-left: 15px;
+}
+
+.excuse-actions button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.1em;
+    padding: 8px 12px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.excuse-actions .edit-btn {
+    color: var(--accent-blue);
+}
+
+.excuse-actions .edit-btn:hover {
+    background-color: rgba(0, 86, 179, 0.1);
+    transform: scale(1.2);
+}
+
+.excuse-actions .delete-btn {
+    color: var(--primary-color);
+}
+
+.excuse-actions .delete-btn:hover {
+    background-color: rgba(255, 107, 107, 0.1);
+    transform: scale(1.2);
+}
+
+/* زر الإضافة */
+.add-excuse-btn {
+    width: 100%;
+    background: linear-gradient(135deg, var(--accent-blue) 0%, #0056b3 100%);
+    color: white;
+    border: none;
+    padding: 14px 20px;
+    border-radius: 12px;
+    font-size: 1.05em;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: all 0.3s ease;
+    font-family: 'Tajawal', sans-serif;
+    box-shadow: 0 5px 15px rgba(0, 86, 179, 0.3);
+}
+
+.add-excuse-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 86, 179, 0.4);
+}
+
+.add-excuse-btn:active {
+    transform: translateY(-1px);
+}
+
+/* Footer التعذرات */
+.excuses-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 20px;
+    border-top: 2px solid #e0e0e0;
+    font-size: 0.95em;
+}
+
+.excuses-count {
+    color: #7f8c8d;
+    font-weight: 500;
+}
+
+.excuses-count span {
+    color: var(--primary-color);
+    font-weight: 700;
+    font-size: 1.1em;
+}
+
+.status-text {
+    background: linear-gradient(135deg, var(--primary-color) 0%, #FF5252 100%);
+    color: white;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.9em;
+}
+
+.status-text.unlocked {
+    background: linear-gradient(135deg, var(--accent-blue) 0%, #0056b3 100%);
+}
+
+/* ============================================
+   قسم الفيديو المنفصل
+   ============================================ */
+
+.video-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 80px 0;
+}
+
+.video-container {
+    text-align: center;
+}
+
+.video-container h2 {
+    font-size: 2.5em;
+    color: white;
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+
+.video-description {
+    font-size: 1.1em;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 40px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.video-wrapper {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.video-wrapper video {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* ============================================
+   Modals والنوافذ المنفثقة
+   ============================================ */
+
+.modal {
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.modal-content {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    padding: 35px;
+    border-radius: 15px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    max-width: 500px;
+    width: 90%;
+    position: relative;
+    animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.modal-content h2 {
+    margin-top: 0;
+    margin-bottom: 25px;
+    color: var(--primary-color);
+    font-size: 1.5em;
+}
+
+.modal-content input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 1em;
+    font-family: 'Tajawal', sans-serif;
+    margin-bottom: 25px;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+}
+
+.modal-content input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 4px rgba(255, 107, 107, 0.1);
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+}
+
+.btn-cancel, .btn-submit {
+    padding: 11px 24px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1em;
+    font-family: 'Tajawal', sans-serif;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-cancel {
+    background-color: #e0e0e0;
+    color: #333;
+}
+
+.btn-cancel:hover {
+    background-color: #d0d0d0;
+    transform: translateY(-2px);
+}
+
+.btn-submit {
+    background: linear-gradient(135deg, var(--accent-blue) 0%, #0056b3 100%);
+    color: white;
+    box-shadow: 0 5px 15px rgba(0, 86, 179, 0.3);
+}
+
+.btn-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 86, 179, 0.4);
+}
+
+.close {
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #999;
+    transition: color 0.3s ease;
+}
+
+.close:hover {
+    color: var(--primary-color);
+}
+
+/* ============================================
+   الأقسام الأخرى
+   ============================================ */
 
 #sanad-link {
     background-image: url('images/sanad.png');
@@ -260,6 +618,7 @@ a:hover {
 #sanad-link:hover::before {
     color: var(--primary-color); 
 }
+
 #ziwo {
     background-image: url('images/ziwo.png');
     background-size: 60%; 
@@ -289,9 +648,10 @@ a:hover {
 #ziwo:hover::before {
     color: var(--primary-color); 
 }
+
 #apk {
     background-image: url('images/apk.jpg');
-    background-size: 60%; 
+    background-size: 90%; 
     background-repeat: no-repeat;
     background-position: center; 
     color: transparent; 
@@ -302,84 +662,34 @@ a:hover {
     font-size: 0; 
     position: relative;
 }
-
-#sanad-link::before {
-    content: "سند"; 
-    color: #fff; 
-    font-size: 1.2em; 
-    font-weight: 600;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 1;
+#snap {
+    background-image: url('images/snap.jpg');
+    background-size: 100%; 
+    background-repeat: no-repeat;
+    background-position: center; 
+    color: transparent; 
+    text-shadow: none; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0; 
+    position: relative;
 }
-
+#GPT {
+    background-image: url('images/GPT.jpg');
+    background-size: 100%; 
+    background-repeat: no-repeat;
+    background-position: center; 
+    color: transparent; 
+    text-shadow: none; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0; 
+    position: relative;
+}
 #apk:hover::before {
     color: var(--primary-color); 
-}
-.hero-content h1 {
-    font-size: 3.5em;
-    margin-bottom: 20px;
-    color: #fff;
-}
-
-.hero-content p {
-    font-size: 1.3em;
-    margin-bottom: 40px;
-    color: #eee;
-}
-
-.guide-section {
-    background-color: #fff;
-    padding: 50px 0;
-    text-align: center;
-}
-
-.guide-content {
-    text-align: right;
-    background-color: #fcfcfc;
-    padding: 30px;
-    border-radius: 8px;
-    margin-top: 30px;
-}
-
-
-.guide-section {
-    background-color: flex;
-    text-align: center;
-}
-
-.guide-content {
-    text-align: right;
-    background-color: #f3070793;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-}
-
-.guide-content h3 {
-    color: var(--primary-color);
-    margin-top: 0;
-    border-bottom: 2px solid var(--border-color);
-    padding-bottom: 10px;
-    margin-bottom: 20px;
-}
-
-.guide-content ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.guide-content ul li {
-    background-color: var(--light-color);
-    margin-bottom: 10px;
-    padding: 15px 20px;
-    border-radius: 5px;
-    border-right: 5px solid var(--secondary-color);
-    box-shadow: 0 2px 5px rgba(0,0,0,0.03);
-    font-size: 1.05em;
 }
 
 .links-section {
@@ -417,50 +727,6 @@ a:hover {
     color: var(--primary-color);
 }
 
-.contact-section {
-    background-color: #fff;
-    text-align: center;
-}
-
-.contact-form {
-    max-width: 600px;
-    margin: 40px auto 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.contact-form input[type="text"],
-.contact-form input[type="email"],
-.contact-form textarea {
-    width: 100%;
-    padding: 15px;
-    border: 1px solid var(--border-color);
-    border-radius: 5px;
-    font-family: 'Tajawal', sans-serif;
-    font-size: 1em;
-    color: var(--text-color);
-}
-
-.contact-form input:focus,
-.contact-form textarea:focus {
-    outline: none;
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-}
-
-.contact-form textarea {
-    resize: vertical;
-}
-
-.contact-form .btn-primary {
-    width: auto;
-    align-self: center;
-    padding: 12px 30px;
-    font-size: 1.1em;
-}
-
-
 .main-footer {
     background-color: var(--dark-color);
     color: #fff;
@@ -472,89 +738,6 @@ a:hover {
 .main-footer p {
     margin: 0;
 }
-
-
-@media (max-width: 992px) {
-    .main-header .container {
-        flex-direction: column;
-        text-align: center;
-    }
-
-    .main-header .logo {
-        margin-bottom: 15px;
-    }
-
-    .main-nav ul {
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-
-    .main-nav ul li {
-        margin: 0 15px 10px 0;
-    }
-
-    .main-nav ul li:last-child {
-        margin-right: 15px;
-    }
-
-    .hero-content h1 {
-        font-size: 2.8em;
-    }
-
-    .hero-content p {
-        font-size: 1.1em;
-    }
-}
-
-@media (max-width: 768px) {
-    .hero-content h1 {
-        font-size: 2.2em;
-    }
-
-    .hero-content p {
-        font-size: 1em;
-    }
-
-    .btn {
-        padding: 8px 20px;
-        font-size: 0.9em;
-    }
-
-    .section-padding {
-        padding: 40px 0;
-    }
-
-    .links-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
-@media (max-width: 480px) {
-    .main-header .logo-img {
-        height: 35px;
-    }
-
-    .main-header .site-title {
-        font-size: 1.3em;
-    }
-
-    .main-nav ul li {
-        margin: 0 10px 10px 0;
-    }
-
-    .hero-content h1 {
-        font-size: 1.8em;
-    }
-
-    .hero-content p {
-        font-size: 0.9em;
-    }
-
-    .contact-form {
-        margin-top: 20px;
-    }
-}
-
 
 .card {
     background-color: #fff;
@@ -644,19 +827,6 @@ a:hover {
     color: #601cfc;
 }
 
-.contact .icon{
-    font-size: 4.5em;
-}
-
-.contact .info h3 {
-    color: #000;
-}
-
-.contact .info p {
-    font-size: 1.5em;
-}
-
-
 .title {
     display: flex;
     justify-content: center;
@@ -665,8 +835,6 @@ a:hover {
     font-weight: 800;
     margin-bottom: 30px;
 }
-
-
 
 .new-contact-section {
     padding: 100px 200px;
@@ -739,15 +907,123 @@ a:hover {
     color: #0a49f6;
 }
 
-/* Responsive adjustments for the new contact section */
-@media (max-width:1023px){
-    .new-contact-section{
-        padding: 80px 20px;
+/* ============================================
+   Responsive Design
+   ============================================ */
+
+@media (max-width: 992px) {
+    .main-header .container {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .main-header .logo {
+        margin-bottom: 15px;
+    }
+
+    .main-nav ul {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .main-nav ul li {
+        margin: 0 15px 10px 0;
+    }
+
+    .hero-content h1 {
+        font-size: 2.8em;
+    }
+
+    .hero-content p {
+        font-size: 1.1em;
+    }
+
+    .excuses-container {
+        padding: 30px;
     }
 }
 
-@media (max-width:641px){
-    .new-contact-section .sub-title{
+@media (max-width: 768px) {
+    .hero-content h1 {
+        font-size: 2.2em;
+    }
+
+    .hero-content p {
+        font-size: 1em;
+    }
+
+    .section-padding {
+        padding: 40px 0;
+    }
+
+    .links-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .excuses-header {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .excuses-list li {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .excuse-actions {
+        margin-left: 0;
+        margin-top: 10px;
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .video-container h2 {
+        font-size: 1.8em;
+    }
+
+    .new-contact-section {
+        padding: 50px 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-header .logo-img {
+        height: 35px;
+    }
+
+    .hero-content h1 {
+        font-size: 1.8em;
+    }
+
+    .hero-content p {
+        font-size: 0.9em;
+    }
+
+    .excuses-container {
+        padding: 20px;
+        border-radius: 15px;
+    }
+
+    .excuses-title-section h3 {
+        font-size: 1.3em;
+    }
+
+    .excuses-list li {
+        padding: 12px 15px;
+        font-size: 0.95em;
+    }
+
+    .lock-button {
+        width: 45px;
+        height: 45px;
+        font-size: 1.1em;
+    }
+
+    .modal-content {
+        padding: 25px;
+    }
+
+    .video-container h2 {
         font-size: 1.5em;
     }
 }

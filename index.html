@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
 </head>
 <body>
@@ -23,9 +23,7 @@
             </div>
 
         </div>
-<div id="chatbot-button" onclick="openChatbot()">
-  🤖 مساعد الباحث الذكي
-</div>
+
 
 <script src="chatbot.js"></script>
 
@@ -44,24 +42,90 @@
     <section id="guide" class="guide-section section-padding">
         <div class="container">
             <h2>الدليل الإرشادي</h2>
-            <p class="section-description">هنا ستجد معلومات مفصلة وإرشادات  لمساعدتك في الزيارات الميدانية.</p>
-            <div class="guide-content">
-                <h3>التعذرات الممنوع استخدامها من قبل الباحث</h3>
-                <ul>
-                    <li>تعذر خطأ تقني ❌</li>
-                    <li>تعذر مستقل مخالف لبنود الاستقلالية ❌</li>
-                    <li>تعذر صلة قرابة ❌</li>
-                    <li>تعذر الزيارة من قبل الباحث ❌</li>
-                    <li>تعذر البيانات المقدمة من المستفيد غير صحيحة ❌</li>
+            <p class="section-description">هنا ستجد معلومات مفصلة وإرشادات لمساعدتك في الزيارات الميدانية.</p>
+            
+            <!-- مربع التعذرات الجديد -->
+            <div class="excuses-container">
+                <div class="excuses-header">
+                    <div class="excuses-title-section">
+                        <h3>التعذرات الممنوع استخدامها من قبل الباحث</h3>
+                        <p class="excuses-subtitle">قائمة التعذرات المعتمدة والممنوعة</p>
+                    </div>
+                    <button id="lock-btn" class="lock-button" onclick="togglePasswordDialog()" title="اضغط لفتح التعديل">
+                        <i class="fas fa-lock"></i>
+                    </button>
+                </div>
+                
+                <ul id="excuses-list" class="excuses-list">
+                    <!-- سيتم ملء القائمة من JavaScript -->
                 </ul>
-                <video controls width="100%">
-  <source src="videos/الدليل الارشادي.mp4" type="video/mp4">
-  متصفحك لا يدعم تشغيل الفيديو.
-</video>
 
+                <!-- زر إضافة تعذر جديد (مرئي فقط عند فتح القفل) -->
+                <button id="add-btn" class="add-excuse-btn" onclick="openAddDialog()" style="display: none;">
+                    <i class="fas fa-plus"></i> إضافة تعذر جديد
+                </button>
+
+                <div class="excuses-footer">
+                    <span class="excuses-count">عدد التعذرات: <span id="count">5</span></span>
+                    <span id="status-text" class="status-text">مقفول</span>
+                </div>
             </div>
         </div>
     </section>
+
+    <!-- قسم الفيديو المنفصل -->
+    <section class="video-section section-padding">
+        <div class="container">
+            <div class="video-container">
+                <h2>شرح طريقة تنفيذ الزيارة </h2>
+                <div class="video-wrapper">
+                    <video controls>
+                        <source src="videos/الدليل الارشادي.mp4" type="video/mp4">
+                        متصفحك لا يدعم تشغيل الفيديو.
+                    </video>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Password Dialog -->
+    <div id="password-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" onclick="closePasswordDialog()">&times;</span>
+            <h2>إدخال كلمة السر</h2>
+            <input type="password" id="password-input" placeholder="أدخل كلمة السر" onkeypress="handlePasswordKeyPress(event)">
+            <div class="modal-buttons">
+                <button onclick="closePasswordDialog()" class="btn-cancel">إلغاء</button>
+                <button onclick="checkPassword()" class="btn-submit">فتح</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Excuse Dialog -->
+    <div id="add-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" onclick="closeAddDialog()">&times;</span>
+            <h2>إضافة تعذر جديد</h2>
+            <input type="text" id="new-excuse-input" placeholder="أدخل نص التعذر" onkeypress="handleAddKeyPress(event)">
+            <div class="modal-buttons">
+                <button onclick="closeAddDialog()" class="btn-cancel">إلغاء</button>
+                <button onclick="addExcuse()" class="btn-submit">إضافة</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Excuse Dialog -->
+    <div id="edit-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" onclick="closeEditDialog()">&times;</span>
+            <h2>تعديل التعذر</h2>
+            <input type="text" id="edit-excuse-input" placeholder="عدل نص التعذر" onkeypress="handleEditKeyPress(event)">
+            <div class="modal-buttons">
+                <button onclick="closeEditDialog()" class="btn-cancel">إلغاء</button>
+                <button onclick="saveEditExcuse()" class="btn-submit">حفظ</button>
+            </div>
+        </div>
+    </div>
 
     <section id="links" class="links-section section-padding bg-light">
         <div class="container">
@@ -71,10 +135,11 @@
                 <a href="https://citizens.bpo-hq.com/admin/account/login" class="link-item">منصة وصول (حساب المواطن)</a>
                 <a href="https://elmiyaar.bpo-hq.com/published/public/3a16c23c-bfe6-9c1f-1454-d1b077b34aad" class="link-item">مبادرة تفريج كربة</a>
                 <a href="https://elmiyaar.bpo-hq.com/published/public/3a161317-0e40-85f2-072b-229e4cbf08ab" class="link-item">معيار (المشكلات التقنية)</a>
-                <a href="https://snapchat.com/t/MRIvntDt" class="link-item">سناب المشروع</a>
+                <a href="https://snapchat.com/t/MRIvntDt"  id="GPT" class="link-item"> </a>
                 <a href="https://emdad.kayanhr.com/" class="link-item" id="sanad-link">سند</a>
                 <a href="https://app.ziwo.io/login" class="link-item"id="ziwo">زيو</a>
                 <a href="https://hrsd-scs.sa/bahasv4.apk" class="link-item" id="apk">تنزيل تطبيق المساعد للباحث</a>
+                <a href="https://snapchat.com/t/MRIvntDt" id="snap" class="link-item">سناب المشروع</a>
             </div>
         </div>
     </section>
@@ -106,37 +171,39 @@
                     </strong>
                 </div>
             </div>
+        </div>
+    </section>
 
     <section class="new-contact-section">
-	        <h2 class="title">للاستفسارات أو المساعدة، لا تتردد في التواصل معنا.</h2>
-	        <h3 class="sub-title">فريق الدعم</h3>
-	        <div class="content">
-	            
-	            <div class="card">
-	                <div class="icon">
-	                    <i class="fab fa-whatsapp"></i>
-	                </div>
-	                <div class="info">
-	                    <h3>رائد الصاعدي</h3>
-	                    
-	                    <a href="https://wa.me/966508358367?text=مرحبًا%20أستاذ%20رائد،%20أرغب%20بالحصول%20على%20مساعدتك.%20شكرًا%20لتعاونك.
-" class="more-details">أرسل رسالة</a>
-	                </div>
-	            </div>
-	            <div class="card">
-	                <div class="icon">
-	                    <i class="fab fa-whatsapp"></i>
-	                </div>
-	                <div class="info">
-	                    <h3>فرح</h3>
-	                    
-	                    <a href="https://wa.me/966507072589?text=مرحبًافرح،%20أرغب%20بالحصول%20على%20مساعدتك.%20شكرًا%20لتعاونك.
-" class="more-details">أرسل رسالة</a>
-	                </div>
-	            </div>
-	           
-	        </div>
-	    </section>
+		        <h2 class="title">للاستفسارات أو المساعدة، لا تتردد في التواصل معنا.</h2>
+		        <h3 class="sub-title">فريق الدعم</h3>
+		        <div class="content">
+		            
+		            <div class="card">
+		                <div class="icon">
+		                    <i class="fab fa-whatsapp"></i>
+		                </div>
+		                <div class="info">
+		                    <h3>دلال </h3>
+		                    
+		                    <a href="https://wa.me/966543573677?text=مرحبًادلال،%20أرغب%20بالحصول%20على%20مساعدتك.%20شكرًا%20لتعاونك.
+	" class="more-details">أرسل رسالة</a>
+		                </div>
+		            </div>
+		            <div class="card">
+		                <div class="icon">
+		                    <i class="fab fa-whatsapp"></i>
+		                </div>
+		                <div class="info">
+		                    <h3>فرح</h3>
+		                    
+		                    <a href="https://wa.me/966507072589?text=مرحبًافرح،%20أرغب%20بالحصول%20على%20مساعدتك.%20شكرًا%20لتعاونك.
+	" class="more-details">أرسل رسالة</a>
+		                </div>
+		            </div>
+		           
+		        </div>
+		    </section>
 
     <footer class="main-footer">
         <div class="container">

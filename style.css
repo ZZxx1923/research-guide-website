@@ -241,7 +241,7 @@ a:hover {
 }
 
 .lock-button {
-    background: linear-gradient(135deg, var(--primary-color) 0%, #5552ff 100%);
+    background: linear-gradient(135deg, var(--primary-color) 0%, #FF5252 100%);
     border: none;
     padding: 12px 16px;
     border-radius: 50%;
@@ -259,7 +259,7 @@ a:hover {
 
 .lock-button:hover {
     transform: scale(1.15) rotate(10deg);
-    box-shadow: 0 8px 20px rgba(236, 235, 235, 0.4);
+    box-shadow: 0 8px 20px rgba(255, 107, 107, 0.4);
 }
 
 .lock-button.unlocked {
@@ -651,7 +651,7 @@ a:hover {
 
 #apk {
     background-image: url('images/apk.jpg');
-    background-size: 90%; 
+    background-size: 60%; 
     background-repeat: no-repeat;
     background-position: center; 
     color: transparent; 
@@ -662,32 +662,7 @@ a:hover {
     font-size: 0; 
     position: relative;
 }
-#snap {
-    background-image: url('images/snap.jpg');
-    background-size: 100%; 
-    background-repeat: no-repeat;
-    background-position: center; 
-    color: transparent; 
-    text-shadow: none; 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0; 
-    position: relative;
-}
-#GPT {
-    background-image: url('images/GPT.jpg');
-    background-size: 100%; 
-    background-repeat: no-repeat;
-    background-position: center; 
-    color: transparent; 
-    text-shadow: none; 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0; 
-    position: relative;
-}
+
 #apk:hover::before {
     color: var(--primary-color); 
 }

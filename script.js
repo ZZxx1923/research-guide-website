@@ -7,7 +7,8 @@ const MAX_EXCUSES = 25;
 
 // رابط Google Apps Script للتزامن
 // تأكد من تحديث هذا الرابط برابط الـ Web App الخاص بك بعد نشره
-const GOOGLE_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzWTnjhCFkJcHwmF-IJnz1TXLnNSXcNQ8p9AhBQAbQ_LJuRtkUy5QtNGgRI6iA0Duh9/exec";
+const GOOGLE_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby71bBpgzyCN4qCLzEAMdmKJ_xxvQGbTHV_IW-SBwFO5pzAiINe1wRnSG8iPkSg1JAJ8g/exec";
+
 
 let isUnlocked = false;
 let editingId = null;

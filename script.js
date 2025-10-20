@@ -1,15 +1,14 @@
 // ============================================
-// نظام إدارة التعذرات والـ PDF مع Google Sheets
+// نظام إدارة التعذرات والـ PDF مع Google Apps Script
 // ============================================
 
 const PASSWORD = "Emdad@2025";
 const MAX_EXCUSES = 25;
 const MAX_PDFS = 25;
 
-// Google Sheets Configuration
-const SHEET_ID = "1qK29NCrGAFiPaqyab0ytyk8trUoBc66oNMUVShzy4z0";
-const API_KEY = "AIzaSyDxT8Z8vZ8Z8vZ8Z8vZ8Z8vZ8Z8vZ8Z8vZ8"; // سيتم استخدام Sheets API
-const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq`;
+// استبدل هذا الرابط برابط Google Apps Script الفعلي الخاص بك
+// Replace this with your actual Google Apps Script deployment URL
+const GOOGLE_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyVAbJYJGQoMzGUSbqq0_9o-j77yEW3K89j7utmHzhw98zmTN9m4yNHhTFU3uygN91Ytw/exec";
 
 let isUnlocked = false;
 let isPdfUnlocked = false;
@@ -31,47 +30,46 @@ const defaultPdfs = [
 ];
 
 // ============================================
-// دوال Google Sheets
+// دوال Google Apps Script
 // ============================================
 
-// تحميل البيانات من Google Sheets
-async function loadFromGoogleSheets() {
+async function callGoogleAppsScript(action, data = {}) {
     try {
-        const response = await fetch(`${SHEET_URL}?tqx=out:json`);
-        const text = await response.text();
+        const payload = {
+            action: action,
+            password: data.password || "",
+            ...data
+        };
         
-        // معالجة الرد من Google Sheets
-        const jsonStart = text.indexOf('{');
-        const json = JSON.parse(text.substring(jsonStart));
-        
-        if (!json.table || !json.table.rows) {
-            return { excuses: defaultExcuses, pdfs: defaultPdfs };
-        }
-
-        let excuses = defaultExcuses;
-        let pdfs = defaultPdfs;
-
-        // معالجة الصفوف
-        for (let row of json.table.rows) {
-            if (row.c && row.c.length >= 2) {
-                const type = row.c[0]?.v || "";
-                const data = row.c[1]?.v || "";
-
-                try {
-                    if (type === "excuses" && data) {
-                        excuses = JSON.parse(data);
-                    } else if (type === "pdfs" && data) {
-                        pdfs = JSON.parse(data);
-                    }
-                } catch (e) {
-                    console.error("خطأ في تحليل البيانات:", e);
-                }
+        const response = await fetch(GOOGLE_APPS_SCRIPT_URL, {
+            method: "POST",
+            body: JSON.stringify(payload),
+            headers: {
+                "Content-Type": "application/json"
             }
-        }
-
-        return { excuses, pdfs };
+        });
+        
+        const result = await response.json();
+        return result;
     } catch (error) {
-        console.error("خطأ في تحميل البيانات من Google Sheets:", error);
+        console.error("خطأ في الاتصال بـ Google Apps Script:", error);
+        // Fallback to localStorage if API fails
+        return { success: false, error: error.toString() };
+    }
+}
+
+// تحميل البيانات من Google Apps Script
+async function loadFromGoogleAppsScript() {
+    try {
+        const excusesResult = await callGoogleAppsScript("getExcuses");
+        const pdfsResult = await callGoogleAppsScript("getPdfs");
+        
+        return {
+            excuses: excusesResult.success ? excusesResult.data : defaultExcuses,
+            pdfs: pdfsResult.success ? pdfsResult.data : defaultPdfs
+        };
+    } catch (error) {
+        console.error("خطأ في تحميل البيانات:", error);
         return { excuses: defaultExcuses, pdfs: defaultPdfs };
     }
 }
@@ -98,7 +96,7 @@ function loadFromLocalStorage() {
 // ============================================
 
 async function renderExcuses() {
-    const data = await loadFromGoogleSheets();
+    const data = await loadFromGoogleAppsScript();
     const excuses = data.excuses;
     const list = document.getElementById("excuses-list");
     const countSpan = document.getElementById("count");
@@ -147,10 +145,12 @@ async function renderExcuses() {
 }
 
 async function renderPdfs() {
-    const data = await loadFromGoogleSheets();
+    const data = await loadFromGoogleAppsScript();
     const pdfs = data.pdfs;
     const content = document.getElementById("pdf-content");
     const pdfLockBtn = document.getElementById("pdf-lock-btn");
+    
+    if (!content) return; // If PDF section doesn't exist, skip
     
     content.innerHTML = "";
 
@@ -182,12 +182,12 @@ async function renderPdfs() {
     });
 
     const addPdfBtn = document.getElementById("add-pdf-btn");
-    if (isPdfUnlocked) {
+    if (isPdfUnlocked && addPdfBtn) {
         addPdfBtn.style.display = "block";
-        pdfLockBtn.style.display = "flex";
-    } else {
+        if (pdfLockBtn) pdfLockBtn.style.display = "flex";
+    } else if (addPdfBtn) {
         addPdfBtn.style.display = "none";
-        pdfLockBtn.style.display = "none";
+        if (pdfLockBtn) pdfLockBtn.style.display = "none";
     }
 
     if (pdfLockBtn) {
@@ -268,7 +268,7 @@ async function addExcuse() {
         return;
     }
 
-    const data = await loadFromGoogleSheets();
+    const data = await loadFromGoogleAppsScript();
     const excuses = data.excuses;
 
     if (excuses.length >= MAX_EXCUSES) {
@@ -276,15 +276,18 @@ async function addExcuse() {
         return;
     }
 
-    const newExcuse = {
-        id: Date.now().toString(),
-        text: text
-    };
+    // Call Google Apps Script to add excuse
+    const result = await callGoogleAppsScript("addExcuse", {
+        text: text,
+        password: PASSWORD
+    });
 
-    excuses.push(newExcuse);
-    saveToLocalStorage(excuses, data.pdfs);
-    closeAddDialog();
-    renderExcuses();
+    if (result.success) {
+        closeAddDialog();
+        renderExcuses();
+    } else {
+        alert("خطأ في إضافة التعذر: " + (result.error || "حدث خطأ غير معروف"));
+    }
 }
 
 function openEditDialog(id, text) {
@@ -313,24 +316,34 @@ async function saveEditExcuse() {
         return;
     }
 
-    const data = await loadFromGoogleSheets();
-    const excuses = data.excuses;
-    const excuse = excuses.find(e => e.id === editingId);
-    
-    if (excuse) {
-        excuse.text = text;
-        saveToLocalStorage(excuses, data.pdfs);
+    // Call Google Apps Script to update excuse
+    const result = await callGoogleAppsScript("updateExcuse", {
+        id: editingId,
+        text: text,
+        password: PASSWORD
+    });
+
+    if (result.success) {
         closeEditDialog();
         renderExcuses();
+    } else {
+        alert("خطأ في تعديل التعذر: " + (result.error || "حدث خطأ غير معروف"));
     }
 }
 
 async function deleteExcuse(id) {
     if (confirm("هل أنت متأكد من حذف هذا التعذر؟")) {
-        const data = await loadFromGoogleSheets();
-        const excuses = data.excuses.filter(e => e.id !== id);
-        saveToLocalStorage(excuses, data.pdfs);
-        renderExcuses();
+        // Call Google Apps Script to delete excuse
+        const result = await callGoogleAppsScript("deleteExcuse", {
+            id: id,
+            password: PASSWORD
+        });
+
+        if (result.success) {
+            renderExcuses();
+        } else {
+            alert("خطأ في حذف التعذر: " + (result.error || "حدث خطأ غير معروف"));
+        }
     }
 }
 
@@ -348,14 +361,26 @@ function togglePdfPasswordDialog() {
 }
 
 function openPdfPasswordDialog() {
-    document.getElementById("pdf-password-modal").style.display = "flex";
-    document.getElementById("pdf-password-input").focus();
-    document.getElementById("pdf-password-input").value = "";
+    const modal = document.getElementById("pdf-password-modal");
+    if (modal) {
+        modal.style.display = "flex";
+        const input = document.getElementById("pdf-password-input");
+        if (input) {
+            input.focus();
+            input.value = "";
+        }
+    }
 }
 
 function closePdfPasswordDialog() {
-    document.getElementById("pdf-password-modal").style.display = "none";
-    document.getElementById("pdf-password-input").value = "";
+    const modal = document.getElementById("pdf-password-modal");
+    if (modal) {
+        modal.style.display = "none";
+    }
+    const input = document.getElementById("pdf-password-input");
+    if (input) {
+        input.value = "";
+    }
 }
 
 function handlePdfPasswordKeyPress(event) {
@@ -378,16 +403,34 @@ function checkPdfPassword() {
 }
 
 function openAddPdfDialog() {
-    document.getElementById("add-pdf-modal").style.display = "flex";
-    document.getElementById("pdf-name-input").focus();
-    document.getElementById("pdf-name-input").value = "";
-    document.getElementById("pdf-url-input").value = "";
+    const modal = document.getElementById("add-pdf-modal");
+    if (modal) {
+        modal.style.display = "flex";
+        const input = document.getElementById("pdf-name-input");
+        if (input) {
+            input.focus();
+            input.value = "";
+        }
+        const urlInput = document.getElementById("pdf-url-input");
+        if (urlInput) {
+            urlInput.value = "";
+        }
+    }
 }
 
 function closeAddPdfDialog() {
-    document.getElementById("add-pdf-modal").style.display = "none";
-    document.getElementById("pdf-name-input").value = "";
-    document.getElementById("pdf-url-input").value = "";
+    const modal = document.getElementById("add-pdf-modal");
+    if (modal) {
+        modal.style.display = "none";
+    }
+    const input = document.getElementById("pdf-name-input");
+    if (input) {
+        input.value = "";
+    }
+    const urlInput = document.getElementById("pdf-url-input");
+    if (urlInput) {
+        urlInput.value = "";
+    }
 }
 
 function handleAddPdfKeyPress(event) {
@@ -405,7 +448,7 @@ async function addPdf() {
         return;
     }
 
-    const data = await loadFromGoogleSheets();
+    const data = await loadFromGoogleAppsScript();
     const pdfs = data.pdfs;
 
     if (pdfs.length >= MAX_PDFS) {
@@ -413,30 +456,51 @@ async function addPdf() {
         return;
     }
 
-    const newPdf = {
-        id: Date.now().toString(),
+    // Call Google Apps Script to add PDF
+    const result = await callGoogleAppsScript("addPdf", {
         name: name,
-        url: url
-    };
+        url: url,
+        password: PASSWORD
+    });
 
-    pdfs.push(newPdf);
-    saveToLocalStorage(data.excuses, pdfs);
-    closeAddPdfDialog();
-    renderPdfs();
+    if (result.success) {
+        closeAddPdfDialog();
+        renderPdfs();
+    } else {
+        alert("خطأ في إضافة الملف: " + (result.error || "حدث خطأ غير معروف"));
+    }
 }
 
 function openEditPdfDialog(id, name, url) {
     editingPdfId = id;
-    document.getElementById("edit-pdf-modal").style.display = "flex";
-    document.getElementById("edit-pdf-name-input").value = name;
-    document.getElementById("edit-pdf-url-input").value = url;
-    document.getElementById("edit-pdf-name-input").focus();
+    const modal = document.getElementById("edit-pdf-modal");
+    if (modal) {
+        modal.style.display = "flex";
+        const nameInput = document.getElementById("edit-pdf-name-input");
+        const urlInput = document.getElementById("edit-pdf-url-input");
+        if (nameInput) {
+            nameInput.value = name;
+            nameInput.focus();
+        }
+        if (urlInput) {
+            urlInput.value = url;
+        }
+    }
 }
 
 function closeEditPdfDialog() {
-    document.getElementById("edit-pdf-modal").style.display = "none";
-    document.getElementById("edit-pdf-name-input").value = "";
-    document.getElementById("edit-pdf-url-input").value = "";
+    const modal = document.getElementById("edit-pdf-modal");
+    if (modal) {
+        modal.style.display = "none";
+    }
+    const nameInput = document.getElementById("edit-pdf-name-input");
+    if (nameInput) {
+        nameInput.value = "";
+    }
+    const urlInput = document.getElementById("edit-pdf-url-input");
+    if (urlInput) {
+        urlInput.value = "";
+    }
     editingPdfId = null;
 }
 
@@ -455,25 +519,35 @@ async function saveEditPdf() {
         return;
     }
 
-    const data = await loadFromGoogleSheets();
-    const pdfs = data.pdfs;
-    const pdf = pdfs.find(p => p.id === editingPdfId);
+    // Call Google Apps Script to update PDF
+    const result = await callGoogleAppsScript("updatePdf", {
+        id: editingPdfId,
+        name: name,
+        url: url,
+        password: PASSWORD
+    });
 
-    if (pdf) {
-        pdf.name = name;
-        pdf.url = url;
-        saveToLocalStorage(data.excuses, pdfs);
+    if (result.success) {
         closeEditPdfDialog();
         renderPdfs();
+    } else {
+        alert("خطأ في تعديل الملف: " + (result.error || "حدث خطأ غير معروف"));
     }
 }
 
 async function deletePdf(id) {
     if (confirm("هل أنت متأكد من حذف هذا الملف؟")) {
-        const data = await loadFromGoogleSheets();
-        const pdfs = data.pdfs.filter(p => p.id !== id);
-        saveToLocalStorage(data.excuses, pdfs);
-        renderPdfs();
+        // Call Google Apps Script to delete PDF
+        const result = await callGoogleAppsScript("deletePdf", {
+            id: id,
+            password: PASSWORD
+        });
+
+        if (result.success) {
+            renderPdfs();
+        } else {
+            alert("خطأ في حذف الملف: " + (result.error || "حدث خطأ غير معروف"));
+        }
     }
 }
 
@@ -503,7 +577,7 @@ document.addEventListener("click", function(event) {
     ];
 
     modals.forEach(({ modal, close }) => {
-        if (event.target === modal) {
+        if (modal && event.target === modal) {
             close();
         }
     });

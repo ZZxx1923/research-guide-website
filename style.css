@@ -83,15 +83,12 @@ a:hover {
 
 /* Header */
 .main-header {
-    background-image: url("images/hrsd_logo.png"); 
-    background-size: cover; 
-    background-repeat: no-repeat; 
-    height: 0px; 
-    padding: 0; 
+    background-color: transparent;
+    height: auto; 
+    padding: 15px 0; 
     position: relative;
     z-index: 1000;
-    box-shadow: flex;
-   
+    box-shadow: none;
 }
 
 .main-header .container,
@@ -110,9 +107,10 @@ a:hover {
 }
 
 .main-header .logo-img {
-    height: 150px; 
+    height: 120px; 
     width: auto; 
     margin-left: 25px;
+    opacity: 0.95;
 }
 
 .main-header .site-title {
@@ -186,6 +184,111 @@ a:hover {
 }
 
 /* ============================================
+   قسم قائمة التغذيات (Feeds)
+   ============================================ */
+
+.feeds-section {
+    background: linear-gradient(135deg, #1e8449 0%, #16a085 100%);
+    padding: 60px 0;
+    text-align: center;
+}
+
+.feeds-wrapper {
+    width: 100%;
+}
+
+.feeds-header {
+    margin-bottom: 40px;
+}
+
+.feeds-header h2 {
+    font-size: 2.5em;
+    color: #fff;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.feeds-subtitle {
+    font-size: 1.1em;
+    color: rgba(255, 255, 255, 0.9);
+    margin: 0;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.feeds-messages {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.feeds-messages li {
+    background-color: rgba(255, 255, 255, 0.15);
+    padding: 18px 22px;
+    border-radius: 12px;
+    color: #fff;
+    text-align: right;
+    border-left: 4px solid rgba(255, 255, 255, 0.5);
+    transition: all 0.3s ease;
+    cursor: default;
+    backdrop-filter: blur(10px);
+    font-size: 1.05em;
+    font-weight: 500;
+    line-height: 1.6;
+}
+
+.feeds-messages li:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: translateX(-8px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    border-left-color: rgba(255, 255, 255, 0.8);
+}
+
+.feeds-grid {
+    display: none;
+}
+
+.feed-item {
+    background-color: rgba(255, 255, 255, 0.15);
+    padding: 25px;
+    border-radius: 12px;
+    color: #fff;
+    text-align: right;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    transition: all 0.3s ease;
+    cursor: default;
+    backdrop-filter: blur(10px);
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.feed-item:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+.feed-item h3 {
+    font-size: 1.15em;
+    margin: 0;
+    color: #fff;
+    font-weight: 600;
+    line-height: 1.6;
+}
+
+.feed-item p {
+    display: none;
+}
+
+/* ============================================
    مربع التعذرات الجديد - التصميم الحديث
    ============================================ */
 
@@ -199,6 +302,17 @@ a:hover {
     font-size: 2.5em;
     margin-bottom: 15px;
     color: #2c3e50;
+}
+
+.guide-content {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+    max-width: 900px;
+    margin: 40px auto;
+    border-top: 5px solid var(--primary-color);
+    transition: all 0.3s ease;
 }
 
 .excuses-container {
@@ -240,22 +354,7 @@ a:hover {
     font-weight: 400;
 }
 
-.lock-button {
-    background: linear-gradient(135deg, var(--primary-color) 0%, #5552ff 100%);
-    border: none;
-    padding: 12px 16px;
-    border-radius: 50%;
-    cursor: pointer;
-    font-size: 1.3em;
-    color: white;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 50px;
-    height: 50px;
-    box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
-}
+
 
 .lock-button:hover {
     transform: scale(1.15) rotate(10deg);
@@ -381,37 +480,17 @@ a:hover {
 }
 
 /* Footer التعذرات */
-.excuses-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-top: 20px;
-    border-top: 2px solid #e0e0e0;
-    font-size: 0.95em;
+.section-padding {
+    padding: 60px 0;
 }
 
-.excuses-count {
-    color: #7f8c8d;
-    font-weight: 500;
-}
-
-.excuses-count span {
-    color: var(--primary-color);
-    font-weight: 700;
+.section-description {
     font-size: 1.1em;
-}
-
-.status-text {
-    background: linear-gradient(135deg, var(--primary-color) 0%, #FF5252 100%);
-    color: white;
-    padding: 6px 16px;
-    border-radius: 20px;
-    font-weight: 600;
-    font-size: 0.9em;
-}
-
-.status-text.unlocked {
-    background: linear-gradient(135deg, var(--accent-blue) 0%, #0056b3 100%);
+    color: #666;
+    margin-bottom: 40px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /* ============================================
@@ -588,7 +667,58 @@ a:hover {
 /* ============================================
    الأقسام الأخرى
    ============================================ */
-
+#o {
+    background-image: url('images/o.png');
+    background-size: 100%; 
+    background-repeat: no-repeat;
+    background-position: center; 
+    color: transparent; 
+    text-shadow: none; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0; 
+    position: relative;
+}
+#l {
+    background-image: url('images/l.jpg');
+    background-size: 110%; 
+    background-repeat: no-repeat;
+    background-position: center; 
+    color: transparent; 
+    text-shadow: none; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0; 
+    position: relative;
+}
+#z {
+    background-image: url('images/Z.jpg');
+    background-size: 110%; 
+    background-repeat: no-repeat;
+    background-position: center; 
+    color: transparent; 
+    text-shadow: none; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0; 
+    position: relative;
+}
+#p {
+    background-image: url('images/p.png');
+    background-size: 130%; 
+    background-repeat: no-repeat;
+    background-position: center; 
+    color: transparent; 
+    text-shadow: none; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0; 
+    position: relative;
+}
 #sanad-link {
     background-image: url('images/sanad.png');
     background-size: 60%; 
@@ -620,7 +750,7 @@ a:hover {
 }
 
 #ziwo {
-    background-image: url('images/ziwo.png');
+    background-image: url('images/ziwo.jpg');
     background-size: 60%; 
     background-repeat: no-repeat;
     background-position: center; 
@@ -651,7 +781,7 @@ a:hover {
 
 #apk {
     background-image: url('images/apk.jpg');
-    background-size: 90%; 
+    background-size: 60%; 
     background-repeat: no-repeat;
     background-position: center; 
     color: transparent; 
@@ -1027,3 +1157,38 @@ a:hover {
         font-size: 1.5em;
     }
 }
+
+
+/* Responsive Design for Feeds */
+@media (max-width: 768px) {
+    .feeds-header h2 {
+        font-size: 1.8em;
+    }
+
+    .feeds-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+}
+
+@media (max-width: 480px) {
+    .feeds-header h2 {
+        font-size: 1.5em;
+    }
+
+    .feeds-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .feed-item {
+        padding: 15px;
+    }
+
+    .feed-item h3 {
+        font-size: 1.1em;
+    }
+
+    .feed-item p {
+        font-size: 0.9em;
+    }
+}
+

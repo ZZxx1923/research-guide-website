@@ -33,36 +33,17 @@
         </div>
     </section>
 
-    <section id="guide" class="guide-section section-padding">
+     <!-- قسم قائمة التغذيات (Feeds) -->
+    <section id="feeds" class="feeds-section section-padding">
         <div class="container">
-            <h2>الدليل الإرشادي</h2>
-            <p class="section-description">هنا ستجد معلومات مفصلة وإرشادات لمساعدتك في الزيارات الميدانية.</p>
-            
-            <!-- مربع التعذرات الجديد -->
-            <div class="excuses-container">
-                <div class="excuses-header">
-                    <div class="excuses-title-section">
-                        <h3>التعذرات الممنوع استخدامها من قبل الباحث</h3>
-                        <p class="excuses-subtitle">قائمة التعذرات المعتمدة والممنوعة</p>
-                    </div>
-                    <button id="lock-btn" class="lock-button" onclick="togglePasswordDialog()" title="اضغط لفتح التعديل">
-                        <i class="fas fa-lock"></i>
-                    </button>
+            <div class="feeds-wrapper">
+                <div class="feeds-header">
+                    <h2>الأكثر شيوعاً</h2>
+                    <p class="feeds-subtitle">التعذرات الممنوع استخدامها من قبل الباحث</p>
                 </div>
-                
-                <ul id="excuses-list" class="excuses-list">
-                    <!-- سيتم ملء القائمة من JavaScript -->
+                <ul id="feeds-list" class="feeds-messages">
+                    <!-- سيتم ملء قائمة التعذرات هنا بواسطة JavaScript -->
                 </ul>
-
-                <!-- زر إضافة تعذر جديد (مرئي فقط عند فتح القفل) -->
-                <button id="add-btn" class="add-excuse-btn" onclick="openAddDialog()" style="display: none;">
-                    <i class="fas fa-plus"></i> إضافة تعذر جديد
-                </button>
-
-                <div class="excuses-footer">
-                    <span class="excuses-count">عدد التعذرات: <span id="count">5</span></span>
-                    <span id="status-text" class="status-text">مقفول</span>
-                </div>
             </div>
         </div>
     </section>
@@ -125,10 +106,10 @@
         <div class="container">
             <h2>روابط مهمة</h2>
             <div class="links-grid">
-                <a href="https://hrsd-scs.sa/admin/account/login" class="link-item">منصة وصول (الضمان الاجتماعي)</a>
-                <a href="https://citizens.bpo-hq.com/admin/account/login" class="link-item">منصة وصول (حساب المواطن)</a>
-                <a href="https://elmiyaar.bpo-hq.com/published/public/3a16c23c-bfe6-9c1f-1454-d1b077b34aad" class="link-item">مبادرة تفريج كربة</a>
-                <a href="https://elmiyaar.bpo-hq.com/published/public/3a161317-0e40-85f2-072b-229e4cbf08ab" class="link-item">معيار (المشكلات التقنية)</a>
+                <a href="https://hrsd-scs.sa/admin/account/login" id="o" class="link-item">منصة وصول (الضمان الاجتماعي)</a>
+                <a href="https://citizens.bpo-hq.com/admin/account/login" id="p" class="link-item">منصة وصول (حساب المواطن)</a>
+                <a href="https://elmiyaar.bpo-hq.com/published/public/3a16c23c-bfe6-9c1f-1454-d1b077b34aad" id="l" class="link-item">مبادرة تفريج كربة</a>
+                <a href="https://elmiyaar.bpo-hq.com/published/public/3a161317-0e40-85f2-072b-229e4cbf08ab"id="z" class="link-item">معيار (المشكلات التقنية)</a>
                 <a href="https://chatgpt.com/g/g-67fa231bdeb88191a5c6e7909176dce2-lms-d-lftrdy-llbhth-ljtm-y"  id="GPT" class="link-item"> </a>
                 <a href="https://emdad.kayanhr.com/" class="link-item" id="sanad-link">سند</a>
                 <a href="https://app.ziwo.io/login" class="link-item"id="ziwo">زيو</a>
@@ -155,13 +136,25 @@
             </div>
             <div class="project-card">
                 <div class="project-image">
-                    <img src="images/2.jpeg" />
+                    <img src="images/2.jpg" />
                 </div>
                 <div class="project-info">
                     <p class="project-category"></p>
                     <strong class="project-title">
                         <span>كيفية  عمل الزيارة في وضع عدم الاتصال بالاترنت </span>
                         <a href="pdf/كيفية  عمل الزيارة في وضع عدم الاتصال بالاترنت .pdf"    class="more-details">  OPEN</a>
+                    </strong>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-image">
+                    <img src="images/3.jpg" />
+                </div>
+                <div class="project-info">
+                    <p class="project-category"></p>
+                    <strong class="project-title">
+                        <span>اجراءات حساب المواطن</span>
+                        <a href= "pdf/دلال عسيري - اجراءات حساب المواطن.pdf"    class="more-details">  OPEN</a>
                     </strong>
                 </div>
             </div>

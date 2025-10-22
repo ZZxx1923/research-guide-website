@@ -83,15 +83,19 @@ a:hover {
 
 /* Header */
 .main-header {
-    background-color: transparent;
-    height: auto; 
-    padding: 15px 0; 
-    position: relative;
+ 
+   
+    position: absolute; 
+    top: 0; 
+    left: 0;
+    right: 0;
+    z-index: 1000;
+   
     z-index: 1000;
     box-shadow: none;
 }
 
-.main-header .container,
+
 .main-header .logo,
 .main-header .main-nav {
     display: flex !important; 
@@ -107,11 +111,12 @@ a:hover {
 }
 
 .main-header .logo-img {
-    height: 120px; 
-    width: auto; 
-    margin-left: 25px;
+    height: 150px; /* ارتفاع مناسب لشاشة Full HD */
+    width: auto;   
+    margin-left: 30px; 
     opacity: 0.95;
 }
+
 
 .main-header .site-title {
     display: none; 
@@ -454,21 +459,6 @@ a:hover {
 }
 
 /* زر الإضافة */
-.add-excuse-btn {
-    width: 100%;
-    background: linear-gradient(135deg, var(--accent-blue) 0%, #0056b3 100%);
-    color: white;
-    border: none;
-    padding: 14px 20px;
-    border-radius: 12px;
-    font-size: 1.05em;
-    font-weight: 600;
-    cursor: pointer;
-    margin-top: 15px;
-    transition: all 0.3s ease;
-    font-family: 'Tajawal', sans-serif;
-    box-shadow: 0 5px 15px rgba(0, 86, 179, 0.3);
-}
 
 .add-excuse-btn:hover {
     transform: translateY(-3px);
@@ -1191,4 +1181,3 @@ a:hover {
         font-size: 0.9em;
     }
 }
-

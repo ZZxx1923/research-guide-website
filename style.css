@@ -752,7 +752,32 @@ a:hover {
     font-size: 0; 
     position: relative;
 }
-
+#apk1 {
+    background-image: url('images/app1.jpg');
+    background-size: 80%; 
+    background-repeat: no-repeat;
+    background-position: center; 
+    color: transparent; 
+    text-shadow: none; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0; 
+    position: relative;
+}
+#apk2{
+    background-image: url('images/app2.jpg');
+    background-size: 90%; 
+    background-repeat: no-repeat;
+    background-position: center; 
+    color: transparent; 
+    text-shadow: none; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0; 
+    position: relative;
+}
 #ziwo::before {
     content: "سند"; 
     color: #fff; 

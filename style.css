@@ -324,6 +324,14 @@ a:hover {
     min-height: 20vh;
 }
 
+/* تصحيح المشكلة على أجهزة الجوال */
+@media (max-width: 768px) {
+    .hero-section {
+        background-attachment: scroll;
+    }
+}
+
+
 .hero-content h1 {
     font-size: 3.5em;
     margin-bottom: 20px;

@@ -33,12 +33,23 @@ function updateDateTime() {
 
 // تحديث الرسائل المخفية بالتاريخ واليوم
 function updateHiddenMessages(dayName, dateString) {
-    // تحديث رسالة الضمان
+    // تحديث رسالة الضمان (message1)
     const message1 = document.getElementById('message1');
     let messageText1 = message1.textContent;
-    messageText1 = messageText1.replace(/لديكم موعد زياره يوم \S+/g, `لديكم موعد زياره يوم ${dayName}`);
+    // استبدال اليوم مع الأقواس
+    messageText1 = messageText1.replace(/لديكم موعد زياره يوم \([^)]*\)/g, `لديكم موعد زياره يوم (${dayName})`);
+    // استبدال التاريخ
     messageText1 = messageText1.replace(/بتاريخ : \d{2}\/\d{2}\/\d{4}/g, `بتاريخ : ${dateString}`);
     message1.textContent = messageText1;
+    
+    // تحديث رسالة حساب المواطن (message2)
+    const message2 = document.getElementById('message2');
+    let messageText2 = message2.textContent;
+    // استبدال اليوم مع الأقواس
+    messageText2 = messageText2.replace(/لديكم موعد زياره يوم \([^)]*\)/g, `لديكم موعد زياره يوم (${dayName})`);
+    // استبدال التاريخ
+    messageText2 = messageText2.replace(/بتاريخ : \d{2}\/\d{2}\/\d{4}/g, `بتاريخ : ${dateString}`);
+    message2.textContent = messageText2;
 }
 
 // دالة نسخ الرسالة

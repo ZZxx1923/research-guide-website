@@ -313,7 +313,7 @@ a:hover {
 .hero-section {
     background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('images/hero_background.jpg') no-repeat center center;
     background-size: cover;
-    background-attachment: fixed;
+    background-attachment: scroll;
     color: #f0f0f0;
     text-align: center;
     padding: 100px 0;
@@ -323,14 +323,6 @@ a:hover {
     align-items: center;
     min-height: 20vh;
 }
-
-/* تصحيح المشكلة على أجهزة الجوال */
-@media (max-width: 768px) {
-    .hero-section {
-        background-attachment: fixed;
-    }
-}
-
 
 .hero-content h1 {
     font-size: 3.5em;

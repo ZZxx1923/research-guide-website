@@ -1,6 +1,6 @@
 /* General Styles */
 :root {
-    --primary-color: #FF6B6B; 
+    --primary-color: #ffffff; 
     --secondary-color: #28a745; 
     --dark-color: #343a40;
     --light-color: #f8f9fa;
@@ -22,6 +22,154 @@ body {
     line-height: 1.6;
     direction: rtl; 
     text-align: right;
+}
+
+.container {
+    width: 100%;
+    max-width: 600px;
+}
+
+.button-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+}
+
+.date-info {
+    background: rgba(255, 255, 255, 0);
+    padding: 20px 30px;
+    border-radius: 12px 12px 0 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.day-name {
+    font-size: 18px;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: 0.5px;
+}
+
+.date-display {
+    font-size: 16px;
+    font-weight: 600;
+    color: #ffffff;
+    letter-spacing: 0.3px;
+}
+
+.buttons-container {
+    display: flex;
+    gap: 0;
+    width: 100%;
+    border-radius: 0 0 12px 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+}
+
+.message-btn {
+    background: linear-gradient(135deg, #00000065 0%, #4ba26c 100%);
+    color: white;
+    border: none;
+    padding: 20px 30px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    flex: 1;
+    letter-spacing: 0.5px;
+    position: relative;
+    overflow: hidden;
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.message-btn:last-child {
+    border-right: none;
+}
+
+.message-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.2);
+    transition: left 0.3s ease;
+    z-index: 1;
+}
+
+.message-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(102, 126, 234, 0.6);
+}
+
+.message-btn:hover::before {
+    left: 100%;
+}
+
+.message-btn:active {
+    transform: translateY(-1px);
+}
+
+.copy-feedback {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background: #614cafaf;
+    color: white;
+    padding: 15px 25px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: all 0.3s ease;
+    pointer-events: none;
+    box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
+    z-index: 1000;
+}
+
+.copy-feedback.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@media (max-width: 600px) {
+    .container {
+        max-width: 100%;
+    }
+
+    .date-info {
+        padding: 15px 20px;
+        gap: 6px;
+    }
+
+    .day-name {
+        font-size: 16px;
+    }
+
+    .date-display {
+        font-size: 14px;
+    }
+
+    .message-btn {
+        padding: 16px 15px;
+        font-size: 14px;
+    }
+
+    .copy-feedback {
+        top: 10px;
+        left: 10px;
+        right: 10px;
+        padding: 12px 20px;
+        font-size: 13px;
+    }
 }
 
 .container {
@@ -165,7 +313,7 @@ a:hover {
 .hero-section {
     background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('images/hero_background.jpg') no-repeat center center;
     background-size: cover;
-    background-attachment: scroll;
+    background-attachment: fixed;
     color: #f0f0f0;
     text-align: center;
     padding: 100px 0;
@@ -188,9 +336,6 @@ a:hover {
     color: #eee;
 }
 
-/* ============================================
-   قسم قائمة التغذيات (Feeds)
-   ============================================ */
 
 .feeds-section {
     background: linear-gradient(135deg, #1e8449 0%, #16a085 100%);
@@ -208,9 +353,9 @@ a:hover {
 
 .feeds-header h2 {
     font-size: 3.5em;
-    color: #f71b1b7e;
+    color: #be3131fa;
     margin-bottom: 10px;
-    font-weight: 700;
+    font-weight: 900;
 }
 
 .feeds-subtitle {
@@ -293,9 +438,7 @@ a:hover {
     display: none;
 }
 
-/* ============================================
-   مربع التعذرات الجديد - التصميم الحديث
-   ============================================ */
+
 
 .guide-section {
     background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
@@ -375,7 +518,7 @@ a:hover {
     box-shadow: 0 8px 20px rgba(0, 86, 179, 0.4);
 }
 
-/* قائمة التعذرات */
+
 .excuses-list {
     list-style: none;
     padding: 0;
@@ -458,7 +601,7 @@ a:hover {
     transform: scale(1.2);
 }
 
-/* زر الإضافة */
+
 
 .add-excuse-btn:hover {
     transform: translateY(-3px);
@@ -469,7 +612,7 @@ a:hover {
     transform: translateY(-1px);
 }
 
-/* Footer التعذرات */
+
 .section-padding {
     padding: 60px 0;
 }
@@ -482,10 +625,6 @@ a:hover {
     margin-left: auto;
     margin-right: auto;
 }
-
-/* ============================================
-   قسم الفيديو المنفصل
-   ============================================ */
 
 .video-section {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -527,9 +666,6 @@ a:hover {
     display: block;
 }
 
-/* ============================================
-   Modals والنوافذ المنفثقة
-   ============================================ */
 
 .modal {
     position: fixed;

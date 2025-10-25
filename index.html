@@ -34,11 +34,19 @@
         
     <div class="container">
     <div class="container">
-        <p>نماذج رسائل الزيارات الميدانية (تاريخ و يوم متجدد)</p>
+        <p> نماذج رسائل الزيارات الميدانية (يتم تحديث التاريخ واليوم تلقائيًا مع إمكانية التعديل اليدوي)</p>
         <div class="button-wrapper">
             <div class="date-info">
                 <span class="day-name" id="dayName">الأحد</span>
                 <span class="date-display" id="dateDisplay">23/10/2025</span>
+            </div>
+            <div class="date-controls">
+                <button class="date-control-btn prev-day"  onclick="previousDay()">
+                    <i class="fas fa-chevron-right" ></i> اليوم السابق
+                </button>
+                <button class="date-control-btn next-day" onclick="nextDay()">
+                    اليوم التالي <i class="fas fa-chevron-left"></i>
+                </button>
             </div>
             <div class="buttons-container">
                 <button class="message-btn" id="messageBtn1" onclick="copyMessage('message1')">

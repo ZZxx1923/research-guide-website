@@ -9,18 +9,20 @@ const daysInArabic = [
     'السبت'
 ];
 
+// متغير لتتبع التاريخ الذي يتم عرضه وتحديثه
+let currentDate = new Date();
+
 // تحديث التاريخ واسم اليوم
 function updateDateTime() {
-    const now = new Date();
     
-    // الحصول على اسم اليوم
-    const dayIndex = now.getDay();
+    // الحصول على اسم اليوم من التاريخ الحالي المتحكم به
+    const dayIndex = currentDate.getDay();
     const dayName = daysInArabic[dayIndex];
     
     // تنسيق التاريخ (DD/MM/YYYY)
-    const day = String(now.getDate()).padStart(2, '0');
-    const month = String(now.getMonth() + 1).padStart(2, '0');
-    const year = now.getFullYear();
+    const day = String(currentDate.getDate()).padStart(2, '0');
+    const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+    const year = currentDate.getFullYear();
     const dateString = `${day}/${month}/${year}`;
     
     // تحديث العناصر في الصفحة
@@ -29,6 +31,24 @@ function updateDateTime() {
     
     // تحديث الرسائل المخفية بالتاريخ واليوم الجديد
     updateHiddenMessages(dayName, dateString);
+}
+
+// دالة للانتقال إلى اليوم التالي
+function nextDay() {
+    currentDate.setDate(currentDate.getDate() + 1);
+    updateDateTime();
+}
+
+// دالة للانتقال إلى اليوم السابق
+function previousDay() {
+    currentDate.setDate(currentDate.getDate() - 1);
+    updateDateTime();
+}
+
+// دالة لإعادة تعيين التاريخ إلى اليوم الفعلي
+function resetDate() {
+    currentDate = new Date();
+    updateDateTime();
 }
 
 // تحديث الرسائل المخفية بالتاريخ واليوم
@@ -97,11 +117,11 @@ function showCopyFeedback() {
 document.addEventListener('DOMContentLoaded', () => {
     updateDateTime();
     
-    // تحديث الوقت كل دقيقة
-    setInterval(updateDateTime, 60000);
+    // تحديث الوقت كل دقيقة للتأكد من أن التاريخ يعود لليوم الفعلي عند بداية يوم جديد
+    setInterval(resetDate, 60000 * 60); // كل ساعة
 });
 
 // تحديث الوقت عند استعادة الصفحة من الذاكرة المؤقتة
 window.addEventListener('pageshow', () => {
-    updateDateTime();
+    resetDate();
 });

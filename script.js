@@ -125,3 +125,19 @@ document.addEventListener('DOMContentLoaded', () => {
 window.addEventListener('pageshow', () => {
     resetDate();
 });
+
+/* وظيفة لفتح وإغلاق الشريط الجانبي */
+function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    sidebar.classList.toggle('open');
+}
+
+/* إغلاق الشريط الجانبي عند الضغط على أي رابط */
+document.addEventListener('DOMContentLoaded', () => {
+    const sidebarLinks = document.querySelectorAll('.sidebar-link');
+    sidebarLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            toggleSidebar();
+        });
+    });
+});

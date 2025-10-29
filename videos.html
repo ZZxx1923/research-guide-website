@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>شروحات وفيديوهات إرشادية</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <header class="main-header">
+        <div class="container">
+            <button class="menu-btn" onclick="toggleSidebar()">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="logo">
+                <a href="index.html" class="site-title">الدليل الإرشادي للباحثين</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- الشريط الجانبي (Sidebar) -->
+    <div id="sidebar" class="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()">&times;</button>
+        <nav class="sidebar-nav">
+            <a href="index.html" class="sidebar-link">الصفحة الرئيسية</a>
+            <a href="videos.html" class="sidebar-link">شروحات وفيديوهات</a>
+        </nav>
+    </div>
+
+    <section class="videos-page-section section-padding">
+        <div class="container">
+           
+            <!-- Video 1: شرح طريقة تنفيذ الزيارة -->
+            <div class="video-item">
+                <h3>(Tunnel) حل مشكله التاينل  </h3>
+                <p class="video-description"></p>
+                <div class="video-wrapper">
+                    <video controls>
+                        <source src="videos/TuNNeL.MOV" type="video/mp4">
+                        متصفحك لا يدعم تشغيل الفيديو.
+                    </video>
+                </div>
+            </div>
+
+            <!-- Video 2: نصائح مهمة للباحث -->
+            <div class="video-item">
+                <h3>نصائح مهمة للباحث الاجتماعي</h3>
+                <p class="video-description">مجموعة من النصائح العملية التي تساعدك في أداء عملك بكفاءة واحترافية.</p>
+                <div class="video-wrapper placeholder">
+                    <div class="placeholder-content">
+                        <i class="fas fa-video"></i>
+                        <p>سيتم إضافة هذا الفيديو قريباً</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Video 3: الأخطاء الشائعة وكيفية تجنبها -->
+            <div class="video-item">
+                <h3>الأخطاء الشائعة وكيفية تجنبها</h3>
+                <p class="video-description">تعرف على الأخطاء الشائعة التي يقع فيها الباحثون وكيفية تجنبها.</p>
+                <div class="video-wrapper placeholder">
+                    <div class="placeholder-content">
+                        <i class="fas fa-video"></i>
+                        <p>سيتم إضافة هذا الفيديو قريباً</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Video 4: استخدام التطبيقات والأدوات -->
+            <div class="video-item">
+                <h3>استخدام التطبيقات والأدوات المساعدة</h3>
+                <p class="video-description">شرح مفصل لكيفية استخدام التطبيقات والأدوات المتاحة لتسهيل عملك.</p>
+                <div class="video-wrapper placeholder">
+                    <div class="placeholder-content">
+                        <i class="fas fa-video"></i>
+                        <p>سيتم إضافة هذا الفيديو قريباً</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer class="main-footer">
+        <div class="container">
+            <p>&copy; مقدمه من باحثين بيشه </p>
+        </div>
+    </footer>
+    
+    <script src="script.js"></script>
+</body>
+</html>

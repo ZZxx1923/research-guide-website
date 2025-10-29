@@ -1384,3 +1384,167 @@ a:hover {
         font-size: 0.9em;
     }
 }
+ 
+/* تنسيقات الشريط الجانبي والقائمة المنسدلة */
+
+.menu-btn {
+    /* زر القائمة المنسدلة (الهامبرغر) */
+    background: none;
+    border: none;
+    color: white; /* لون الأيقونة */
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 10px;
+    position: absolute; /* لتثبيته في الزاوية */
+    top: 10px;
+    right: 10px; /* وضعه في الجانب الأيمن */
+    z-index: 1001; /* ليكون فوق كل شيء */
+    transition: color 0.3s ease;
+}
+
+.menu-btn:hover {
+    color: #f0f0f0;
+}
+
+.sidebar {
+    /* الشريط الجانبي نفسه */
+    height: 100%;
+    width: 0; /* مخفي بشكل افتراضي */
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    right: 0; /* يظهر من اليمين */
+    background-color: #111; /* لون خلفية داكن */
+    overflow-x: hidden;
+    transition: 0.5s; /* تأثير الانتقال عند الفتح والإغلاق */
+    padding-top: 60px;
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.5);
+}
+
+.sidebar.open {
+    width: 250px; /* عرض الشريط الجانبي عند الفتح */
+}
+
+.sidebar-nav {
+    padding: 8px 0;
+}
+
+.sidebar-link {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 20px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+    text-align: right; /* محاذاة النص لليمين */
+}
+
+.sidebar-link:hover {
+    color: #f1f1f1;
+    background-color: #555;
+}
+
+.close-btn {
+    /* زر الإغلاق داخل الشريط الجانبي */
+    position: absolute;
+    top: 0;
+    left: 25px; /* وضعه في الزاوية اليسرى داخل الشريط الجانبي */
+    font-size: 36px;
+    margin-left: 50px;
+    background: none;
+    border: none;
+    color: #818181;
+    cursor: pointer;
+}
+
+/* تنسيق بسيط لصفحة الفيديوهات الجديدة */
+.videos-page-section {
+    padding-top: 100px;
+    text-align: center;
+}
+
+.video-item {
+    margin-bottom: 40px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+.video-wrapper {
+    max-width: 800px;
+    margin: 20px auto;
+}
+
+.video-wrapper video {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+
+/* تنسيقات إضافية لصفحة الفيديوهات */
+.video-description {
+    color: #666;
+    font-size: 0.95em;
+    margin: 10px 0 20px 0;
+}
+
+.placeholder-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 300px;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    border-radius: 5px;
+    color: #666;
+}
+
+.placeholder-content i {
+    font-size: 3em;
+    margin-bottom: 15px;
+    color: #999;
+}
+
+.placeholder-content p {
+    margin: 0;
+    font-size: 1.1em;
+}
+
+/* تنسيقات صفحة الفيديوهات */
+.videos-page-section h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+    color: var(--heading-color);
+}
+
+.videos-page-section > .container > p {
+    font-size: 1.1em;
+    color: #666;
+    margin-bottom: 40px;
+}
+
+/* تنسيقات الفيديوهات على الشاشات الصغيرة */
+@media (max-width: 768px) {
+    .video-item {
+        padding: 15px;
+    }
+
+    .videos-page-section h1 {
+        font-size: 1.8em;
+    }
+
+    .menu-btn {
+        font-size: 1.2rem;
+    }
+
+    .sidebar {
+        padding-top: 50px;
+    }
+
+    .sidebar-link {
+        font-size: 16px;
+        padding: 8px 8px 8px 20px;
+    }
+}

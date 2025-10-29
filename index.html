@@ -16,13 +16,25 @@
 </head>
 <body>
     <header class="main-header">
-        <div class="container">
+	<div class="container">
+	            <button class="menu-btn" onclick="toggleSidebar()">
+	                <i class="fas fa-bars"></i>
+	            </button>
             <div class="logo">
                 <img src="images/hrsd_logo.png" alt="شعار وزارة الموارد البشرية" class="logo-img">
                 <span class="site-title">الدليل الإرشادي للباحثين</span>
             </div>
-        </div>
-    </header>
+	        </div>
+	    </header>
+	
+	    <!-- الشريط الجانبي (Sidebar) -->
+	    <div id="sidebar" class="sidebar">
+	        <button class="close-btn" onclick="toggleSidebar()">&times;</button>
+	        <nav class="sidebar-nav">
+	            <a href="videos.html" class="sidebar-link">شروحات وفيديوهات</a>
+	            <!-- يمكن إضافة روابط أخرى هنا لاحقاً -->
+	        </nav>
+	    </div>
 
     <section id="home" class="hero-section">
         <div class="container">

@@ -1352,7 +1352,7 @@ a:hover {
 }
 
 
-
+/* Responsive Design for Feeds */
 @media (max-width: 768px) {
     .feeds-header h2 {
         font-size: 1.8em;
@@ -1389,25 +1389,39 @@ a:hover {
 
 .menu-btn {
     
-    background: none;
+    background:scroll;
     border: none;
-    color: rgb(211, 211, 211); 
+    color: rgb(255, 255, 255); 
     font-size: 1.5rem;
     cursor: pointer;
     padding: 10px;
     position:fixed; 
     top: 10px;
     right: 10px; 
-    z-index: 1001;
+    z-index: 1001; 
+    transition: color 0.3s ease;
+}
+.menu-btn2 {
+    
+    background:scroll;
+    border: none;
+    color: rgb(15, 16, 41); 
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 10px;
+    position:fixed; 
+    top: 10px;
+    right: 10px; 
+    z-index: 1001; 
     transition: color 0.3s ease;
 }
 
 .menu-btn:hover {
-    color: #f0f0f0;
+    color: #d60000;
 }
 
 .sidebar {
- 
+    
     height: 100%;
     width: 0; 
     position: fixed;
@@ -1418,11 +1432,11 @@ a:hover {
     overflow-x: hidden;
     transition: 0.5s; 
     padding-top: 60px;
-    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.5);
+    box-shadow: -5px 0 15px rgb(20, 29, 27);
 }
 
 .sidebar.open {
-    width: 250px;
+    width: 250px; 
 }
 
 .sidebar-nav {
@@ -1445,7 +1459,7 @@ a:hover {
 }
 
 .close-btn {
-    
+  
     position: absolute;
     top: 0;
     left: 25px; 
@@ -1468,7 +1482,7 @@ a:hover {
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 8px;
-    background-color: #f9f9f9;
+    background-color: #4cada53a;
 }
 
 .video-wrapper {
@@ -1525,6 +1539,7 @@ a:hover {
     margin-bottom: 40px;
 }
 
+
 @media (max-width: 768px) {
     .video-item {
         padding: 15px;
@@ -1545,93 +1560,5 @@ a:hover {
     .sidebar-link {
         font-size: 16px;
         padding: 8px 8px 8px 20px;
-    }
-}
-
-
-
-
-.character {
-    position: fixed;
-    bottom: 20px;
-    left: 20px;
-    z-index: 999;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.character-img {
-    width: 120px;
-    height: 120px;
-    object-fit: contain;
-    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
-    transition: transform 0.3s ease;
-}
-
-.character:hover .character-img {
-    transform: scale(1.1) rotate(5deg);
-}
-
-.character-speech {
-    position: absolute;
-    bottom: 140px;
-    left: 0;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    padding: 12px 16px;
-    border-radius: 12px;
-    font-size: 0.9em;
-    font-weight: 500;
-    max-width: 200px;
-    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
-    animation: slideUp 0.4s ease;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-}
-
-.character-speech::after {
-    content: '';
-    position: absolute;
-    bottom: -10px;
-    left: 15px;
-    width: 0;
-    height: 0;
-    border-left: 10px solid transparent;
-    border-right: 0px solid transparent;
-    border-top: 10px solid #667eea;
-}
-
-.character-speech p {
-    margin: 0;
-    line-height: 1.4;
-}
-
-@keyframes slideUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-
-@media (max-width: 768px) {
-    .character {
-        bottom: 10px;
-        left: 10px;
-    }
-
-    .character-img {
-        width: 80px;
-        height: 80px;
-    }
-
-    .character-speech {
-        bottom: 100px;
-        max-width: 150px;
-        font-size: 0.85em;
-        padding: 10px 12px;
     }
 }

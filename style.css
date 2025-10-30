@@ -1352,7 +1352,7 @@ a:hover {
 }
 
 
-/* Responsive Design for Feeds */
+
 @media (max-width: 768px) {
     .feeds-header h2 {
         font-size: 1.8em;
@@ -1385,20 +1385,20 @@ a:hover {
     }
 }
  
-/* تنسيقات الشريط الجانبي والقائمة المنسدلة */
+
 
 .menu-btn {
-    /* زر القائمة المنسدلة (الهامبرغر) */
+    
     background: none;
     border: none;
-    color: white; /* لون الأيقونة */
+    color: rgb(211, 211, 211); 
     font-size: 1.5rem;
     cursor: pointer;
     padding: 10px;
-    position: absolute; /* لتثبيته في الزاوية */
+    position:fixed; 
     top: 10px;
-    right: 10px; /* وضعه في الجانب الأيمن */
-    z-index: 1001; /* ليكون فوق كل شيء */
+    right: 10px; 
+    z-index: 1001;
     transition: color 0.3s ease;
 }
 
@@ -1407,22 +1407,22 @@ a:hover {
 }
 
 .sidebar {
-    /* الشريط الجانبي نفسه */
+ 
     height: 100%;
-    width: 0; /* مخفي بشكل افتراضي */
+    width: 0; 
     position: fixed;
     z-index: 1000;
     top: 0;
-    right: 0; /* يظهر من اليمين */
-    background-color: #111; /* لون خلفية داكن */
+    right: 0; 
+    background-color: #111; 
     overflow-x: hidden;
-    transition: 0.5s; /* تأثير الانتقال عند الفتح والإغلاق */
+    transition: 0.5s; 
     padding-top: 60px;
     box-shadow: -5px 0 15px rgba(0, 0, 0, 0.5);
 }
 
 .sidebar.open {
-    width: 250px; /* عرض الشريط الجانبي عند الفتح */
+    width: 250px;
 }
 
 .sidebar-nav {
@@ -1436,7 +1436,7 @@ a:hover {
     color: #818181;
     display: block;
     transition: 0.3s;
-    text-align: right; /* محاذاة النص لليمين */
+    text-align: right; 
 }
 
 .sidebar-link:hover {
@@ -1445,10 +1445,10 @@ a:hover {
 }
 
 .close-btn {
-    /* زر الإغلاق داخل الشريط الجانبي */
+    
     position: absolute;
     top: 0;
-    left: 25px; /* وضعه في الزاوية اليسرى داخل الشريط الجانبي */
+    left: 25px; 
     font-size: 36px;
     margin-left: 50px;
     background: none;
@@ -1457,7 +1457,7 @@ a:hover {
     cursor: pointer;
 }
 
-/* تنسيق بسيط لصفحة الفيديوهات الجديدة */
+
 .videos-page-section {
     padding-top: 100px;
     text-align: center;
@@ -1483,7 +1483,7 @@ a:hover {
 }
 
 
-/* تنسيقات إضافية لصفحة الفيديوهات */
+
 .video-description {
     color: #666;
     font-size: 0.95em;
@@ -1512,7 +1512,7 @@ a:hover {
     font-size: 1.1em;
 }
 
-/* تنسيقات صفحة الفيديوهات */
+
 .videos-page-section h1 {
     font-size: 2.5em;
     margin-bottom: 10px;
@@ -1525,7 +1525,6 @@ a:hover {
     margin-bottom: 40px;
 }
 
-/* تنسيقات الفيديوهات على الشاشات الصغيرة */
 @media (max-width: 768px) {
     .video-item {
         padding: 15px;
@@ -1546,5 +1545,93 @@ a:hover {
     .sidebar-link {
         font-size: 16px;
         padding: 8px 8px 8px 20px;
+    }
+}
+
+
+
+
+.character {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 999;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.character-img {
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+    transition: transform 0.3s ease;
+}
+
+.character:hover .character-img {
+    transform: scale(1.1) rotate(5deg);
+}
+
+.character-speech {
+    position: absolute;
+    bottom: 140px;
+    left: 0;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 12px 16px;
+    border-radius: 12px;
+    font-size: 0.9em;
+    font-weight: 500;
+    max-width: 200px;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    animation: slideUp 0.4s ease;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.character-speech::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 15px;
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 0px solid transparent;
+    border-top: 10px solid #667eea;
+}
+
+.character-speech p {
+    margin: 0;
+    line-height: 1.4;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+@media (max-width: 768px) {
+    .character {
+        bottom: 10px;
+        left: 10px;
+    }
+
+    .character-img {
+        width: 80px;
+        height: 80px;
+    }
+
+    .character-speech {
+        bottom: 100px;
+        max-width: 150px;
+        font-size: 0.85em;
+        padding: 10px 12px;
     }
 }

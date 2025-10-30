@@ -141,3 +141,114 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
+
+/* ============================================
+   وظائف الشخصية المسلية (Character Interactions)
+   ============================================ */
+
+// رسائل تحفيزية عشوائية للشخصية
+const characterMessages = [
+    'مرحباً! كيف حالك اليوم؟ 😊',
+    'هل تحتاج إلى مساعدة؟ أنا هنا! 🤝',
+    'رائع! أنت تقوم بعمل رائع! 👍',
+    'استمر في المحاولة، أنت تقترب! 💪',
+    'أنا هنا لمساعدتك في كل خطوة! 🎯',
+    'تذكر أن تأخذ فترات راحة! ☕',
+    'أنت تفعل عملاً رائعاً! 🌟',
+    'هل تريد نصيحة؟ اطلب مني! 💡'
+];
+
+// دالة لعرض رسالة عشوائية من الشخصية
+function showCharacterMessage() {
+    const randomIndex = Math.floor(Math.random() * characterMessages.length);
+    const message = characterMessages[randomIndex];
+    
+    const speechBox = document.getElementById('characterSpeech');
+    const speechText = document.getElementById('speechText');
+    
+    speechText.textContent = message;
+    speechBox.style.display = 'block';
+    
+    // إخفاء الرسالة بعد 3 ثوانٍ
+    setTimeout(() => {
+        speechBox.style.display = 'none';
+    }, 3000);
+}
+
+// دالة لتحريك الشخصية
+function animateCharacter() {
+    const character = document.getElementById('character');
+    const characterImg = character.querySelector('.character-img');
+    
+    // إضافة تأثير الحركة
+    characterImg.style.transform = 'scale(1.15) rotate(-5deg)';
+    
+    setTimeout(() => {
+        characterImg.style.transform = 'scale(1) rotate(0deg)';
+    }, 300);
+}
+
+// دالة لتحريك الشخصية نحو الزر المضغوط
+function moveCharacterToButton(buttonElement) {
+    const character = document.getElementById('character');
+    const characterImg = character.querySelector('.character-img');
+    
+    // الحصول على موقع الزر
+    const buttonRect = buttonElement.getBoundingClientRect();
+    const characterRect = character.getBoundingClientRect();
+    
+    // حساب المسافة والاتجاه
+    const moveX = buttonRect.left - characterRect.left;
+    const moveY = buttonRect.top - characterRect.top;
+    
+    // تطبيق الحركة
+    characterImg.style.transform = `translate(${moveX * 0.3}px, ${moveY * 0.3}px) scale(1.1)`;
+    
+    // إرجاع الشخصية إلى مكانها الأصلي
+    setTimeout(() => {
+        characterImg.style.transform = 'scale(1) rotate(0deg)';
+    }, 500);
+}
+
+// إضافة مستمعات الأحداث للأزرار الرئيسية
+document.addEventListener('DOMContentLoaded', () => {
+    // الأزرار الرئيسية
+    const buttons = document.querySelectorAll('.message-btn, .date-control-btn, .link-item, .sidebar-link');
+    
+    buttons.forEach(button => {
+        button.addEventListener('click', function() {
+            // تحريك الشخصية
+            moveCharacterToButton(this);
+            
+            // عرض رسالة عشوائية
+            setTimeout(() => {
+                showCharacterMessage();
+            }, 300);
+            
+            // تحريك الشخصية
+            animateCharacter();
+        });
+    });
+    
+    // الضغط على الشخصية نفسها
+    const character = document.getElementById('character');
+    character.addEventListener('click', () => {
+        animateCharacter();
+        showCharacterMessage();
+    });
+});
+
+// تأثير عند تمرير الفأرة على الشخصية
+document.addEventListener('DOMContentLoaded', () => {
+    const character = document.getElementById('character');
+    const characterImg = character.querySelector('.character-img');
+    
+    character.addEventListener('mouseenter', () => {
+        characterImg.style.transform = 'scale(1.15) rotate(5deg)';
+    });
+    
+    character.addEventListener('mouseleave', () => {
+        characterImg.style.transform = 'scale(1) rotate(0deg)';
+    });
+});

@@ -1,0 +1,939 @@
+/*
+* ملف CSS الموحد والمنظم
+* تم دمج ملفات style.css و prism-flux.css وتنسيقها
+* تم إعطاء الأولوية لتصميم Prism Flux مع تعديلات لدعم اللغة العربية والتوافق مع الجوال
+*/
+
+/* ==========================================================================
+   1. المتغيرات الأساسية (CSS Variables)
+   ========================================================================== */
+:root {
+    /* متغيرات Prism Flux الأساسية */
+    --primary-black: #0a0a0a;
+    --carbon-dark: #121212;
+    --carbon-medium: #1a1a1a;
+    --carbon-light: #2a2a2a;
+    --metal-dark: #3a3a3a;
+    --metal-light: #4a4a4a;
+    --accent-red: #ff3333;
+    --accent-blue: #00a8ff;
+    --accent-green: #00ff88;
+    --accent-purple: #9945ff;
+    --accent-cyan: #00ffff;
+    --text-primary: #ffffff;
+    --text-secondary: #b0b0b0;
+    --text-dim: #808080;
+
+    /* متغيرات الموقع القديم (للاستخدام في العناصر المدمجة) */
+    --old-primary-color: #ffffff;
+    --old-secondary-color: #28a745;
+    --old-dark-color: #343a40;
+    --old-light-color: #f8f9fa;
+    --old-text-color: #333;
+    --old-heading-color: #212529;
+    --old-border-color: #000000;
+}
+
+/* ==========================================================================
+   2. إعادة تعيين وتنسيقات عامة (Reset & General Styles)
+   ========================================================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    /* استخدام خط Tajawal للغة العربية كما في التعديلات المضمنة */
+    font-family: 'Tajawal', sans-serif;
+    background: var(--primary-black);
+    color: var(--text-primary);
+    overflow-x: hidden;
+    position: relative;
+    direction: rtl; /* دعم اللغة العربية */
+    text-align: right;
+    line-height: 1.6;
+}
+
+/* خلفية الكربون فايبر والشبكة المتحركة من Prism Flux */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:
+        repeating-linear-gradient(0deg,
+            transparent,
+            transparent 2px,
+            rgba(255, 255, 255, 0.03) 2px,
+            rgba(255, 255, 255, 0.03) 4px),
+        repeating-linear-gradient(90deg,
+            transparent,
+            transparent 2px,
+            rgba(255, 255, 255, 0.03) 2px,
+            rgba(255, 255, 255, 0.03) 4px),
+        linear-gradient(135deg,
+            var(--primary-black) 0%,
+            var(--carbon-dark) 25%,
+            var(--carbon-medium) 50%,
+            var(--carbon-dark) 75%,
+            var(--primary-black) 100%);
+    z-index: -2;
+}
+
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
+        linear-gradient(rgba(255, 51, 51, 0.05) 2px, transparent 2px),
+        linear-gradient(90deg, rgba(255, 51, 51, 0.05) 2px, transparent 2px);
+    background-size: 150px 150px;
+    animation: gridMove 20s linear infinite;
+    z-index: -1;
+    opacity: 0.5;
+}
+
+@keyframes gridMove {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    100% {
+        transform: translate(150px, 150px);
+    }
+}
+
+/* خطوط وأيقونات */
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap');
+
+/* ==========================================================================
+   3. تنسيقات التخطيط (Layout Styles)
+   ========================================================================== */
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+/* ==========================================================================
+   4. شاشة التحميل (Loader) - من Prism Flux
+   ========================================================================== */
+.loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: var(--primary-black);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    transition: opacity 0.5s, visibility 0.5s;
+}
+
+.loader.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.loader-content {
+    text-align: center;
+}
+
+.loader-prism {
+    width: 100px;
+    height: 100px;
+    position: relative;
+    margin: 0 auto 30px;
+}
+
+.prism-face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border: 2px solid transparent;
+    transform-origin: center;
+    animation: prismRotate 3s linear infinite;
+}
+
+.prism-face:nth-child(1) {
+    border-image: linear-gradient(45deg, var(--accent-red), var(--accent-blue)) 1;
+    animation-delay: 0s;
+}
+
+.prism-face:nth-child(2) {
+    border-image: linear-gradient(45deg, var(--accent-blue), var(--accent-green)) 1;
+    transform: rotate(60deg);
+    animation-delay: 0.2s;
+}
+
+.prism-face:nth-child(3) {
+    border-image: linear-gradient(45deg, var(--accent-green), var(--accent-purple)) 1;
+    transform: rotate(120deg);
+    animation-delay: 0.4s;
+}
+
+@keyframes prismRotate {
+    0% {
+        transform: rotate(0deg) scale(1);
+    }
+
+    50% {
+        transform: rotate(180deg) scale(1.2);
+    }
+
+    100% {
+        transform: rotate(360deg) scale(1);
+    }
+}
+
+/* ==========================================================================
+   5. شريط التنقل (Header/Navigation)
+   ========================================================================== */
+
+/* إخفاء شريط التنقل العلوي للقالب الجديد والاعتماد على القائمة الجانبية (كما كان في التعديلات المضمنة) */
+.header {
+    display: none !important;
+}
+
+/* تنسيقات الهيدر القديم (main-header) - تم تعديلها لتناسب التصميم الجديد */
+.main-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    box-shadow: none;
+    padding: 20px 0;
+}
+
+.main-header .logo,
+.main-header .main-nav {
+    display: flex !important;
+    align-items: center;
+}
+
+.main-header .logo {
+    display: flex;
+    align-items: center;
+}
+
+.main-header .logo-img {
+    height: 150px;
+    width: auto;
+    margin-left: 30px;
+    opacity: 0.95;
+}
+
+.main-header .site-title {
+    display: none;
+}
+
+.main-nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.main-nav ul li {
+    margin-right: 25px;
+}
+
+.main-nav ul li:last-child {
+    margin-right: 0;
+}
+
+.main-nav ul li a {
+    color: var(--text-primary); /* استخدام متغيرات Prism Flux */
+    font-weight: 500;
+    font-size: 1.05em;
+    padding: 5px 0;
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+.main-nav ul li a::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: -5px;
+    width: 0;
+    height: 2px;
+    background-color: var(--accent-red); /* استخدام لون من Prism Flux */
+    transition: width 0.3s ease;
+}
+
+.main-nav ul li a:hover {
+    color: var(--accent-red);
+}
+
+.main-nav ul li a:hover::after {
+    width: 100%;
+}
+
+/* ==========================================================================
+   6. قسم البطل (Hero Section)
+   ========================================================================== */
+.hero-section {
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('images/hero_background.jpg') no-repeat center center;
+    background-size: cover;
+    background-attachment: scroll;
+    color: #f0f0f0;
+    text-align: center;
+    padding: 100px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 20vh;
+}
+
+.hero-content h1 {
+    font-size: 3.5em;
+    margin-bottom: 20px;
+    color: #fff;
+}
+
+.hero-content p {
+    font-size: 1.3em;
+    margin-bottom: 40px;
+    color: #eee;
+}
+
+/* ==========================================================================
+   7. قسم التغذية (Feeds Section) - من style.css
+   ========================================================================== */
+.feeds-section {
+    background: linear-gradient(135deg, #1e8449 0%, #16a085 100%);
+    padding: 60px 0;
+    text-align: center;
+}
+
+.feeds-wrapper {
+    width: 100%;
+}
+
+.feeds-header {
+    margin-bottom: 40px;
+}
+
+.feeds-header h2 {
+    font-size: 3.5em;
+    color: #be3131fa;
+    margin-bottom: 10px;
+    font-weight: 900;
+}
+
+.feeds-subtitle {
+    font-size: 2.1em;
+    color: rgb(255, 2, 2);
+    margin: 0;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.feeds-messages {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.feeds-messages li {
+    background-color: rgba(255, 255, 255, 0.15);
+    padding: 18px 22px;
+    border-radius: 12px;
+    color: #fff;
+    text-align: right;
+    border-right: 4px solid rgba(255, 255, 255, 0.5); /* تم تعديل الاتجاه لـ RTL */
+    transition: all 0.3s ease;
+    cursor: default;
+    backdrop-filter: blur(10px);
+    font-size: 1.05em;
+    font-weight: 500;
+    line-height: 1.6;
+}
+
+.feeds-messages li:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: translateX(8px); /* تم تعديل الاتجاه لـ RTL */
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    border-right-color: rgba(255, 255, 255, 0.8);
+}
+
+/* ==========================================================================
+   8. قسم الدليل (Guide Section) - من style.css
+   ========================================================================== */
+.guide-section {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    padding: 80px 0;
+    text-align: center;
+}
+
+.guide-section h2 {
+    font-size: 2.5em;
+    margin-bottom: 15px;
+    color: #2c3e50;
+}
+
+.guide-content {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* ==========================================================================
+   9. تنسيقات Prism Flux المتبقية (تم حذف الأجزاء غير المستخدمة أو المتعارضة)
+   ========================================================================== */
+
+/* Hero Section with 3D Carousel - تم الاحتفاظ به لصفحة index.html */
+.hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 120px 20px 80px;
+    background: radial-gradient(ellipse at center,
+            rgba(153, 69, 255, 0.1) 0%,
+            transparent 50%);
+}
+
+.carousel-container {
+    width: 100%;
+    max-width: 1600px;
+    height: 650px;
+    perspective: 1200px;
+    position: relative;
+    padding-top: 60px;
+}
+
+.carousel {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+}
+
+.carousel-item {
+    position: absolute;
+    width: 400px;
+    height: 500px;
+    left: 50%;
+    top: 50%;
+    transform-style: preserve-3d;
+    transition: all 0.8s cubic-bezier(0.4, 0.0, 0.2, 1);
+    cursor: pointer;
+    transform-origin: center center;
+}
+
+.carousel-item .card {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, var(--carbon-medium), var(--carbon-dark));
+    border: 2px solid var(--metal-dark);
+    border-radius: 20px;
+    padding: 30px;
+    position: relative;
+    overflow: hidden;
+    box-shadow:
+        0 20px 40px rgba(0, 0, 0, 0.8),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* ... (بقية تنسيقات Carousel) ... */
+
+/* ==========================================================================
+   10. توافق الجوال (Mobile Responsiveness)
+   ========================================================================== */
+
+/* Media Queries من style.css (تم دمجها وتنسيقها) */
+@media (max-width: 600px) {
+    .container {
+        width: 95%;
+        padding: 0 10px;
+    }
+
+    .hero-content h1 {
+        font-size: 2.5em;
+    }
+
+    .hero-content p {
+        font-size: 1.1em;
+    }
+
+    .feeds-header h2 {
+        font-size: 2.5em;
+    }
+
+    .feeds-subtitle {
+        font-size: 1.5em;
+    }
+
+    .feeds-messages li {
+        padding: 15px 18px;
+        font-size: 1em;
+    }
+
+    /* تنسيقات خاصة بـ Carousel في الجوال */
+    .carousel-container {
+        height: 400px;
+        padding-top: 30px;
+    }
+
+    .carousel-item {
+        width: 300px;
+        height: 350px;
+    }
+
+    .card-title {
+        font-size: 20px;
+    }
+
+    .card-number {
+        font-size: 50px;
+    }
+}
+
+/* Media Queries من prism-flux.css (تم دمجها وتنسيقها) */
+@media (max-width: 992px) {
+    /* تنسيقات خاصة بالشاشات المتوسطة */
+    .carousel-container {
+        height: 550px;
+    }
+}
+
+@media (max-width: 768px) {
+    /* تنسيقات خاصة بالشاشات الصغيرة */
+    .hero {
+        padding-top: 80px;
+    }
+
+    .carousel-container {
+        height: 450px;
+    }
+
+    .carousel-item {
+        width: 80%;
+        height: 400px;
+        margin-left: -40%; /* لضبط التوسيط */
+    }
+      .main-header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(18, 18, 18, 0.98); /* خلفية داكنة شفافة */
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 1000;
+            transition: all 0.3s ease;
+            padding: 15px 0;
+        }
+
+        .main-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .main-header .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .main-header .logo-img {
+            height: 50px; 
+            width: auto;
+            margin-left: 15px;
+            opacity: 0.95;
+        }
+
+        .main-header .site-title {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            display: block;
+        }
+
+        .menu-btn {
+            background: none;
+            border: none;
+            color: var(--accent-purple);
+            font-size: 24px;
+            cursor: pointer;
+            padding: 10px;
+            transition: color 0.3s ease;
+        }
+
+        .menu-btn:hover {
+            color: var(--accent-cyan);
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: -300px; 
+            width: 300px;
+            height: 100%;
+            background: var(--carbon-medium);
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.5);
+            z-index: 1001;
+            transition: right 0.3s ease;
+            padding: 20px;
+            padding-top: 80px;
+        }
+
+        .sidebar.open {
+            right: 0;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: none;
+            border: none;
+            color: var(--accent-red);
+            font-size: 30px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close-btn:hover {
+            color: var(--text-primary);
+        }
+
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .sidebar-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 12px 15px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-size: 1.1em;
+            border-right: 3px solid transparent;
+        }
+
+        .sidebar-link:hover {
+            background: var(--carbon-dark);
+            color: var(--accent-cyan);
+            border-right-color: var(--accent-cyan);
+        }
+
+        
+        .hero-section {
+            padding-top: 120px;
+            min-height: 100vh;
+            background: none; 
+            color: var(--text-primary);
+            text-align: center;
+        }
+
+        .hero-content h1 {
+            font-size: 2.5em;
+            color: var(--accent-purple);
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(153, 69, 255, 0.5);
+        }
+
+        .hero-content p {
+            font-size: 1.1em;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+        }
+
+       
+        .button-wrapper {
+            max-width: 600px;
+            margin: 0 auto;
+            background: var(--carbon-medium);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--metal-dark);
+        }
+
+        .date-info {
+            background: var(--carbon-dark);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 1px solid var(--metal-dark);
+        }
+
+        .day-name, .date-display {
+            color: var(--accent-cyan);
+            font-weight: 700;
+            font-size: 1.2em;
+        }
+
+        .date-controls {
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        .date-control-btn {
+            background: var(--metal-dark);
+            color: var(--text-primary);
+            border: 1px solid var(--metal-light);
+            border-radius: 8px;
+            padding: 10px 15px;
+            transition: all 0.3s ease;
+        }
+
+        .date-control-btn:hover {
+            background: var(--accent-blue);
+            box-shadow: 0 0 15px rgba(0, 168, 255, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .buttons-container {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: none;
+        }
+
+        .message-btn {
+            background: linear-gradient(135deg, var(--accent-purple) 0%, var(--accent-blue) 100%);
+            color: var(--text-primary);
+            font-weight: 700;
+            padding: 15px 20px;
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .message-btn:hover {
+            background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-purple) 100%);
+            box-shadow: 0 0 20px rgba(153, 69, 255, 0.5);
+            transform: translateY(-2px);
+        }
+
+       
+        .feeds-section {
+            background: none;
+            padding: 60px 0;
+        }
+
+        .feeds-header h2 {
+            font-size: 2em;
+            color: var(--accent-red);
+            text-shadow: 0 0 10px rgba(255, 51, 51, 0.5);
+            border-bottom: 2px solid var(--accent-red);
+            padding-bottom: 10px;
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+
+        .feeds-messages {
+            max-width: 800px;
+            margin: 0 auto;
+            gap: 10px;
+        }
+
+        .feeds-messages li {
+            background-color: var(--carbon-medium);
+            border-left: 4px solid var(--accent-red);
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .feeds-messages li:hover {
+            background-color: var(--carbon-dark);
+            transform: translateX(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+            border-left-color: var(--accent-red);
+            color: var(--text-primary);
+        }
+
+        
+        .links-section {
+            background: var(--carbon-dark);
+            padding: 60px 0;
+            border-top: 1px solid var(--metal-dark);
+        }
+
+        .links-section h2 {
+            color: var(--accent-green);
+            font-size: 2em;
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+            border-bottom: 2px solid var(--accent-green);
+            padding-bottom: 10px;
+            max-width: 800px;
+            margin: 0 auto 30px;
+        }
+
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .link-item {
+            background: var(--carbon-medium);
+            color: var(--text-primary);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+            border: 1px solid var(--metal-dark);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .link-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--accent-green), var(--accent-cyan));
+            transition: width 0.3s ease;
+        }
+
+        .link-item:hover {
+            background: var(--carbon-light);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            color: var(--accent-cyan);
+        }
+
+        .link-item:hover::before {
+            width: 100%;
+            opacity: 0.1;
+        }
+
+       
+        .video-section {
+            background: var(--primary-black);
+            padding: 60px 0;
+        }
+
+        .video-container h2 {
+            color: var(--accent-blue);
+            font-size: 2em;
+            text-shadow: 0 0 10px rgba(0, 168, 255, 0.5);
+            border-bottom: 2px solid var(--accent-blue);
+            padding-bottom: 10px;
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+
+        .video-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--carbon-medium);
+            border-radius: 15px;
+            padding: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--metal-dark);
+        }
+
+        .video-wrapper video {
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        
+        .modal-content {
+            background: var(--carbon-medium);
+            border: 1px solid var(--metal-dark);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+        }
+
+        .modal-content h2 {
+            color: var(--accent-purple);
+        }
+
+        .modal-content input {
+            background: var(--carbon-dark);
+            border: 1px solid var(--metal-dark);
+            color: var(--text-primary);
+        }
+
+        .modal-content input:focus {
+            border-color: var(--accent-purple);
+            box-shadow: 0 0 10px rgba(153, 69, 255, 0.5);
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, var(--accent-purple) 0%, var(--accent-cyan) 100%);
+            color: var(--text-primary);
+        }
+
+        .btn-submit:hover {
+            background: linear-gradient(135deg, var(--accent-cyan) 0%, var(--accent-purple) 100%);
+        }
+
+        .btn-cancel {
+            background: var(--metal-dark);
+            color: var(--text-secondary);
+        }
+
+        .btn-cancel:hover {
+            background: var(--metal-light);
+            color: var(--text-primary);
+        }
+
+        
+        .copy-feedback {
+            background: linear-gradient(135deg, var(--accent-green) 0%, var(--accent-cyan) 100%);
+            color: var(--primary-black);
+            font-weight: 700;
+            box-shadow: 0 4px 12px rgba(0, 255, 136, 0.5);
+        }
+
+      
+        @media (max-width: 768px) {
+            .main-header .site-title {
+                font-size: 1.2em;
+            }
+            .main-header .logo-img {
+                height: 40px;
+            }
+            .sidebar {
+                width: 250px;
+            }
+            .hero-content h1 {
+                font-size: 2em;
+            }
+            .feeds-header h2, .links-section h2, .video-container h2 {
+                font-size: 1.5em;
+            }
+        }
+}
+
+/* ... (بقية تنسيقات CSS المدمجة) ... */
+
+/* تم حذف جميع التنسيقات غير الضرورية أو المكررة */

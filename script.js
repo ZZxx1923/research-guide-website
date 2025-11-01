@@ -126,47 +126,20 @@ window.addEventListener('pageshow', () => {
     resetDate();
 });
 
-// إخفاء شاشة التحميل عند اكتمال تحميل الصفحة
-window.addEventListener('load', () => {
-    const loader = document.getElementById('loader');
-    if (loader) {
-        loader.style.display = 'none';
-    }
-});
-
-/* وظيفة لفتح وإغلاق الشريط الجانبي - تم إعادة كتابتها */
+/* وظيفة لفتح وإغلاق الشريط الجانبي */
 function toggleSidebar() {
-    const sidebar = document.getElementById('mySidebar');
-    const overlay = document.getElementById('overlay');
-    
-    if (!sidebar || !overlay) return; // إضافة فحص لوجود العناصر
-    
-    // استخدام toggle بدلاً من open/close منفصلتين
+    const sidebar = document.getElementById('sidebar');
     sidebar.classList.toggle('open');
-    overlay.classList.toggle('open');
-    
-    // منع التمرير على الجسم عند فتح القائمة
-    if (sidebar.classList.contains('open')) {
-        document.body.style.overflow = 'hidden';
-    } else {
-        document.body.style.overflow = '';
-    }
 }
 
 /* إغلاق الشريط الجانبي عند الضغط على أي رابط */
 document.addEventListener('DOMContentLoaded', () => {
     const sidebarLinks = document.querySelectorAll('.sidebar-link');
-    if (sidebarLinks.length > 0) {
-        sidebarLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                // تأكد من إغلاق القائمة عند الضغط على الرابط
-                const sidebar = document.getElementById('mySidebar');
-                if (sidebar && sidebar.classList.contains('open')) {
-                    toggleSidebar();
-                }
-            });
+    sidebarLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            toggleSidebar();
         });
-    }
+    });
 });
 
 
@@ -269,17 +242,15 @@ document.addEventListener('DOMContentLoaded', () => {
 // تأثير عند تمرير الفأرة على الشخصية
 document.addEventListener('DOMContentLoaded', () => {
     const character = document.getElementById('character');
-    if (character) {
-        const characterImg = character.querySelector('.character-img');
-        
-        character.addEventListener('mouseenter', () => {
-            characterImg.style.transform = 'scale(1.15) rotate(5deg)';
-        });
-        
-        character.addEventListener('mouseleave', () => {
-            characterImg.style.transform = 'scale(1) rotate(0deg)';
-        });
-    }
+    const characterImg = character.querySelector('.character-img');
+    
+    character.addEventListener('mouseenter', () => {
+        characterImg.style.transform = 'scale(1.15) rotate(5deg)';
+    });
+    
+    character.addEventListener('mouseleave', () => {
+        characterImg.style.transform = 'scale(1) rotate(0deg)';
+    });
 });
 
 
@@ -411,7 +382,7 @@ const carouselData = [
       id: 3,
         title: 'الدليل الإرشادي الثالث',
         description: 'مرجع شامل للباحثين يتضمن أفضل الممارسات والإجراءات الموصى بها.',
-        image: 'images/.jpg',
+        image: 'images/3.jpg',
         pdf: 'pdf/S3.pdf'
     },
     {

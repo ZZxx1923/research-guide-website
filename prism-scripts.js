@@ -119,7 +119,7 @@ https://templatemo.com/tm-600-prism-flux
         }
 
         // Initialize carousel
-        var currentIndex = 0;
+        let currentIndex = 0;
         const carousel = document.getElementById('carousel');
         const indicatorsContainer = document.getElementById('indicators');
 
@@ -199,9 +199,9 @@ https://templatemo.com/tm-600-prism-flux
                 let spacing3 = 750;
                 
                 if (isMobile) {
-                    spacing1 = 200;  // تقليل المسافة أكثر على الجوال
-                    spacing2 = 300;  // تقليل المسافة أكثر على الجوال
-                    spacing3 = 400;  // تقليل المسافة أكثر على الجوال
+                    spacing1 = 280;  // Was 400, now 100px closer
+                    spacing2 = 420;  // Was 600, now 180px closer
+                    spacing3 = 550;  // Was 750, now 200px closer
                 } else if (isTablet) {
                     spacing1 = 340;
                     spacing2 = 520;

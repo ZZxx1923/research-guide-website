@@ -119,7 +119,7 @@ https://templatemo.com/tm-600-prism-flux
         }
 
         // Initialize carousel
-        let currentIndex = 0;
+        var currentIndex = 0;
         const carousel = document.getElementById('carousel');
         const indicatorsContainer = document.getElementById('indicators');
 

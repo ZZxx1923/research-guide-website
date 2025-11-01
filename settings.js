@@ -1,10 +1,4 @@
-const ADMIN_PASSWORD = "Oxd2003"; // كلمة سر افتراضية
-let currentEditingRow = null; // لتتبع الصف الذي يتم تعديله
-let isAdminAuthenticated = false; // لتتبع حالة المشرف
-let pendingAction = null; // لتخزين الإجراء المعلق
-let pendingData = null; // لتخزين البيانات المعلقة
 
-// ============ دوال التحقق من كلمة السر ============
 
 function checkAdminStatus() {
     // التحقق من حالة المشرف من sessionStorage
@@ -420,6 +414,13 @@ function hideSettings() {
     document.getElementById('password-prompt').style.display = 'flex';
 }
 
+const ADMIN_PASSWORD = "Oxd2003"; 
+let currentEditingRow = null; 
+let isAdminAuthenticated = false; 
+let pendingAction = null; 
+let pendingData = null; 
+
+// ============ دوال التحقق من كلمة السر ============
 // ============ تهيئة الصفحة ============
 
 document.addEventListener('DOMContentLoaded', () => {

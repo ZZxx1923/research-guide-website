@@ -509,7 +509,7 @@
                         <i class="fas fa-code"></i>
                         رابط Google App Script:
                     </label>
-                    <input type="url" id="appScriptUrl" placeholder="https://script.google.com/macros/s/.../exec" value="">
+                    <input type="url" id="appScriptUrl" placeholder="https://script.google.com/macros/s/.../exec" value="https://script.google.com/macros/s/AKfycbxCql8inZ07AQVt49Q7txdsgp_KNb7dcDt_pViFD772lt4wgcnWzev6UdmaxGwBVTh0/exec">
                 </div>
 
                 <div class="form-group">
@@ -540,19 +540,7 @@
             </div>
 
             <!-- قسم التعذرات -->
-            <!-- قسم إحصائية الزوار -->
-	            <div class="excuses-section">
-	                <h3>
-	                    <i class="fas fa-chart-bar"></i>
-	                    إحصائيات الموقع
-	                </h3>
-	                <div class="info-box">
-	                    <p><strong><i class="fas fa-users"></i> عدد الزوار (منذ آخر مسح):</strong></p>
-	                    <p id="visitor-count-display" style="font-size: 1.5em; font-weight: 700; color: var(--accent-cyan);">0</p>
-	                </div>
-	            </div>
-	
-	            <!-- قسم التعذرات -->
+            <!-- قسم التعذرات -->
 	            <div class="excuses-section">
                 <h3>
                     <i class="fas fa-list-ul"></i>
@@ -600,12 +588,5 @@
     </div>
 
     <script src="settings.js"></script>
-	    <script src="visitor-counter.js"></script>
-	    <script>
-	        // عرض عدد الزوار عند تحميل صفحة الإعدادات
-	        document.addEventListener('DOMContentLoaded', () => {
-	            displayVisitorCount('visitor-count-display');
-	        });
-	    </script>
 	</body>
 </html>

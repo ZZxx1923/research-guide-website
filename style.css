@@ -1414,87 +1414,114 @@ a:hover {
 }
 
 .menu-btn:hover {
-    color: #d60000;
-}
+    co/* قواعد CSS جديدة وموثوقة للقائمة الجانبية */
 .sidebar {
-    
     height: 100%;
-    width: 250px; /* تعيين عرض ثابت */
+    width: 280px; /* عرض القائمة الجانبية */
     position: fixed;
     z-index: 1000;
     top: 0;
-    right: -250px; /* إخفاء القائمة خارج الشاشة */
-    background-color: #111; 
+    right: -280px; /* إخفاء القائمة خارج الشاشة */
+    background-color: var(--carbon-medium);
     overflow-x: hidden;
-    transition: 0.5s; 
+    transition: transform 0.3s ease-in-out; /* استخدام transform للحركة السلسة */
     padding-top: 60px;
-    box-shadow: -5px 0 15px rgb(20, 29, 27);
-    /* استخدام التحويل لضمان سلاسة الحركة على iOS */
-    -webkit-transform: translateZ(0);
-    transform: translateZ(0);
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.5);
+    /* تسريع العرض على الجوال */
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
 }
+
 .sidebar.open {
     right: 0; /* إظهار القائمة */
+    transform: translateX(0);
 }
 
-@media (max-width: 480px) {
-    .sidebar.open {
-        width: 80%; /* تحديد عرض مناسب على شاشات الجوال الصغيرة */
-    }
+/* طبقة التعتيم (Overlay) */
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 999;
+    display: none;
+    transition: opacity 0.3s ease-in-out;
+    opacity: 0;
 }
 
+#overlay.open {
+    display: block;
+    opacity: 1;
+}
+
+/* تنسيق عناصر القائمة */
 .sidebar-nav {
-    padding: 8px 0;
+    padding: 15px;
 }
 
 .sidebar-link {
-    padding: 8px 8px 8px 32px;
-    text-decoration: none;
-    font-size: 20px;
-    color: #818181;
     display: block;
-    transition: 0.3s;
-    text-align: right; 
+    padding: 12px 15px;
+    text-decoration: none;
+    color: var(--text-secondary);
+    transition: all 0.3s ease;
+    border-radius: 8px;
+    margin-bottom: 5px;
 }
 
 .sidebar-link:hover {
-    color: #f1f1f1;
-    background-color: #555;
+    background-color: var(--carbon-dark);
+    color: var(--accent-cyan);
+}
+
+.sidebar-link i {
+    margin-left: 10px;
+    color: var(--accent-purple);
 }
 
 .close-btn {
-  
     position: absolute;
-    top: 0;
-    left: 25px; 
-    font-size: 36px;
-    margin-left: 50px;
+    top: 10px;
+    left: 10px;
+    font-size: 30px;
+    color: var(--accent-red);
+    cursor: pointer;
     background: none;
     border: none;
-    color: #818181;
+    padding: 5px;
+}
+
+.close-btn:hover {
+    color: var(--text-primary);
+}
+
+/* زر فتح القائمة */
+.menu-btn {
+    font-size: 30px;
     cursor: pointer;
+    background-color: transparent;
+    color: var(--accent-purple);
+    border: none;
+    padding: 10px;
+    transition: 0.3s;
 }
 
-
-.videos-page-section {
-    padding-top: 100px;
-    text-align: center;
+.menu-btn:hover {
+    color: var(--accent-cyan);
 }
 
-.video-item {
-    margin-bottom: 40px;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    background-color: #4cada53a;
-}
-
-.video-wrapper {
-    max-width: 800px;
-    margin: 20px auto;
-}
-
-.video-wrapper video {
+/* قواعد خاصة بالجوال */
+@media (max-width: 480px) {
+    .sidebar {
+        width: 80%; /* عرض القائمة على الجوال */
+        right: -80%;
+    }
+    .sidebar.open {
+        right: 0;
+    }
+}video-wrapper video {
     width: 100%;
     height: auto;
     border-radius: 5px;

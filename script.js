@@ -126,10 +126,21 @@ window.addEventListener('pageshow', () => {
     resetDate();
 });
 
-/* وظيفة لفتح وإغلاق الشريط الجانبي */
+/* وظيفة لفتح وإغلاق الشريط الجانبي - تم إعادة كتابتها */
 function toggleSidebar() {
     const sidebar = document.getElementById('mySidebar');
+    const overlay = document.getElementById('overlay');
+    
+    // استخدام toggle بدلاً من open/close منفصلتين
     sidebar.classList.toggle('open');
+    overlay.classList.toggle('open');
+    
+    // منع التمرير على الجسم عند فتح القائمة
+    if (sidebar.classList.contains('open')) {
+        document.body.style.overflow = 'hidden';
+    } else {
+        document.body.style.overflow = '';
+    }
 }
 
 /* إغلاق الشريط الجانبي عند الضغط على أي رابط */
@@ -137,7 +148,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const sidebarLinks = document.querySelectorAll('.sidebar-link');
     sidebarLinks.forEach(link => {
         link.addEventListener('click', () => {
-            toggleSidebar();
+            // تأكد من إغلاق القائمة عند الضغط على الرابط
+            const sidebar = document.getElementById('mySidebar');
+            const overlay = document.getElementById('overlay');
+            if (sidebar.classList.contains('open')) {
+                toggleSidebar();
+            }
         });
     });
 });

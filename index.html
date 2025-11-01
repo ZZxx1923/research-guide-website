@@ -11,442 +11,23 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-
-  
     <link rel="stylesheet" href="prism-flux.css">
     
-
-    <style>
-        
-        :root {
-            --primary-black: #0a0a0a;
-            --carbon-dark: #121212;
-            --carbon-medium: #1a1a1a;
-            --carbon-light: #2a2a2a;
-            --metal-dark: #3a3a3a;
-            --metal-light: #4a4a4a;
-            --accent-red: #ff3333;
-            --accent-blue: #00a8ff;
-            --accent-green: #00ff88;
-            --accent-purple: #9945ff;
-            --accent-cyan: #00ffff;
-            --text-primary: #ffffff;
-            --text-secondary: #b0b0b0;
-            --text-dim: #808080;
-        }
-
-        body {
-            font-family: 'Tajawal', sans-serif; 
-            direction: rtl; 
-            text-align: right;
-            background: var(--primary-black);
-            color: var(--text-primary);
-        }
-
-        
-        .header {
-            display: none !important;
-        }
-
-       
-        .main-header {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: rgba(18, 18, 18, 0.98); /* خلفية داكنة شفافة */
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            z-index: 1000;
-            transition: all 0.3s ease;
-            padding: 15px 0;
-        }
-
-        .main-header .container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        .main-header .logo {
-            display: flex;
-            align-items: center;
-        }
-
-        .main-header .logo-img {
-            height: 50px; 
-            width: auto;
-            margin-left: 15px;
-            opacity: 0.95;
-        }
-
-        .main-header .site-title {
-            font-size: 1.5em;
-            font-weight: 700;
-            color: var(--accent-cyan);
-            display: block;
-        }
-
-        .menu-btn {
-            background: none;
-            border: none;
-            color: var(--accent-purple);
-            font-size: 24px;
-            cursor: pointer;
-            padding: 10px;
-            transition: color 0.3s ease;
-        }
-
-        .menu-btn:hover {
-            color: var(--accent-cyan);
-        }
-
-        .sidebar {
-            position: fixed;
-            top: 0;
-            right: -300px; 
-            width: 300px;
-            height: 100%;
-            background: var(--carbon-medium);
-            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.5);
-            z-index: 1001;
-            transition: right 0.3s ease;
-            padding: 20px;
-            padding-top: 80px;
-        }
-
-        .sidebar.open {
-            right: 0;
-        }
-
-        .close-btn {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            background: none;
-            border: none;
-            color: var(--accent-red);
-            font-size: 30px;
-            cursor: pointer;
-            transition: color 0.3s ease;
-        }
-
-        .close-btn:hover {
-            color: var(--text-primary);
-        }
-
-        .sidebar-nav {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .sidebar-link {
-            color: var(--text-secondary);
-            text-decoration: none;
-            padding: 12px 15px;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            font-size: 1.1em;
-            border-right: 3px solid transparent;
-        }
-
-        .sidebar-link:hover {
-            background: var(--carbon-dark);
-            color: var(--accent-cyan);
-            border-right-color: var(--accent-cyan);
-        }
-
-        
-        .hero-section {
-            padding-top: 120px;
-            min-height: 100vh;
-            background: none; 
-            color: var(--text-primary);
-            text-align: center;
-        }
-
-        .hero-content h1 {
-            font-size: 2.5em;
-            color: var(--accent-purple);
-            margin-bottom: 10px;
-            text-shadow: 0 0 10px rgba(153, 69, 255, 0.5);
-        }
-
-        .hero-content p {
-            font-size: 1.1em;
-            color: var(--text-secondary);
-            margin-bottom: 30px;
-        }
-
-       
-        .button-wrapper {
-            max-width: 600px;
-            margin: 0 auto;
-            background: var(--carbon-medium);
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            border: 1px solid var(--metal-dark);
-        }
-
-        .date-info {
-            background: var(--carbon-dark);
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 15px;
-            border: 1px solid var(--metal-dark);
-        }
-
-        .day-name, .date-display {
-            color: var(--accent-cyan);
-            font-weight: 700;
-            font-size: 1.2em;
-        }
-
-        .date-controls {
-            width: 100%;
-            margin-bottom: 15px;
-        }
-
-        .date-control-btn {
-            background: var(--metal-dark);
-            color: var(--text-primary);
-            border: 1px solid var(--metal-light);
-            border-radius: 8px;
-            padding: 10px 15px;
-            transition: all 0.3s ease;
-        }
-
-        .date-control-btn:hover {
-            background: var(--accent-blue);
-            box-shadow: 0 0 15px rgba(0, 168, 255, 0.5);
-            transform: translateY(-2px);
-        }
-
-        .buttons-container {
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: none;
-        }
-
-        .message-btn {
-            background: linear-gradient(135deg, var(--accent-purple) 0%, var(--accent-blue) 100%);
-            color: var(--text-primary);
-            font-weight: 700;
-            padding: 15px 20px;
-            border-right: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .message-btn:hover {
-            background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-purple) 100%);
-            box-shadow: 0 0 20px rgba(153, 69, 255, 0.5);
-            transform: translateY(-2px);
-        }
-
-       
-        .feeds-section {
-            background: none;
-            padding: 60px 0;
-        }
-
-        .feeds-header h2 {
-            font-size: 2em;
-            color: var(--accent-red);
-            text-shadow: 0 0 10px rgba(255, 51, 51, 0.5);
-            border-bottom: 2px solid var(--accent-red);
-            padding-bottom: 10px;
-            max-width: 600px;
-            margin: 0 auto 30px;
-        }
-
-        .feeds-messages {
-            max-width: 800px;
-            margin: 0 auto;
-            gap: 10px;
-        }
-
-        .feeds-messages li {
-            background-color: var(--carbon-medium);
-            border-left: 4px solid var(--accent-red);
-            color: var(--text-secondary);
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        }
-
-        .feeds-messages li:hover {
-            background-color: var(--carbon-dark);
-            transform: translateX(-5px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
-            border-left-color: var(--accent-red);
-            color: var(--text-primary);
-        }
-
-        
-        .links-section {
-            background: var(--carbon-dark);
-            padding: 60px 0;
-            border-top: 1px solid var(--metal-dark);
-        }
-
-        .links-section h2 {
-            color: var(--accent-green);
-            font-size: 2em;
-            text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
-            border-bottom: 2px solid var(--accent-green);
-            padding-bottom: 10px;
-            max-width: 800px;
-            margin: 0 auto 30px;
-        }
-
-        .links-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        .link-item {
-            background: var(--carbon-medium);
-            color: var(--text-primary);
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-            font-weight: 600;
-            font-size: 1.1em;
-            transition: all 0.3s ease;
-            border: 1px solid var(--metal-dark);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .link-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 5px;
-            height: 100%;
-            background: linear-gradient(to bottom, var(--accent-green), var(--accent-cyan));
-            transition: width 0.3s ease;
-        }
-
-        .link-item:hover {
-            background: var(--carbon-light);
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            color: var(--accent-cyan);
-        }
-
-        .link-item:hover::before {
-            width: 100%;
-            opacity: 0.1;
-        }
-
-       
-        .video-section {
-            background: var(--primary-black);
-            padding: 60px 0;
-        }
-
-        .video-container h2 {
-            color: var(--accent-blue);
-            font-size: 2em;
-            text-shadow: 0 0 10px rgba(0, 168, 255, 0.5);
-            border-bottom: 2px solid var(--accent-blue);
-            padding-bottom: 10px;
-            max-width: 600px;
-            margin: 0 auto 30px;
-        }
-
-        .video-wrapper {
-            max-width: 800px;
-            margin: 0 auto;
-            background: var(--carbon-medium);
-            border-radius: 15px;
-            padding: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            border: 1px solid var(--metal-dark);
-        }
-
-        .video-wrapper video {
-            width: 100%;
-            border-radius: 10px;
-        }
-
-        
-        .modal-content {
-            background: var(--carbon-medium);
-            border: 1px solid var(--metal-dark);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
-        }
-
-        .modal-content h2 {
-            color: var(--accent-purple);
-        }
-
-        .modal-content input {
-            background: var(--carbon-dark);
-            border: 1px solid var(--metal-dark);
-            color: var(--text-primary);
-        }
-
-        .modal-content input:focus {
-            border-color: var(--accent-purple);
-            box-shadow: 0 0 10px rgba(153, 69, 255, 0.5);
-        }
-
-        .btn-submit {
-            background: linear-gradient(135deg, var(--accent-purple) 0%, var(--accent-cyan) 100%);
-            color: var(--text-primary);
-        }
-
-        .btn-submit:hover {
-            background: linear-gradient(135deg, var(--accent-cyan) 0%, var(--accent-purple) 100%);
-        }
-
-        .btn-cancel {
-            background: var(--metal-dark);
-            color: var(--text-secondary);
-        }
-
-        .btn-cancel:hover {
-            background: var(--metal-light);
-            color: var(--text-primary);
-        }
-
-        
-        .copy-feedback {
-            background: linear-gradient(135deg, var(--accent-green) 0%, var(--accent-cyan) 100%);
-            color: var(--primary-black);
-            font-weight: 700;
-            box-shadow: 0 4px 12px rgba(0, 255, 136, 0.5);
-        }
-
-      
-        @media (max-width: 768px) {
-            .main-header .site-title {
-                font-size: 1.2em;
-            }
-            .main-header .logo-img {
-                height: 40px;
-            }
-            .sidebar {
-                width: 250px;
-            }
-            .hero-content h1 {
-                font-size: 2em;
-            }
-            .feeds-header h2, .links-section h2, .video-container h2 {
-                font-size: 1.5em;
-            }
-        }
-    </style>
 </head>
+<script>
+  // يضبط ارتفاع الهيدر في متغير CSS بحيث لا يغطي المحتوى عند استخدام header ثابت
+  function updateHeaderHeight() {
+    const header = document.querySelector('.main-header');
+    if (!header) return;
+    const h = header.offsetHeight || 72;
+    document.documentElement.style.setProperty('--header-height', h + 'px');
+  }
+  window.addEventListener('load', updateHeaderHeight);
+  window.addEventListener('resize', () => { setTimeout(updateHeaderHeight, 50); });
+  // تحسين سلاسة التمرير على iOS
+  document.documentElement.style.webkitOverflowScrolling = 'touch';
+</script>
+
 <body>
     
     <div class="loader" id="loader">
@@ -474,7 +55,7 @@
     </header>
 	
     
-    <div id="sidebar" class="sidebar">
+   <div id="mySidebar" class="sidebar">
         <button class="close-btn" onclick="toggleSidebar()">&times;</button>
         <nav class="sidebar-nav">
             <a href="videos.html" class="sidebar-link">
@@ -487,8 +68,10 @@
             </a>
         </nav>
     </div>
+    <div id="overlay" onclick="toggleSidebar()"></div>
 
    
+
     <section id="home" class="hero-section">
         <div class="container">
             <div class="hero-content">
@@ -735,11 +318,11 @@
         </div>
     </section>
 
-    <script src="script.js"></script>
-    <!-- ملفات JavaScript -->
+
     <script src="script.js"></script>
     <script src="prism-scripts.js"></script>
-    <script>
+</body>
+        <script>
         // دالة لفتح وإغلاق القائمة الجانبية
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
@@ -754,5 +337,42 @@
             }
         });
     </script>
+<section class="contact-section" id="contact">
+	        <div class="section-header">
+	            <h2 class="section-title">فريق الدعم </h2>
+	            <p class="section-subtitle">تواصل مع فريق الدعم الفني لدينا عبر الواتساب.</p>
+	        </div>
+	        
+	        <a href="https://wa.me/966543573677?text=مرحبًادلال،%20أرغب%20بالحصول%20على%20مساعدتك.%20شكرًا%20لتعاونك." class="info-item">
+	                    <div class="info-icon"><i class="fab fa-whatsapp"></i></div>
+	                    <div class="info-text">
+	                        <h4>دلال</h4>
+	                        <p>أرسل رسالة واتساب</p>
+	                    </div>
+	                
+	                <a href="https://wa.me/966507072589?text=مرحبًافرح،%20أرغب%20بالحصول%20على%20مساعدتك.%20شكرًا%20لتعاونك." class="info-item">
+	                    <div class="info-icon"><i class="fab fa-whatsapp"></i></div>
+	                    <div class="info-text">
+	                        <h4>فرح</h4>
+	                        <p>أرسل رسالة واتساب</p>
+	                    </div>
+	                </a>
+                        <!-- سكربتاتك القديمة إن وُجدت -->
+    <script>
+      // يضبط ارتفاع الهيدر في متغير CSS بحيث لا يغطي المحتوى عند استخدام header ثابت
+      function updateHeaderHeight() {
+        const header = document.querySelector('.main-header');
+        if (!header) return;
+        const h = header.offsetHeight || 72;
+        document.documentElement.style.setProperty('--header-height', h + 'px');
+      }
+      window.addEventListener('load', updateHeaderHeight);
+      window.addEventListener('resize', () => { setTimeout(updateHeaderHeight, 50); });
+      // تحسين سلاسة التمرير على iOS
+      document.documentElement.style.webkitOverflowScrolling = 'touch';
+    </script>
+  </body>
+</html>
+
 </body>
 </html>

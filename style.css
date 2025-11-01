@@ -111,7 +111,7 @@ body {
     width: 100%;
     border-radius: 0 0 12px 12px;
     overflow: hidden;
-    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
 }
 
 .message-btn {
@@ -849,7 +849,7 @@ a:hover {
     position: relative;
 }
 #l {
-    background-image: url('images/l.jpg');
+    background-image: url('images/l-removebg-preview.png');
     background-size: 110%; 
     background-repeat: no-repeat;
     background-position: center; 
@@ -862,17 +862,8 @@ a:hover {
     position: relative;
 }
 #z {
-    background-image: url('images/Z.jpg');
-    background-size: 110%; 
-    background-repeat: no-repeat;
-    background-position: center; 
-    color: transparent; 
-    text-shadow: none; 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0; 
-    position: relative;
+   
+    
 }
 #p {
     background-image: url('images/p.png');
@@ -889,15 +880,15 @@ a:hover {
 }
 #sanad-link {
     background-image: url('images/sanad.png');
-    background-size: 60%; 
+    background-size: 100%; 
     background-repeat: no-repeat;
     background-position: center; 
-    color: transparent; 
+    color:#4c00ff;
     text-shadow: none; 
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0; 
+    font-size: 3; 
     position: relative;
 }
 
@@ -918,7 +909,7 @@ a:hover {
 }
 
 #ziwo {
-    background-image: url('images/ziwo.jpg');
+    background-image: url('images/ziwo-removebg-preview.png');
     background-size: 60%; 
     background-repeat: no-repeat;
     background-position: center; 
@@ -931,8 +922,8 @@ a:hover {
     position: relative;
 }
 #apk1 {
-    background-image: url('images/app1.jpg');
-    background-size: 80%; 
+    background-image: url('images/apk1.png');
+    background-size: 70%; 
     background-repeat: no-repeat;
     background-position: center; 
     color: transparent; 
@@ -944,8 +935,8 @@ a:hover {
     position: relative;
 }
 #apk2{
-    background-image: url('images/app2.jpg');
-    background-size: 90%; 
+    background-image: url('images/apk2.png');
+    background-size: 70%; 
     background-repeat: no-repeat;
     background-position: center; 
     color: transparent; 
@@ -973,7 +964,7 @@ a:hover {
 }
 
 #apk {
-    background-image: url('images/apk.jpg');
+    background-image: url('images/apk.png');
     background-size: 60%; 
     background-repeat: no-repeat;
     background-position: center; 
@@ -999,8 +990,8 @@ a:hover {
     position: relative;
 }
 #GPT {
-    background-image: url('images/GPT.jpg');
-    background-size: 100%; 
+    background-image: url('images/GPT.png');
+    background-size: 70%; 
     background-repeat: no-repeat;
     background-position: center; 
     color: transparent; 

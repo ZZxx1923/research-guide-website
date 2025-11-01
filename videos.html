@@ -3,12 +3,253 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>شروحات وفيديوهات إرشادية</title>
+    <title>شروحات وفيديوهات إرشادية - PRISM FLUX</title>
+    
+    <!-- خطوط وأيقونات الموقع القديم -->
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <!-- تصميم Prism Flux الجديد -->
+    <link rel="stylesheet" href="prism-flux.css">
+    
+    <!-- تعديلات CSS مخصصة لدمج التصميمين -->
+    <style>
+        /* إعادة تعريف بعض متغيرات Prism Flux لتناسب اللغة العربية والخط */
+        :root {
+            --primary-black: #0a0a0a;
+            --carbon-dark: #121212;
+            --carbon-medium: #1a1a1a;
+            --carbon-light: #2a2a2a;
+            --metal-dark: #3a3a3a;
+            --metal-light: #4a4a4a;
+            --accent-red: #ff3333;
+            --accent-blue: #00a8ff;
+            --accent-green: #00ff88;
+            --accent-purple: #9945ff;
+            --accent-cyan: #00ffff;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --text-dim: #808080;
+        }
+
+        body {
+            font-family: 'Tajawal', sans-serif; /* استخدام خط الموقع القديم */
+            direction: rtl; /* دعم اللغة العربية */
+            text-align: right;
+            background: var(--primary-black);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding-top: 80px; /* مسافة للهيدر */
+        }
+
+        /* إخفاء شريط التنقل العلوي للقالب الجديد والاعتماد على القائمة الجانبية */
+        .header {
+            display: none !important;
+        }
+
+        /* تنسيق الهيدر والقائمة الجانبية للموقع القديم ليتناسب مع الخلفية الداكنة */
+        .main-header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(18, 18, 18, 0.98); /* خلفية داكنة شفافة */
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 1000;
+            transition: all 0.3s ease;
+            padding: 15px 0;
+        }
+
+        .main-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .main-header .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .main-header .site-title {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            display: block;
+        }
+
+        .menu-btn2 {
+            background: none;
+            border: none;
+            color: var(--accent-purple);
+            font-size: 24px;
+            cursor: pointer;
+            padding: 10px;
+            transition: color 0.3s ease;
+        }
+
+        .menu-btn2:hover {
+            color: var(--accent-cyan);
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: -300px; /* إخفاء القائمة في البداية */
+            width: 300px;
+            height: 100%;
+            background: var(--carbon-medium);
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.5);
+            z-index: 1001;
+            transition: right 0.3s ease;
+            padding: 20px;
+            padding-top: 80px;
+        }
+
+        .sidebar.open {
+            right: 0;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: none;
+            border: none;
+            color: var(--accent-red);
+            font-size: 30px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close-btn:hover {
+            color: var(--text-primary);
+        }
+
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .sidebar-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 12px 15px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-size: 1.1em;
+            border-right: 3px solid transparent;
+        }
+
+        .sidebar-link:hover {
+            background: var(--carbon-dark);
+            color: var(--accent-cyan);
+            border-right-color: var(--accent-cyan);
+        }
+
+        /* تنسيق محتوى الفيديوهات ليتناسب مع Prism Flux */
+        .videos-page-section {
+            padding: 40px 0;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .videos-page-section .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 20px;
+            background: var(--carbon-dark);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--metal-dark);
+        }
+
+        .video-item {
+            background: var(--carbon-medium);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 2px solid var(--metal-dark);
+            padding: 20px;
+        }
+
+        .video-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+            border-color: var(--accent-blue);
+        }
+
+        .video-item h3 {
+            font-size: 1.4em;
+            color: var(--accent-green);
+            margin-bottom: 10px;
+            text-shadow: 0 0 5px rgba(0, 255, 136, 0.3);
+            border-bottom: 1px solid var(--metal-dark);
+            padding-bottom: 5px;
+        }
+
+        .video-item p.video-description {
+            color: var(--text-secondary);
+            font-size: 0.95em;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+            background: var(--primary-black);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .video-wrapper video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .video-wrapper.placeholder {
+            background: var(--carbon-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-dim);
+            font-size: 1.2em;
+        }
+
+        .placeholder-content {
+            text-align: center;
+        }
+
+        .placeholder-content i {
+            font-size: 2em;
+            color: var(--accent-purple);
+            margin-bottom: 10px;
+        }
+
+        /* Footer */
+        .main-footer {
+            background: var(--carbon-dark);
+            color: var(--text-secondary);
+            padding: 20px 0;
+            text-align: center;
+            border-top: 1px solid var(--metal-dark);
+        }
+    </style>
 </head>
 <body>
     <header class="main-header">
@@ -21,22 +262,21 @@
             </div>
         </div>
     </header>
-
- 
+    
     <div id="sidebar" class="sidebar">
         <button class="close-btn" onclick="toggleSidebar()">&times;</button>
         <nav class="sidebar-nav">
-            <a href="index.html" class="sidebar-link">الصفحة الرئيسية</a>
-            <a href="videos.html" class="sidebar-link">شروحات وفيديوهات</a>
+            <a href="index.html" class="sidebar-link"><i class="fas fa-home"></i> الصفحة الرئيسية</a>
+            <a href="settings.html" class="sidebar-link"><i class="fas fa-cog"></i> الإعدادات</a>
+            <a href="videos.html" class="sidebar-link"><i class="fas fa-video"></i> شروحات وفيديوهات</a>
         </nav>
     </div>
 
     <section class="videos-page-section section-padding">
         <div class="container">
            
-        
-            <div class="video-item">
-                <h3>(Tunnel) حل مشكله التانيل  </h3>
+            <div class="video-item" data-aos="fade-up" data-aos-delay="100">
+                <h3>(Tunnel) حل مشكله التاينل  </h3>
                 <p class="video-description"></p>
                 <div class="video-wrapper">
                     <video controls>
@@ -46,22 +286,18 @@
                 </div>
             </div>
 
-         
-            
-            <div class="video-item">
+            <div class="video-item" data-aos="fade-up" data-aos-delay="100">
                 <h3>شرح الخصائص واعداد برنامج (ziwo) </h3>
-                
-                <div class="video-wrapper placeholder">
-                 <div class="video-wrapper">
+                <p class="video-description"></p>
+                <div class="video-wrapper">
                     <video controls>
                         <source src="videos/IMG_1418.MP4" type="video/mp4">
                         متصفحك لا يدعم تشغيل الفيديو.
                     </video>
                 </div>
-                </div>
             </div>
   
-            <div class="video-item">
+            <div class="video-item" data-aos="fade-up" data-aos-delay="100">
                 <h3>نصائح مهمة للباحث الاجتماعي</h3>
                 <p class="video-description">مجموعة من النصائح العملية التي تساعدك في أداء عملك بكفاءة واحترافية.</p>
                 <div class="video-wrapper placeholder">
@@ -72,8 +308,7 @@
                 </div>
             </div>
 
-            
-            <div class="video-item">
+            <div class="video-item" data-aos="fade-up" data-aos-delay="100">
                 <h3>استخدام التطبيقات والأدوات المساعدة</h3>
                 <p class="video-description">شرح مفصل لكيفية استخدام التطبيقات والأدوات المتاحة لتسهيل عملك.</p>
                 <div class="video-wrapper placeholder">
@@ -93,6 +328,15 @@
         </div>
     </footer>
     
+    <!-- تم حذف videos.js لأنه لم يعد مطلوباً مع هذا المحتوى الثابت -->
     <script src="script.js"></script>
+    <script src="prism-scripts.js"></script> <!-- تضمين سكربت Prism Flux للحركة -->
+    <script>
+        // دالة لفتح وإغلاق القائمة الجانبية (موجودة في index.html أيضاً)
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('open');
+        }
+    </script>
 </body>
 </html>

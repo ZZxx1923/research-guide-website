@@ -3,39 +3,492 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>الدليل الإرشادي للباحثين</title>
+    <title>الدليل الإرشادي للباحثين - PRISM FLUX</title>
+    
+    <!-- خطوط وأيقونات الموقع القديم -->
     <link rel="stylesheet" href="style.css">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
+  
+    <link rel="stylesheet" href="prism-flux.css">
+    
+
+    <style>
+        
+        :root {
+            --primary-black: #0a0a0a;
+            --carbon-dark: #121212;
+            --carbon-medium: #1a1a1a;
+            --carbon-light: #2a2a2a;
+            --metal-dark: #3a3a3a;
+            --metal-light: #4a4a4a;
+            --accent-red: #ff3333;
+            --accent-blue: #00a8ff;
+            --accent-green: #00ff88;
+            --accent-purple: #9945ff;
+            --accent-cyan: #00ffff;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --text-dim: #808080;
+        }
+
+        body {
+            font-family: 'Tajawal', sans-serif; 
+            direction: rtl; 
+            text-align: right;
+            background: var(--primary-black);
+            color: var(--text-primary);
+        }
+
+        
+        .header {
+            display: none !important;
+        }
+
+       
+        .main-header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(18, 18, 18, 0.98); /* خلفية داكنة شفافة */
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 1000;
+            transition: all 0.3s ease;
+            padding: 15px 0;
+        }
+
+        .main-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .main-header .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .main-header .logo-img {
+            height: 50px; 
+            width: auto;
+            margin-left: 15px;
+            opacity: 0.95;
+        }
+
+        .main-header .site-title {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            display: block;
+        }
+
+        .menu-btn {
+            background: none;
+            border: none;
+            color: var(--accent-purple);
+            font-size: 24px;
+            cursor: pointer;
+            padding: 10px;
+            transition: color 0.3s ease;
+        }
+
+        .menu-btn:hover {
+            color: var(--accent-cyan);
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: -300px; 
+            width: 300px;
+            height: 100%;
+            background: var(--carbon-medium);
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.5);
+            z-index: 1001;
+            transition: right 0.3s ease;
+            padding: 20px;
+            padding-top: 80px;
+        }
+
+        .sidebar.open {
+            right: 0;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: none;
+            border: none;
+            color: var(--accent-red);
+            font-size: 30px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close-btn:hover {
+            color: var(--text-primary);
+        }
+
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .sidebar-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 12px 15px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-size: 1.1em;
+            border-right: 3px solid transparent;
+        }
+
+        .sidebar-link:hover {
+            background: var(--carbon-dark);
+            color: var(--accent-cyan);
+            border-right-color: var(--accent-cyan);
+        }
+
+        
+        .hero-section {
+            padding-top: 120px;
+            min-height: 100vh;
+            background: none; 
+            color: var(--text-primary);
+            text-align: center;
+        }
+
+        .hero-content h1 {
+            font-size: 2.5em;
+            color: var(--accent-purple);
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(153, 69, 255, 0.5);
+        }
+
+        .hero-content p {
+            font-size: 1.1em;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+        }
+
+       
+        .button-wrapper {
+            max-width: 600px;
+            margin: 0 auto;
+            background: var(--carbon-medium);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--metal-dark);
+        }
+
+        .date-info {
+            background: var(--carbon-dark);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 1px solid var(--metal-dark);
+        }
+
+        .day-name, .date-display {
+            color: var(--accent-cyan);
+            font-weight: 700;
+            font-size: 1.2em;
+        }
+
+        .date-controls {
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        .date-control-btn {
+            background: var(--metal-dark);
+            color: var(--text-primary);
+            border: 1px solid var(--metal-light);
+            border-radius: 8px;
+            padding: 10px 15px;
+            transition: all 0.3s ease;
+        }
+
+        .date-control-btn:hover {
+            background: var(--accent-blue);
+            box-shadow: 0 0 15px rgba(0, 168, 255, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .buttons-container {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: none;
+        }
+
+        .message-btn {
+            background: linear-gradient(135deg, var(--accent-purple) 0%, var(--accent-blue) 100%);
+            color: var(--text-primary);
+            font-weight: 700;
+            padding: 15px 20px;
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .message-btn:hover {
+            background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-purple) 100%);
+            box-shadow: 0 0 20px rgba(153, 69, 255, 0.5);
+            transform: translateY(-2px);
+        }
+
+       
+        .feeds-section {
+            background: none;
+            padding: 60px 0;
+        }
+
+        .feeds-header h2 {
+            font-size: 2em;
+            color: var(--accent-red);
+            text-shadow: 0 0 10px rgba(255, 51, 51, 0.5);
+            border-bottom: 2px solid var(--accent-red);
+            padding-bottom: 10px;
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+
+        .feeds-messages {
+            max-width: 800px;
+            margin: 0 auto;
+            gap: 10px;
+        }
+
+        .feeds-messages li {
+            background-color: var(--carbon-medium);
+            border-left: 4px solid var(--accent-red);
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .feeds-messages li:hover {
+            background-color: var(--carbon-dark);
+            transform: translateX(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+            border-left-color: var(--accent-red);
+            color: var(--text-primary);
+        }
+
+        
+        .links-section {
+            background: var(--carbon-dark);
+            padding: 60px 0;
+            border-top: 1px solid var(--metal-dark);
+        }
+
+        .links-section h2 {
+            color: var(--accent-green);
+            font-size: 2em;
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+            border-bottom: 2px solid var(--accent-green);
+            padding-bottom: 10px;
+            max-width: 800px;
+            margin: 0 auto 30px;
+        }
+
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .link-item {
+            background: var(--carbon-medium);
+            color: var(--text-primary);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+            border: 1px solid var(--metal-dark);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .link-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--accent-green), var(--accent-cyan));
+            transition: width 0.3s ease;
+        }
+
+        .link-item:hover {
+            background: var(--carbon-light);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            color: var(--accent-cyan);
+        }
+
+        .link-item:hover::before {
+            width: 100%;
+            opacity: 0.1;
+        }
+
+       
+        .video-section {
+            background: var(--primary-black);
+            padding: 60px 0;
+        }
+
+        .video-container h2 {
+            color: var(--accent-blue);
+            font-size: 2em;
+            text-shadow: 0 0 10px rgba(0, 168, 255, 0.5);
+            border-bottom: 2px solid var(--accent-blue);
+            padding-bottom: 10px;
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+
+        .video-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--carbon-medium);
+            border-radius: 15px;
+            padding: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--metal-dark);
+        }
+
+        .video-wrapper video {
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        
+        .modal-content {
+            background: var(--carbon-medium);
+            border: 1px solid var(--metal-dark);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+        }
+
+        .modal-content h2 {
+            color: var(--accent-purple);
+        }
+
+        .modal-content input {
+            background: var(--carbon-dark);
+            border: 1px solid var(--metal-dark);
+            color: var(--text-primary);
+        }
+
+        .modal-content input:focus {
+            border-color: var(--accent-purple);
+            box-shadow: 0 0 10px rgba(153, 69, 255, 0.5);
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, var(--accent-purple) 0%, var(--accent-cyan) 100%);
+            color: var(--text-primary);
+        }
+
+        .btn-submit:hover {
+            background: linear-gradient(135deg, var(--accent-cyan) 0%, var(--accent-purple) 100%);
+        }
+
+        .btn-cancel {
+            background: var(--metal-dark);
+            color: var(--text-secondary);
+        }
+
+        .btn-cancel:hover {
+            background: var(--metal-light);
+            color: var(--text-primary);
+        }
+
+        
+        .copy-feedback {
+            background: linear-gradient(135deg, var(--accent-green) 0%, var(--accent-cyan) 100%);
+            color: var(--primary-black);
+            font-weight: 700;
+            box-shadow: 0 4px 12px rgba(0, 255, 136, 0.5);
+        }
+
+      
+        @media (max-width: 768px) {
+            .main-header .site-title {
+                font-size: 1.2em;
+            }
+            .main-header .logo-img {
+                height: 40px;
+            }
+            .sidebar {
+                width: 250px;
+            }
+            .hero-content h1 {
+                font-size: 2em;
+            }
+            .feeds-header h2, .links-section h2, .video-container h2 {
+                font-size: 1.5em;
+            }
+        }
+    </style>
 </head>
 <body>
+    
+    <div class="loader" id="loader">
+        <div class="loader-content">
+            <div class="loader-prism">
+                <div class="prism-face"></div>
+                <div class="prism-face"></div>
+                <div class="prism-face"></div>
+            </div>
+            <div style="color: var(--accent-purple); font-size: 18px; text-transform: uppercase; letter-spacing: 3px;">جاري تحميل الدليل...</div>
+        </div>
+    </div>
+
+   
     <header class="main-header">
-	<div class="container">
-	            <button class="menu-btn" onclick="toggleSidebar()">
-	                <i class="fas fa-bars"></i>
-	            </button>
+		<div class="container">
+		    <button class="menu-btn" onclick="toggleSidebar()">
+		        <i class="fas fa-bars"></i>
+		    </button>
             <div class="logo">
                 <img src="images/hrsd_logo.png" alt="شعار وزارة الموارد البشرية" class="logo-img">
                 <span class="site-title">الدليل الإرشادي للباحثين</span>
             </div>
-	        </div>
-	    </header>
+		</div>
+    </header>
 	
-	    <!-- الشريط الجانبي (Sidebar) -->
-	    <div id="sidebar" class="sidebar">
-	        <button class="close-btn" onclick="toggleSidebar()">&times;</button>
-	        <nav class="sidebar-nav">
-	            <a href="videos.html" class="sidebar-link">شروحات وفيديوهات</a>
-	            <!-- يمكن إضافة روابط أخرى هنا لاحقاً -->
-	        </nav>
-	    </div>
+    
+    <div id="sidebar" class="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()">&times;</button>
+        <nav class="sidebar-nav">
+            <a href="videos.html" class="sidebar-link">
+                <i class="fas fa-video"></i>
+                شروحات وفيديوهات
+            </a>
+            <a href="settings.html" class="sidebar-link" style="color: var(--accent-red); font-weight: bold;">
+                <i class="fas fa-cog"></i>
+                الإعدادات
+            </a>
+        </nav>
+    </div>
 
+   
     <section id="home" class="hero-section">
         <div class="container">
             <div class="hero-content">
@@ -44,35 +497,34 @@
             </div>
         </div>
         
-    <div class="container">
-    <div class="container">
-        <p> نماذج رسائل الزيارات الميدانية (يتم تحديث التاريخ واليوم تلقائيًا مع إمكانية التعديل اليدوي)</p>
-        <div class="button-wrapper">
-            <div class="date-info">
-                <span class="day-name" id="dayName">الأحد</span>
-                <span class="date-display" id="dateDisplay">23/10/2025</span>
-            </div>
-            <div class="date-controls">
-                <button class="date-control-btn prev-day"  onclick="previousDay()">
-                    <i class="fas fa-chevron-right" ></i> اليوم السابق
-                </button>
-                <button class="date-control-btn next-day" onclick="nextDay()">
-                    اليوم التالي <i class="fas fa-chevron-left"></i>
-                </button>
-            </div>
-            <div class="buttons-container">
-                <button class="message-btn" id="messageBtn1" onclick="copyMessage('message1')">
-                    رسالة الضمان
-                </button>
-                <button class="message-btn" id="messageBtn2" onclick="copyMessage('message2')">
-                    حساب المواطن
-                </button>
+        <div class="container">
+            <p style="color: var(--text-secondary);"> نماذج رسائل الزيارات الميدانية (يتم تحديث التاريخ واليوم تلقائيًا مع إمكانية التعديل اليدوي)</p>
+            <div class="button-wrapper">
+                <div class="date-info">
+                    <span class="day-name" id="dayName">الأحد</span>
+                    <span class="date-display" id="dateDisplay">23/10/2025</span>
+                </div>
+                <div class="date-controls">
+                    <button class="date-control-btn prev-day"  onclick="previousDay()">
+                        <i class="fas fa-chevron-right" ></i> اليوم السابق
+                    </button>
+                    <button class="date-control-btn next-day" onclick="nextDay()">
+                        اليوم التالي <i class="fas fa-chevron-left"></i>
+                    </button>
+                </div>
+                <div class="buttons-container">
+                    <button class="message-btn" id="messageBtn1" onclick="copyMessage('message1')">
+                        رسالة الضمان
+                    </button>
+                    <button class="message-btn" id="messageBtn2" onclick="copyMessage('message2')">
+                        حساب المواطن
+                    </button>
+                </div>
             </div>
         </div>
-    </div>
 
-    <!-- الرسالة المخفية 1 - الضمان -->
-    <div id="message1" style="display: none;">السلام عليكم ورحمة الله وبركاته ...
+        <!-- الرسائل المخفية -->
+        <div id="message1" style="display: none;">السلام عليكم ورحمة الله وبركاته ...
 
 عزيزي/تي المستفيد/ة :
 
@@ -104,8 +556,7 @@
 
 شكراً لكم ....</div>
 
-    <!-- الرسالة المخفية 2 - حساب المواطن -->
-    <div id="message2" style="display: none;">السلام عليكم ورحمة الله وبركاته .
+        <div id="message2" style="display: none;">السلام عليكم ورحمة الله وبركاته .
 
 عزيزي المستفيد /  
 
@@ -128,47 +579,59 @@
 3- العنوان الوطني.
 4- فاتورة الكهرباء .</div>
 
-    <div class="copy-feedback" id="copyFeedback">✓ تم نسخ الرسالة بنجاح!</div>
+        <div class="copy-feedback" id="copyFeedback">✓ تم نسخ الرسالة بنجاح!</div>
 
-    <script src="script.js"></script>
     </section>
 
-     <!-- قسم قائمة التغذيات (Feeds) -->
-   <section id="feeds" class="feeds-section section-padding">
-    <div class="container">
-        <div class="feeds-wrapper">
-            <div class="feeds-header">
-                <h2>التعذرات الممنوع استخدامها من قبل الباحث! </h2>
+    <!-- قسم قائمة التغذيات (Feeds) -->
+    <section id="feeds" class="feeds-section section-padding">
+        <div class="container">
+            <div class="feeds-wrapper">
+                <div class="feeds-header">
+                    <h2>التعذرات الممنوع استخدامها من قبل الباحث! </h2>
+                </div>
+                
+                <!-- إعدادات الاتصال بجوجل شيت - مخفية -->
+                <div class="google-sheets-config" id="sheetsConfig" style="display: none; margin-bottom: 30px; text-align: center;">
+                    <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 15px;">
+                        <input type="text" id="sheetId" placeholder="معرف جوجل شيت" value="1mw5z6UWdk3GZHiprpr6-oFSVTAje3bE8KADSf3SMnaM" style="padding: 8px 12px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.3); background: rgba(255,255,255,0.1); color: white; min-width: 300px;">
+                        <input type="text" id="sheetName" placeholder="اسم الورقة" value="الورقة1" style="padding: 8px 12px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.3); background: rgba(255,255,255,0.1); color: white; min-width: 150px;">
+                    </div>
+                    <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+                        <button onclick="loadExcusesFromSheet()" style="padding: 10px 20px; background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.5); border-radius: 6px; cursor: pointer; font-weight: 600; transition: all 0.3s ease;" onmouseover="this.style.background='rgba(255,255,255,0.3)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'">تحميل من جوجل شيت</button>
+                        <button onclick="toggleAutoRefresh()" id="autoRefreshBtn" style="padding: 10px 20px; background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.5); border-radius: 6px; cursor: pointer; font-weight: 600; transition: all 0.3s ease;" onmouseover="this.style.background='rgba(255,255,255,0.3)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'">تفعيل التحديث التلقائي</button>
+                    </div>
+                </div>
+                
+                <ul id="feeds-list" class="feeds-messages">
+                    <li>
+                        <span class="excuse-text">تعذر خطأ تقني</span>
+                    </li>
+                    <li>
+                        <span class="excuse-text">تعذر مستقل مخالف لشروط الاستقلالية</span>
+                    </li>
+                    <li>
+                        <span class="excuse-text">تعذر صلة قرابة</span>
+                    </li>
+                    <li>
+                        <span class="excuse-text">تعذر الزيارة من قبل الباحث</span>
+                    </li>
+                    <li>
+                        <span class="excuse-text">تعذر البيانات المقدمة من المستفيد غير صحيحة</span>
+                    </li>
+                    <li>
+                        <span class="excuse-text">يمنع زيارة المستفيدين من الجنس الآخر (المستقلين) دون وجود المحرم الشرعي.</span>
+                    </li>
+                    <li>
+                        <span class="excuse-text">يحظر إتمام الزيارة عن بعد دون توجيه رسمي وخطي من إدارة المشروع.</span>
+                    </li>
+                    <li>
+                        <span class="excuse-text">يمنع توقيع الباحث بدلًا عن المستفيد أو في غير الحقل المخصص لتوقيعه</span>
+                    </li>
+                </ul>
             </div>
-            <ul id="feeds-list" class="feeds-messages">
-                <li>
-                    <span class="excuse-text">تعذر خطأ تقني</span>
-                </li>
-                <li>
-                    <span class="excuse-text">تعذر مستقل مخالف لشروط الاستقلالية</span>
-                </li>
-                <li>
-                    <span class="excuse-text">تعذر صلة قرابة</span>
-                </li>
-                <li>
-                    <span class="excuse-text">تعذر الزيارة من قبل الباحث</span>
-                </li>
-                <li>
-                    <span class="excuse-text">تعذر البيانات المقدمة من المستفيد غير صحيحة</span>
-                </li>
-                <li>
-                    <span class="excuse-text">يمنع زيارة المستفيدين من الجنس الآخر (المستقلين) دون وجود المحرم الشرعي.</span>
-                </li>
-                <li>
-                    <span class="excuse-text">يحظر إتمام الزيارة عن بعد دون توجيه رسمي وخطي من إدارة المشروع.</span>
-                </li>
-                <li>
-                    <span class="excuse-text">يمنع توقيع الباحث بدلًا عن المستفيد أو في غير الحقل المخصص لتوقيعه</span>
-                </li>
-            </ul>
         </div>
-    </div>
-</section>
+    </section>
 
 
     <!-- قسم الفيديو المنفصل -->
@@ -186,7 +649,27 @@
         </div>
     </section>
 
-    <!-- Password Dialog -->
+    <!-- قسم الروابط (Links) -->
+    <section id="links" class="links-section section-padding">
+        <div class="container">
+            <h2>روابط مهمة</h2>
+            <div class="links-grid">
+              <a href="https://hrsd-scs.sa/admin/account/login" id="o" class="link-item">منصة وصول (الضمان الاجتماعي)</a>
+                <a href="https://citizens.bpo-hq.com/admin/account/login" id="p" class="link-item">منصة وصول (حساب المواطن)</a>
+                <a href="https://elmiyaar.bpo-hq.com/published/public/3a16c23c-bfe6-9c1f-1454-d1b077b34aad" id="l" class="link-item">مبادرة تفريج كربة</a>
+                <a href="https://elmiyaar.bpo-hq.com/published/public/3a161317-0e40-85f2-072b-229e4cbf08ab"id="z" class="link-item">معيار (المشكلات التقنية)</a>
+                <a href="https://chatgpt.com/g/g-67fa231bdeb88191a5c6e7909176dce2-lms-d-lftrdy-llbhth-ljtm-y"  id="GPT" class="link-item"> </a>
+                <a href="https://emdad.kayanhr.com/" class="link-item" id="sanad-link"></a>
+                <a href="https://app.ziwo.io/login" class="link-item"id="ziwo">زيو</a>
+                <a href="https://hrsd-scs.sa/bahasv4.apk" class="link-item" id="apk">تنزيل تطبيق المساعد للباحث</a>
+                <a href="https://play.google.com/store/apps/details?id=com.ziwoagent" id="apk1" class="link-item">اندرويد </a>
+                <a href="https://apps.apple.com/app/id6648779830" id="apk2" class="link-item">ايفون </a>
+                <a href="https://snapchat.com/t/MRIvntDt" id="snap" class="link-item">سناب المشروع</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- النوافذ المنبثقة (Modal) -->
     <div id="password-modal" class="modal" style="display: none;">
         <div class="modal-content">
             <span class="close" onclick="closePasswordDialog()">&times;</span>
@@ -199,7 +682,6 @@
         </div>
     </div>
 
-    <!-- Add Excuse Dialog -->
     <div id="add-modal" class="modal" style="display: none;">
         <div class="modal-content">
             <span class="close" onclick="closeAddDialog()">&times;</span>
@@ -212,7 +694,6 @@
         </div>
     </div>
 
-    <!-- Edit Excuse Dialog -->
     <div id="edit-modal" class="modal" style="display: none;">
         <div class="modal-content">
             <span class="close" onclick="closeEditDialog()">&times;</span>
@@ -224,117 +705,77 @@
             </div>
         </div>
     </div>
+   <!-- Hero Section with 3D Carousel -->
+     <section class="hero-section">
+        <div class="hero-content">
+            <h1 class="hero-title">مرحباً بك في معرض الأعمال</h1>
+            <p class="hero-subtitle">استكشف مجموعة متنوعة من المشاريع والأدلة الإرشادية</p>
+        </div>
 
-    <section id="links" class="links-section section-padding bg-light">
-        <div class="container">
-            <h2>روابط مهمة</h2>
-            <div class="links-grid">
-                <a href="https://hrsd-scs.sa/admin/account/login" id="o" class="link-item">منصة وصول (الضمان الاجتماعي)</a>
-                <a href="https://citizens.bpo-hq.com/admin/account/login" id="p" class="link-item">منصة وصول (حساب المواطن)</a>
-                <a href="https://elmiyaar.bpo-hq.com/published/public/3a16c23c-bfe6-9c1f-1454-d1b077b34aad" id="l" class="link-item">مبادرة تفريج كربة</a>
-                <a href="https://elmiyaar.bpo-hq.com/published/public/3a161317-0e40-85f2-072b-229e4cbf08ab"id="z" class="link-item">معيار (المشكلات التقنية)</a>
-                <a href="https://chatgpt.com/g/g-67fa231bdeb88191a5c6e7909176dce2-lms-d-lftrdy-llbhth-ljtm-y"  id="GPT" class="link-item"> </a>
-                <a href="https://emdad.kayanhr.com/" class="link-item" id="sanad-link">سند</a>
-                <a href="https://app.ziwo.io/login" class="link-item"id="ziwo">زيو</a>
-                <a href="https://hrsd-scs.sa/bahasv4.apk" class="link-item" id="apk">تنزيل تطبيق المساعد للباحث</a>
-                <a href="https://play.google.com/store/apps/details?id=com.ziwoagent" id="apk1" class="link-item">اندرويد </a>
-                <a href="https://apps.apple.com/app/id6648779830" id="apk2" class="link-item">ايفون </a>
-                <a href="https://snapchat.com/t/MRIvntDt" id="snap" class="link-item">سناب المشروع</a>
+        <!-- حاوية Carousel -->
+        <div class="carousel-container">
+            <div class="carousel" id="carousel">
+                <!-- سيتم إنشاء العناصر تلقائياً من JavaScript -->
+            </div>
+
+            <!-- مؤشرات Carousel -->
+            <div class="carousel-indicators" id="indicators">
+                <!-- سيتم إنشاء المؤشرات تلقائياً من JavaScript -->
+            </div>
+
+            <!-- أزرار التحكم -->
+            <div class="carousel-controls">
+                <button class="carousel-btn" id="prevBtn" aria-label="السابق">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+                <button class="carousel-btn" id="nextBtn" aria-label="التالي">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
             </div>
         </div>
     </section>
 
-    <section class="projects" id="projects">
-        <h2 class="title">أهم ملفات ال pdf</h2>
-        <div class="content">
-            <div class="project-card">
-                <div class="project-image">
-                    <img src="images/4.jpg" />
-                </div>
-                <div class="project-info">
-                    <p class="project-category"></p>
-                    <strong class="project-title">
-                        <span> حل المشكلات التقنيه</span>
-                        <a href="pdf/حل المشاكل التقنيه.pdf" class="more-details">OPEN</a>
-                    </strong>
-                </div>
-            </div>
-            <div class="project-card">
-                <div class="project-image">
-                    <img src="images/1.jpg" />
-                </div>
-                <div class="project-info">
-                    <p class="project-category"></p>
-                    <strong class="project-title">
-                        <span>أسباب التعذر والاجراءات والشرح_المحدث</span>
-                        <a href="pdf/أسباب التعذر والاجراءات والشرح_المحدث.pdf" class="more-details">OPEN</a>
-                    </strong>
-                </div>
-            </div>
-            <div class="project-card">
-                <div class="project-image">
-                    <img src="images/2.jpg" />
-                </div>
-                <div class="project-info">
-                    <p class="project-category"></p>
-                    <strong class="project-title">
-                        <span>كيفية  عمل الزيارة في وضع عدم الاتصال بالاترنت </span>
-                        <a href="pdf/كيفية  عمل الزيارة في وضع عدم الاتصال بالاترنت .pdf"    class="more-details">  OPEN</a>
-                    </strong>
-                </div>
-            </div>
-            <div class="project-card">
-                <div class="project-image">
-                    <img src="images/3.jpg" />
-                </div>
-                <div class="project-info">
-                    <p class="project-category"></p>
-                    <strong class="project-title">
-                        <span>اجراءات حساب المواطن</span>
-                        <a href= "pdf/دلال عسيري - اجراءات حساب المواطن.pdf"    class="more-details">  OPEN</a>
-                    </strong>
-                </div>
-            </div>
-        </div>
-    </section>
+    <script src="script.js"></script>
+    <!-- ملفات JavaScript -->
+    <script src="script.js"></script>
+    <script src="prism-scripts.js"></script>
+    <script src="visitor-counter.js"></script>
+    <script>
+        // دالة لفتح وإغلاق القائمة الجانبية
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('open');
+        }
 
-    <section class="new-contact-section">
-		        <h2 class="title">للاستفسارات أو المساعدة، لا تتردد في التواصل معنا.</h2>
-		        <h3 class="sub-title">فريق الدعم</h3>
-		        <div class="content">
-		            
-		            <div class="card">
-		                <div class="icon">
-		                    <i class="fab fa-whatsapp"></i>
-		                </div>
-		                <div class="info">
-		                    <h3>دلال </h3>
-		                    
-		                    <a href="https://wa.me/966543573677?text=مرحبًادلال،%20أرغب%20بالحصول%20على%20مساعدتك.%20شكرًا%20لتعاونك.
-	" class="more-details">أرسل رسالة</a>
-		                </div>
-		            </div>
-		            <div class="card">
-		                <div class="icon">
-		                    <i class="fab fa-whatsapp"></i>
-		                </div>
-		                <div class="info">
-		                    <h3>فرح</h3>
-		                    
-		                    <a href="https://wa.me/966507072589?text=مرحبًافرح،%20أرغب%20بالحصول%20على%20مساعدتك.%20شكرًا%20لتعاونك.
-	" class="more-details">أرسل رسالة</a>
-		                </div>
-		            </div>
-		           
-		        </div>
-		    </section>
-
-    <footer class="main-footer">
-        <div class="container">
-            <p>&copy; مقدمه من باحثين بيشه </p>
-        </div>
-	    
-	    </footer>
-        <script src="script.js"></script>
+        // إخفاء شاشة التحميل بعد تحميل الصفحة
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('loader');
+            if (loader) {
+                loader.classList.add('hidden');
+            }
+        });
+    </script>
+<section class="contact-section" id="contact">
+	        <div class="section-header">
+	            <h2 class="section-title">فريق الدعم </h2>
+	            <p class="section-subtitle">تواصل مع فريق الدعم الفني لدينا عبر الواتساب.</p>
+	        </div>
+	        
+	        <a href="https://wa.me/966543573677?text=مرحبًادلال،%20أرغب%20بالحصول%20على%20مساعدتك.%20شكرًا%20لتعاونك." class="info-item">
+	                    <div class="info-icon"><i class="fab fa-whatsapp"></i></div>
+	                    <div class="info-text">
+	                        <h4>دلال</h4>
+	                        
+	                    </div>
+	                
+	                <a href="https://wa.me/966507072589?text=مرحبًافرح،%20أرغب%20بالحصول%20على%20مساعدتك.%20شكرًا%20لتعاونك." class="info-item">
+	                    <div class="info-icon"><i class="fab fa-whatsapp"></i></div>
+	                    <div class="info-text">
+	                        <h4>فرح</h4>
+	                        
+	                    </div>
+	                
+	                
+	                </a>
 </body>
 </html>

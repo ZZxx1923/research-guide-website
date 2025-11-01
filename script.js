@@ -375,7 +375,7 @@ const carouselData = [
         id: 2,
         title: 'أسباب التعذر  ',
         description: '       طريقة الاعتذار وشرح سبب كل تعذر .',
-        image: 'images/2.jpg',
+        image: 'images/1.jpg',
         pdf: 'pdf/S2.pdf'
     },
     {
@@ -389,16 +389,18 @@ const carouselData = [
         id: 4,
         title: 'الدليل الإرشادي الرابع',
         description: 'مرجع شامل للباحثين يتضمن أفضل الممارسات والإجراءات الموصى بها.',
+        image: 'images/3.jpg',
+        pdf: 'pdf/S4.pdf'
+    },
+   {
+        id: 5,
+        title: 'الدليل  ',
+        description: 'مرجع شامل للباحثين يتضمن أفضل الممارسات والإجراءات الموصى بها.',
         image: 'images/4.jpg',
         pdf: 'pdf/S4.pdf'
     },
    
 ];
-
-// متغيرات عامة
-let currentIndex = 0;
-const carousel = document.getElementById('carousel');
-const indicatorsContainer = document.getElementById('indicators');
 
 // دالة إنشاء عنصر Carousel
 function createCarouselItem(data, index) {
@@ -430,102 +432,161 @@ function createCarouselItem(data, index) {
 }
 
 // دالة تهيئة Carousel
-function initCarousel() {
+function initCarousel(carouselId, indicatorsId, prevBtnId, nextBtnId, isSidebar = false) {
+    let currentIndex = 0;
+    const carousel = document.getElementById(carouselId);
+    const indicatorsContainer = document.getElementById(indicatorsId);
+    const prevBtn = document.getElementById(prevBtnId);
+    const nextBtn = document.getElementById(nextBtnId);
+
+    if (!carousel) return; // الخروج إذا لم يتم العثور على العنصر
+
+    // دالة تحديث موضع عناصر Carousel
+    function updateCarousel() {
+        const items = carousel.querySelectorAll('.carousel-item');
+        const indicators = indicatorsContainer ? indicatorsContainer.querySelectorAll('.indicator') : [];
+        const totalItems = items.length;
+        
+        if (isSidebar) {
+            // تنسيق خاص للشريط الجانبي (عرض عنصر واحد فقط)
+            items.forEach((item, index) => {
+                if (index === currentIndex) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+        } else {
+            // تنسيق 3D Carousel الرئيسي
+            const isMobile = window.innerWidth <= 768;
+            const isTablet = window.innerWidth <= 1024;
+            
+            // تحديد نصف قطر الدائرة حسب حجم الشاشة
+            let radius;
+            if (isMobile) {
+                radius = 350;
+            } else if (isTablet) {
+                radius = 450;
+            } else {
+                radius = 550;
+            }
+            
+            const angleStep = (2 * Math.PI) / totalItems;
+            
+            items.forEach((item, index) => {
+                // حساب الزاوية النسبية
+                const relativeIndex = (index - currentIndex + totalItems) % totalItems;
+                const angle = relativeIndex * angleStep;
+                
+                // حساب الموضع
+                const x = Math.sin(angle) * radius;
+                const z = Math.cos(angle) * radius - radius;
+                
+                // حساب الحجم والشفافية
+                const scale = 0.6 + (Math.cos(angle) * 0.4);
+                const opacity = 0.3 + (Math.cos(angle) * 0.7);
+                
+                // تطبيق التحويلات
+                item.style.transform = `
+                    translateX(-50%) 
+                    translateY(-50%) 
+                    translateX(${x}px) 
+                    translateZ(${z}px) 
+                    scale(${scale})
+                `;
+                item.style.opacity = opacity;
+                item.style.zIndex = Math.round(scale * 100);
+                
+                // إضافة/إزالة كلاس active
+                if (relativeIndex === 0) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+        }
+
+        // تحديث المؤشرات (إذا كانت موجودة)
+        indicators.forEach((indicator, index) => {
+            if (index === currentIndex) {
+                indicator.classList.add('active');
+            } else {
+                indicator.classList.remove('active');
+            }
+        });
+    }
+
+    // دالة الانتقال للشريحة التالية
+    function nextSlide() {
+        currentIndex = (currentIndex + 1) % carouselData.length;
+        updateCarousel();
+    }
+
+    // دالة الانتقال للشريحة السابقة
+    function prevSlide() {
+        currentIndex = (currentIndex - 1 + carouselData.length) % carouselData.length;
+        updateCarousel();
+    }
+
+    // دالة الانتقال لشريحة محددة
+    function goToSlide(index) {
+        currentIndex = index;
+        updateCarousel();
+    }
+
     // إنشاء عناصر Carousel
     carouselData.forEach((data, index) => {
         const item = createCarouselItem(data, index);
         carousel.appendChild(item);
         
-        // إنشاء مؤشر
-        const indicator = document.createElement('div');
-        indicator.className = 'indicator';
-        if (index === 0) indicator.classList.add('active');
-        indicator.dataset.index = index;
-        indicator.addEventListener('click', () => goToSlide(index));
-        indicatorsContainer.appendChild(indicator);
+        // إنشاء مؤشر (إذا كانت المؤشرات موجودة)
+        if (indicatorsContainer) {
+            const indicator = document.createElement('div');
+            indicator.className = 'indicator';
+            if (index === 0) indicator.classList.add('active');
+            indicator.dataset.index = index;
+            indicator.addEventListener('click', () => goToSlide(index));
+            indicatorsContainer.appendChild(indicator);
+        }
     });
     
     updateCarousel();
-}
 
-// دالة تحديث موضع عناصر Carousel
-function updateCarousel() {
-    const items = document.querySelectorAll('.carousel-item');
-    const indicators = document.querySelectorAll('.indicator');
-    const totalItems = items.length;
-    const isMobile = window.innerWidth <= 768;
-    const isTablet = window.innerWidth <= 1024;
-    
-    // تحديد نصف قطر الدائرة حسب حجم الشاشة
-    let radius;
-    if (isMobile) {
-        radius = 350;
-    } else if (isTablet) {
-        radius = 450;
-    } else {
-        radius = 550;
+    // ربط أزرار التحكم
+    if (nextBtn) nextBtn.addEventListener('click', nextSlide);
+    if (prevBtn) prevBtn.addEventListener('click', prevSlide);
+
+    // التدوير التلقائي (فقط للـ Carousel الرئيسي)
+    if (!isSidebar) {
+        let autoRotate = setInterval(nextSlide, 5000);
+        
+        // إيقاف التدوير التلقائي عند التفاعل
+        carousel.addEventListener('mouseenter', () => {
+            clearInterval(autoRotate);
+        });
+        
+        // استئناف التدوير التلقائي عند مغادرة المؤشر
+        carousel.addEventListener('mouseleave', () => {
+            autoRotate = setInterval(nextSlide, 5000);
+        });
+
+        // التنقل بلوحة المفاتيح (فقط للـ Carousel الرئيسي)
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') nextSlide();
+            if (e.key === 'ArrowRight') prevSlide();
+        });
     }
-    
-    const angleStep = (2 * Math.PI) / totalItems;
-    
-    items.forEach((item, index) => {
-        // حساب الزاوية النسبية
-        const relativeIndex = (index - currentIndex + totalItems) % totalItems;
-        const angle = relativeIndex * angleStep;
-        
-        // حساب الموضع
-        const x = Math.sin(angle) * radius;
-        const z = Math.cos(angle) * radius - radius;
-        
-        // حساب الحجم والشفافية
-        const scale = 0.6 + (Math.cos(angle) * 0.4);
-        const opacity = 0.3 + (Math.cos(angle) * 0.7);
-        
-        // تطبيق التحويلات
-        item.style.transform = `
-            translateX(-50%) 
-            translateY(-50%) 
-            translateX(${x}px) 
-            translateZ(${z}px) 
-            scale(${scale})
-        `;
-        item.style.opacity = opacity;
-        item.style.zIndex = Math.round(scale * 100);
-        
-        // إضافة/إزالة كلاس active
-        if (relativeIndex === 0) {
-            item.classList.add('active');
-        } else {
-            item.classList.remove('active');
-        }
-    });
-    
-    // تحديث المؤشرات
-    indicators.forEach((indicator, index) => {
-        if (index === currentIndex) {
-            indicator.classList.add('active');
-        } else {
-            indicator.classList.remove('active');
-        }
-    });
-}
 
-// دالة الانتقال للشريحة التالية
-function nextSlide() {
-    currentIndex = (currentIndex + 1) % carouselData.length;
-    updateCarousel();
-}
-
-// دالة الانتقال للشريحة السابقة
-function prevSlide() {
-    currentIndex = (currentIndex - 1 + carouselData.length) % carouselData.length;
-    updateCarousel();
-}
-
-// دالة الانتقال لشريحة محددة
-function goToSlide(index) {
-    currentIndex = index;
-    updateCarousel();
+    // تحديث Carousel عند تغيير حجم النافذة (فقط للـ Carousel الرئيسي)
+    if (!isSidebar) {
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                updateCarousel();
+            }, 250);
+        });
+    }
 }
 
 // دالة فتح ملف PDF في تبويب جديد
@@ -533,40 +594,45 @@ function openPDF(pdfPath) {
     window.open(pdfPath, '_blank');
 }
 
-// ربط أزرار التحكم
-document.getElementById('nextBtn').addEventListener('click', nextSlide);
-document.getElementById('prevBtn').addEventListener('click', prevSlide);
-
-// التنقل بلوحة المفاتيح
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowLeft') nextSlide();
-    if (e.key === 'ArrowRight') prevSlide();
-});
-
-// التدوير التلقائي (كل 5 ثواني)
-let autoRotate = setInterval(nextSlide, 5000);
-
-// إيقاف التدوير التلقائي عند التفاعل
-carousel.addEventListener('mouseenter', () => {
-    clearInterval(autoRotate);
-});
-
-// استئناف التدوير التلقائي عند مغادرة المؤشر
-carousel.addEventListener('mouseleave', () => {
-    autoRotate = setInterval(nextSlide, 5000);
-});
-
-// تحديث Carousel عند تغيير حجم النافذة
-let resizeTimeout;
-window.addEventListener('resize', () => {
-    clearTimeout(resizeTimeout);
-    resizeTimeout = setTimeout(() => {
-        updateCarousel();
-    }, 250);
-});
-
 // تهيئة Carousel عند تحميل الصفحة
 window.addEventListener('DOMContentLoaded', () => {
-    initCarousel();
+    // تهيئة Carousel الرئيسي
+    initCarousel('carousel', 'indicators', 'prevBtn', 'nextBtn', false);
+    
+    // تهيئة Carousel الشريط الجانبي
+    initCarousel('sidebar-carousel', 'sidebar-indicators', 'sidebar-prevBtn', 'sidebar-nextBtn', true);
 });
+function createCarouselItem(data, index) {
+    const item = document.createElement('div');
+    item.className = 'carousel-item';
+    item.dataset.index = index;
+    
+    // إنشاء زر PDF إذا كان موجوداً
+    const pdfButton = data.pdf 
+        ? `<button class="card-cta" onclick="openPDF('${data.pdf}')">
+               <i class="fas fa-file-pdf"></i>
+               فتح ملف PDF
+           </button>`
+        : '';
+    
+    item.innerHTML = `
+        <div class="card">
+            <div class="card-number">0${data.id}</div>
+            <div class="card-image">
+                <img src="${data.image}" alt="${data.title}">
+            </div>
+            <h3 class="card-title">${data.title}</h3>
+            <p class="card-description">${data.description}</p>
+            ${pdfButton}
+        </div>
+    `;
+    
+    return item;
+}
+
+// تم نقل الدوال إلى دالة initCarousel لتجنب التعارض بين مثيلين
+// دالة فتح ملف PDF في تبويب جديد
+function openPDF(pdfPath) {
+    window.open(pdfPath, '_blank');
+}
 ;

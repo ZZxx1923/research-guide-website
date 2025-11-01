@@ -1,330 +1,577 @@
-// JavaScript Document
+// أسماء الأيام بالعربية
+const daysInArabic = [
+    'الأحد',
+    'الاثنين',
+    'الثلاثاء',
+    'الأربعاء',
+    'الخميس',
+    'الجمعة',
+    'السبت'
+];
 
-/*
+// متغير لتتبع التاريخ الذي يتم عرضه وتحديثه
+let currentDate = new Date();
 
-TemplateMo 600 Prism Flux
+// تحديث التاريخ واسم اليوم
+function updateDateTime() {
+    
+    // الحصول على اسم اليوم من التاريخ الحالي المتحكم به
+    const dayIndex = currentDate.getDay();
+    const dayName = daysInArabic[dayIndex];
+    
+    // تنسيق التاريخ (DD/MM/YYYY)
+    const day = String(currentDate.getDate()).padStart(2, '0');
+    const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+    const year = currentDate.getFullYear();
+    const dateString = `${day}/${month}/${year}`;
+    
+    // تحديث العناصر في الصفحة
+    document.getElementById('dayName').textContent = dayName;
+    document.getElementById('dateDisplay').textContent = dateString;
+    
+    // تحديث الرسائل المخفية بالتاريخ واليوم الجديد
+    updateHiddenMessages(dayName, dateString);
+}
 
-https://templatemo.com/tm-600-prism-flux
+// دالة للانتقال إلى اليوم التالي
+function nextDay() {
+    currentDate.setDate(currentDate.getDate() + 1);
+    updateDateTime();
+}
 
-*/
+// دالة للانتقال إلى اليوم السابق
+function previousDay() {
+    currentDate.setDate(currentDate.getDate() - 1);
+    updateDateTime();
+}
+
+// دالة لإعادة تعيين التاريخ إلى اليوم الفعلي
+function resetDate() {
+    currentDate = new Date();
+    updateDateTime();
+}
+
+// تحديث الرسائل المخفية بالتاريخ واليوم
+function updateHiddenMessages(dayName, dateString) {
+    // تحديث رسالة الضمان (message1)
+    const message1 = document.getElementById('message1');
+    let messageText1 = message1.textContent;
+    // استبدال اليوم مع الأقواس
+    messageText1 = messageText1.replace(/لديكم موعد زياره يوم \([^)]*\)/g, `لديكم موعد زياره يوم (${dayName})`);
+    // استبدال التاريخ
+    messageText1 = messageText1.replace(/بتاريخ : \d{2}\/\d{2}\/\d{4}/g, `بتاريخ : ${dateString}`);
+    message1.textContent = messageText1;
+    
+    // تحديث رسالة حساب المواطن (message2)
+    const message2 = document.getElementById('message2');
+    let messageText2 = message2.textContent;
+    // استبدال اليوم مع الأقواس
+    messageText2 = messageText2.replace(/لديكم موعد زياره يوم \([^)]*\)/g, `لديكم موعد زياره يوم (${dayName})`);
+    // استبدال التاريخ
+    messageText2 = messageText2.replace(/بتاريخ : \d{2}\/\d{2}\/\d{4}/g, `بتاريخ : ${dateString}`);
+    message2.textContent = messageText2;
+}
+
+// دالة نسخ الرسالة
+function copyMessage(messageId) {
+    const messageElement = document.getElementById(messageId);
+    const text = messageElement.textContent;
+    
+    // نسخ النص إلى الحافظة
+    navigator.clipboard.writeText(text).then(() => {
+        showCopyFeedback();
+    }).catch(err => {
+        // في حالة الفشل، استخدم الطريقة القديمة
+        fallbackCopyMessage(text);
+    });
+}
+
+// دالة بديلة للنسخ (للمتصفحات القديمة)
+function fallbackCopyMessage(text) {
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    document.body.appendChild(textarea);
+    textarea.select();
+    
+    try {
+        document.execCommand('copy');
+        showCopyFeedback();
+    } catch (err) {
+        console.error('فشل نسخ الرسالة:', err);
+    }
+    
+    document.body.removeChild(textarea);
+}
+
+// إظهار رسالة النجاح
+function showCopyFeedback() {
+    const feedback = document.getElementById('copyFeedback');
+    feedback.classList.add('show');
+    
+    setTimeout(() => {
+        feedback.classList.remove('show');
+    }, 3000);
+}
+
+// تحديث التاريخ والوقت عند تحميل الصفحة
+document.addEventListener('DOMContentLoaded', () => {
+    updateDateTime();
+    
+    // تحديث الوقت كل دقيقة للتأكد من أن التاريخ يعود لليوم الفعلي عند بداية يوم جديد
+    setInterval(resetDate, 60000 * 60); // كل ساعة
+});
+
+// تحديث الوقت عند استعادة الصفحة من الذاكرة المؤقتة
+window.addEventListener('pageshow', () => {
+    resetDate();
+});
+
+/* وظيفة لفتح وإغلاق الشريط الجانبي */
+function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    sidebar.classList.toggle('open');
+}
+
+/* إغلاق الشريط الجانبي عند الضغط على أي رابط */
+document.addEventListener('DOMContentLoaded', () => {
+    const sidebarLinks = document.querySelectorAll('.sidebar-link');
+    sidebarLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            toggleSidebar();
+        });
+    });
+});
 
 
-// Portfolio data for carousel
+/* ============================================
+   وظائف الشخصية المسلية (Character Interactions)
+   ============================================ */
 
-        const portfolioData = [
-            {
-                id: 1,
-                title: 'Neural Network',
-                description: 'Advanced AI system with deep learning capabilities for predictive analytics and pattern recognition.',
-                image: 'images/neural-network.jpg',
-                tech: ['TensorFlow', 'Python', 'CUDA']
-            },
-            {
-                id: 2,
-                title: 'Quantum Cloud',
-                description: 'Next-generation cloud infrastructure leveraging quantum computing for unprecedented processing power.',
-                image: 'images/quantum-cloud.jpg',
-                tech: ['AWS', 'Kubernetes', 'Docker']
-            },
-            {
-                id: 3,
-                title: 'Blockchain Vault',
-                description: 'Secure decentralized storage solution using advanced encryption and distributed ledger technology.',
-                image: 'images/blockchain-vault.jpg',
-                tech: ['Ethereum', 'Solidity', 'Web3']
-            },
-            {
-                id: 4,
-                title: 'Cyber Defense',
-                description: 'Military-grade cybersecurity framework with real-time threat detection and automated response.',
-                image: 'images/cyber-defense.jpg',
-                tech: ['Zero Trust', 'AI Defense', 'Encryption']
-            },
-            {
-                id: 5,
-                title: 'Data Nexus',
-                description: 'Big data processing platform capable of analyzing petabytes of information in real-time.',
-                image: 'images/data-nexus.jpg',
-                tech: ['Apache Spark', 'Hadoop', 'Kafka']
-            },
-            {
-                id: 6,
-                title: 'AR Interface',
-                description: 'Augmented reality system for immersive data visualization and interactive experiences.',
-                image: 'images/ar-interface.jpg',
-                tech: ['Unity', 'ARCore', 'Computer Vision']
-            },
-            {
-                id: 7,
-                title: 'IoT Matrix',
-                description: 'Intelligent IoT ecosystem connecting millions of devices with edge computing capabilities.',
-                image: 'images/iot-matrix.jpg',
-                tech: ['MQTT', 'Edge AI', '5G']
+// رسائل تحفيزية عشوائية للشخصية
+const characterMessages = [
+    'مرحباً! كيف حالك اليوم؟ 😊',
+    'هل تحتاج إلى مساعدة؟ أنا هنا! 🤝',
+    'رائع! أنت تقوم بعمل رائع! 👍',
+    'استمر في المحاولة، أنت تقترب! 💪',
+    'أنا هنا لمساعدتك في كل خطوة! 🎯',
+    'تذكر أن تأخذ فترات راحة! ☕',
+    'أنت تفعل عملاً رائعاً! 🌟',
+    'هل تريد نصيحة؟ اطلب مني! 💡'
+];
+
+// دالة لعرض رسالة عشوائية من الشخصية
+function showCharacterMessage() {
+    const randomIndex = Math.floor(Math.random() * characterMessages.length);
+    const message = characterMessages[randomIndex];
+    
+    const speechBox = document.getElementById('characterSpeech');
+    const speechText = document.getElementById('speechText');
+    
+    speechText.textContent = message;
+    speechBox.style.display = 'block';
+    
+    // إخفاء الرسالة بعد 3 ثوانٍ
+    setTimeout(() => {
+        speechBox.style.display = 'none';
+    }, 3000);
+}
+
+// دالة لتحريك الشخصية
+function animateCharacter() {
+    const character = document.getElementById('character');
+    const characterImg = character.querySelector('.character-img');
+    
+    // إضافة تأثير الحركة
+    characterImg.style.transform = 'scale(1.15) rotate(-5deg)';
+    
+    setTimeout(() => {
+        characterImg.style.transform = 'scale(1) rotate(0deg)';
+    }, 300);
+}
+
+// دالة لتحريك الشخصية نحو الزر المضغوط
+function moveCharacterToButton(buttonElement) {
+    const character = document.getElementById('character');
+    const characterImg = character.querySelector('.character-img');
+    
+    // الحصول على موقع الزر
+    const buttonRect = buttonElement.getBoundingClientRect();
+    const characterRect = character.getBoundingClientRect();
+    
+    // حساب المسافة والاتجاه
+    const moveX = buttonRect.left - characterRect.left;
+    const moveY = buttonRect.top - characterRect.top;
+    
+    // تطبيق الحركة
+    characterImg.style.transform = `translate(${moveX * 0.3}px, ${moveY * 0.3}px) scale(1.1)`;
+    
+    // إرجاع الشخصية إلى مكانها الأصلي
+    setTimeout(() => {
+        characterImg.style.transform = 'scale(1) rotate(0deg)';
+    }, 500);
+}
+
+// إضافة مستمعات الأحداث للأزرار الرئيسية
+document.addEventListener('DOMContentLoaded', () => {
+    // الأزرار الرئيسية
+    const buttons = document.querySelectorAll('.message-btn, .date-control-btn, .link-item, .sidebar-link');
+    
+    buttons.forEach(button => {
+        button.addEventListener('click', function() {
+            // تحريك الشخصية
+            moveCharacterToButton(this);
+            
+            // عرض رسالة عشوائية
+            setTimeout(() => {
+                showCharacterMessage();
+            }, 300);
+            
+            // تحريك الشخصية
+            animateCharacter();
+        });
+    });
+    
+    // الضغط على الشخصية نفسها
+    const character = document.getElementById('character');
+    character.addEventListener('click', () => {
+        animateCharacter();
+        showCharacterMessage();
+    });
+});
+
+// تأثير عند تمرير الفأرة على الشخصية
+document.addEventListener('DOMContentLoaded', () => {
+    const character = document.getElementById('character');
+    const characterImg = character.querySelector('.character-img');
+    
+    character.addEventListener('mouseenter', () => {
+        characterImg.style.transform = 'scale(1.15) rotate(5deg)';
+    });
+    
+    character.addEventListener('mouseleave', () => {
+        characterImg.style.transform = 'scale(1) rotate(0deg)';
+    });
+});
+
+
+// ============ دوال ربط جوجل شيت ============
+
+let autoRefreshInterval = null;
+
+// دالة تحميل التعذرات من جوجل شيت
+async function loadExcusesFromSheet() {
+    const sheetId = document.getElementById('sheetId').value;
+    const sheetName = document.getElementById('sheetName').value;
+    
+    if (!sheetId.trim()) {
+        alert('الرجاء إدخال معرف جوجل شيت');
+        return;
+    }
+    
+    try {
+        const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(sheetName)}`;
+        
+        const response = await fetch(url);
+        const text = await response.text();
+        
+        // إزالة البادئة من الاستجابة
+        const jsonText = text.substring(47).slice(0, -2);
+        const json = JSON.parse(jsonText);
+        
+        const table = json.table;
+        const rows = table.rows;
+        
+        // تحديث قائمة التعذرات
+        const feedsList = document.getElementById('feeds-list');
+        feedsList.innerHTML = '';
+        
+        rows.forEach((row, index) => {
+            const text = row.c[0]?.v?.toString() || '';
+            if (text.trim()) {
+                const li = document.createElement('li');
+                li.innerHTML = `<span class="excuse-text">${text}</span>`;
+                feedsList.appendChild(li);
             }
-        ];
+        });
+        
+        console.log('تم تحميل التعذرات بنجاح من جوجل شيت');
+    } catch (error) {
+        console.error('خطأ في تحميل البيانات:', error);
+        alert('فشل تحميل البيانات. تأكد من أن الملف منشور للعامة');
+    }
+}
 
-        // Skills data
-        const skillsData = [
-            { name: 'React.js', icon: '⚛️', level: 95, category: 'frontend' },
-            { name: 'Node.js', icon: '🟢', level: 90, category: 'backend' },
-            { name: 'TypeScript', icon: '📘', level: 88, category: 'frontend' },
-            { name: 'AWS', icon: '☁️', level: 92, category: 'cloud' },
-            { name: 'Docker', icon: '🐳', level: 85, category: 'cloud' },
-            { name: 'Python', icon: '🐍', level: 93, category: 'backend' },
-            { name: 'Kubernetes', icon: '☸️', level: 82, category: 'cloud' },
-            { name: 'GraphQL', icon: '◈', level: 87, category: 'backend' },
-            { name: 'TensorFlow', icon: '🤖', level: 78, category: 'emerging' },
-            { name: 'Blockchain', icon: '🔗', level: 75, category: 'emerging' },
-            { name: 'Vue.js', icon: '💚', level: 85, category: 'frontend' },
-            { name: 'MongoDB', icon: '🍃', level: 90, category: 'backend' }
-        ];
+// دالة تفعيل/إيقاف التحديث التلقائي
+function toggleAutoRefresh() {
+    const btn = document.getElementById('autoRefreshBtn');
+    
+    if (autoRefreshInterval) {
+        clearInterval(autoRefreshInterval);
+        autoRefreshInterval = null;
+        btn.textContent = 'تفعيل التحديث التلقائي';
+        btn.style.background = 'rgba(255,255,255,0.2)';
+    } else {
+        loadExcusesFromSheet();
+        autoRefreshInterval = setInterval(() => {
+            loadExcusesFromSheet();
+        }, 5000); // تحديث كل 5 ثواني
+        btn.textContent = 'إيقاف التحديث التلقائي';
+        btn.style.background = 'rgba(255,0,0,0.3)';
+    }
+}
 
-        // Scroll to section function
-        function scrollToSection(sectionId) {
-            const section = document.getElementById(sectionId);
-            const header = document.getElementById('header');
-            if (section) {
-                const headerHeight = header.offsetHeight;
-                const targetPosition = section.offsetTop - headerHeight;
-                window.scrollTo({
-                    top: targetPosition,
-                    behavior: 'smooth'
-                });
+// تحميل البيانات عند فتح الصفحة
+document.addEventListener('DOMContentLoaded', () => {
+    loadExcusesFromSheet();
+});
+
+// تحديث - تحميل البيانات من localStorage إن وجدت
+(function() {
+    const originalDOMContentLoaded = document.addEventListener;
+    const listeners = [];
+    
+    document.addEventListener = function(type, listener, options) {
+        if (type === 'DOMContentLoaded') {
+            listeners.push(listener);
+        }
+        return originalDOMContentLoaded.call(this, type, listener, options);
+    };
+    
+    // إعادة تعريف الدالة
+    document.addEventListener('DOMContentLoaded', () => {
+        const savedExcuses = localStorage.getItem('adminExcuses');
+        if (savedExcuses) {
+            try {
+                const excuses = JSON.parse(savedExcuses);
+                const feedsList = document.getElementById('feeds-list');
+                if (feedsList) {
+                    feedsList.innerHTML = '';
+                    excuses.forEach(excuse => {
+                        const li = document.createElement('li');
+                        li.innerHTML = '<span class="excuse-text">' + excuse.text + '</span>';
+                        feedsList.appendChild(li);
+                    });
+                }
+            } catch(e) {
+                console.log('استخدام البيانات الافتراضية');
+                loadExcusesFromSheet();
             }
+        } else {
+            loadExcusesFromSheet();
         }
+    });
+})()
+// بيانات عناصر Carousel
+// يمكنك تعديل هذه البيانات حسب احتياجاتك
+const carouselData = [
+    {
+        id: 1,
+        title: ' حلول المشاكل التقنية ',
+        description: '  حل المشاكل التالية:: (فشل المزامنة) (فشلت) (تم تخزين البيانات) .',
+        image: 'images/4.jpg',
+        pdf: 'pdf/S1.pdf' 
+    },
+    {
+        id: 2,
+        title: 'أسباب التعذر  ',
+        description: '       طريقة الاعتذار وشرح سبب كل تعذر .',
+        image: 'images/2.jpg',
+        pdf: 'pdf/S2.pdf'
+    },
+    {
+      id: 3,
+        title: 'الدليل الإرشادي الثالث',
+        description: 'مرجع شامل للباحثين يتضمن أفضل الممارسات والإجراءات الموصى بها.',
+        image: 'images/3.jpg',
+        pdf: 'pdf/S3.pdf'
+    },
+    {
+        id: 4,
+        title: 'الدليل الإرشادي الرابع',
+        description: 'مرجع شامل للباحثين يتضمن أفضل الممارسات والإجراءات الموصى بها.',
+        image: 'images/4.jpg',
+        pdf: 'pdf/S4.pdf'
+    },
+   
+];
 
-        // Initialize particles for philosophy section
-        function initParticles() {
-            const particlesContainer = document.getElementById('particles');
-            const particleCount = 15;
-            
-            for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                
-                // Random horizontal position
-                particle.style.left = Math.random() * 100 + '%';
-                
-                // Start particles at random vertical positions throughout the section
-                particle.style.top = Math.random() * 100 + '%';
-                
-                // Random animation delay for natural movement
-                particle.style.animationDelay = Math.random() * 20 + 's';
-                
-                // Random animation duration for variety
-                particle.style.animationDuration = (18 + Math.random() * 8) + 's';
-                
-                particlesContainer.appendChild(particle);
-            }
-        }
+// دالة إنشاء عنصر Carousel
+function createCarouselItem(data, index) {
+    const item = document.createElement('div');
+    item.className = 'carousel-item';
+    item.dataset.index = index;
+    
+    // إنشاء زر PDF إذا كان موجوداً
+    const pdfButton = data.pdf 
+        ? `<button class="card-cta" onclick="openPDF('${data.pdf}')">
+               <i class="fas fa-file-pdf"></i>
+               فتح ملف PDF
+           </button>`
+        : '';
+    
+    item.innerHTML = `
+        <div class="card">
+            <div class="card-number">0${data.id}</div>
+            <div class="card-image">
+                <img src="${data.image}" alt="${data.title}">
+            </div>
+            <h3 class="card-title">${data.title}</h3>
+            <p class="card-description">${data.description}</p>
+            ${pdfButton}
+        </div>
+    `;
+    
+    return item;
+}
 
-        // Initialize carousel
-        let currentIndex = 0;
-        const carousel = document.getElementById('carousel');
-        const indicatorsContainer = document.getElementById('indicators');
+// دالة تهيئة Carousel
+function initCarousel(carouselId, indicatorsId, prevBtnId, nextBtnId, isSidebar = false) {
+    let currentIndex = 0;
+    const carousel = document.getElementById(carouselId);
+    const indicatorsContainer = document.getElementById(indicatorsId);
+    const prevBtn = document.getElementById(prevBtnId);
+    const nextBtn = document.getElementById(nextBtnId);
 
-        function createCarouselItem(data, index) {
-            const item = document.createElement('div');
-            item.className = 'carousel-item';
-            item.dataset.index = index;
-            
-            const techBadges = data.tech.map(tech => 
-                `<span class="tech-badge">${tech}</span>`
-            ).join('');
-            
-            item.innerHTML = `
-                <div class="card">
-                    <div class="card-number">0${data.id}</div>
-                    <div class="card-image">
-                        <img src="${data.image}" alt="${data.title}">
-                    </div>
-                    <h3 class="card-title">${data.title}</h3>
-                    <p class="card-description">${data.description}</p>
-                    <div class="card-tech">${techBadges}</div>
-                    <button class="card-cta" onclick="scrollToSection('about')">Explore</button>
-                </div>
-            `;
-            
-            return item;
-        }
+    if (!carousel) return; // الخروج إذا لم يتم العثور على العنصر
 
-        function initCarousel() {
-            // Create carousel items
-            portfolioData.forEach((data, index) => {
-                const item = createCarouselItem(data, index);
-                carousel.appendChild(item);
-                
-                // Create indicator
-                const indicator = document.createElement('div');
-                indicator.className = 'indicator';
-                if (index === 0) indicator.classList.add('active');
-                indicator.dataset.index = index;
-                indicator.addEventListener('click', () => goToSlide(index));
-                indicatorsContainer.appendChild(indicator);
+    // دالة تحديث موضع عناصر Carousel
+    function updateCarousel() {
+        const items = carousel.querySelectorAll('.carousel-item');
+        const indicators = indicatorsContainer ? indicatorsContainer.querySelectorAll('.indicator') : [];
+        const totalItems = items.length;
+        
+        if (isSidebar) {
+            // تنسيق خاص للشريط الجانبي (عرض عنصر واحد فقط)
+            items.forEach((item, index) => {
+                if (index === currentIndex) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
             });
-            
-            updateCarousel();
-        }
-
-        function updateCarousel() {
-            const items = document.querySelectorAll('.carousel-item');
-            const indicators = document.querySelectorAll('.indicator');
-            const totalItems = items.length;
+        } else {
+            // تنسيق 3D Carousel الرئيسي
             const isMobile = window.innerWidth <= 768;
             const isTablet = window.innerWidth <= 1024;
             
-            items.forEach((item, index) => {
-                // Calculate relative position
-                let offset = index - currentIndex;
-                
-                // Wrap around for continuous rotation
-                if (offset > totalItems / 2) {
-                    offset -= totalItems;
-                } else if (offset < -totalItems / 2) {
-                    offset += totalItems;
-                }
-                
-                const absOffset = Math.abs(offset);
-                const sign = offset < 0 ? -1 : 1;
-                
-                // Reset transform
-                item.style.transform = '';
-                item.style.opacity = '';
-                item.style.zIndex = '';
-                item.style.transition = 'all 0.8s cubic-bezier(0.4, 0.0, 0.2, 1)';
-                
-                // Adjust spacing based on screen size
-                let spacing1 = 400;
-                let spacing2 = 600;
-                let spacing3 = 750;
-                
-                if (isMobile) {
-                    spacing1 = 280;  // Was 400, now 100px closer
-                    spacing2 = 420;  // Was 600, now 180px closer
-                    spacing3 = 550;  // Was 750, now 200px closer
-                } else if (isTablet) {
-                    spacing1 = 340;
-                    spacing2 = 520;
-                    spacing3 = 650;
-                }
-                
-                if (absOffset === 0) {
-                    // Center item
-                    item.style.transform = 'translate(-50%, -50%) translateZ(0) scale(1)';
-                    item.style.opacity = '1';
-                    item.style.zIndex = '10';
-                } else if (absOffset === 1) {
-                    // Side items
-                    const translateX = sign * spacing1;
-                    const rotation = isMobile ? 25 : 30;
-                    const scale = isMobile ? 0.88 : 0.85;
-                    item.style.transform = `translate(-50%, -50%) translateX(${translateX}px) translateZ(-200px) rotateY(${-sign * rotation}deg) scale(${scale})`;
-                    item.style.opacity = '0.8';
-                    item.style.zIndex = '5';
-                } else if (absOffset === 2) {
-                    // Further side items
-                    const translateX = sign * spacing2;
-                    const rotation = isMobile ? 35 : 40;
-                    const scale = isMobile ? 0.75 : 0.7;
-                    item.style.transform = `translate(-50%, -50%) translateX(${translateX}px) translateZ(-350px) rotateY(${-sign * rotation}deg) scale(${scale})`;
-                    item.style.opacity = '0.5';
-                    item.style.zIndex = '3';
-                } else if (absOffset === 3) {
-                    // Even further items
-                    const translateX = sign * spacing3;
-                    const rotation = isMobile ? 40 : 45;
-                    const scale = isMobile ? 0.65 : 0.6;
-                    item.style.transform = `translate(-50%, -50%) translateX(${translateX}px) translateZ(-450px) rotateY(${-sign * rotation}deg) scale(${scale})`;
-                    item.style.opacity = '0.3';
-                    item.style.zIndex = '2';
-                } else {
-                    // Hidden items (behind)
-                    item.style.transform = 'translate(-50%, -50%) translateZ(-500px) scale(0.5)';
-                    item.style.opacity = '0';
-                    item.style.zIndex = '1';
-                }
-            });
-            
-            // Update indicators
-            indicators.forEach((indicator, index) => {
-                indicator.classList.toggle('active', index === currentIndex);
-            });
-        }
-
-        function nextSlide() {
-            currentIndex = (currentIndex + 1) % portfolioData.length;
-            updateCarousel();
-        }
-
-        function prevSlide() {
-            currentIndex = (currentIndex - 1 + portfolioData.length) % portfolioData.length;
-            updateCarousel();
-        }
-
-        function goToSlide(index) {
-            currentIndex = index;
-            updateCarousel();
-        }
-
-        // Initialize hexagonal skills grid
-        function initSkillsGrid() {
-            const skillsGrid = document.getElementById('skillsGrid');
-            const categoryTabs = document.querySelectorAll('.category-tab');
-            
-            function displaySkills(category = 'all') {
-                skillsGrid.innerHTML = '';
-                
-                const filteredSkills = category === 'all' 
-                    ? skillsData 
-                    : skillsData.filter(skill => skill.category === category);
-                
-                filteredSkills.forEach((skill, index) => {
-                    const hexagon = document.createElement('div');
-                    hexagon.className = 'skill-hexagon';
-                    hexagon.style.animationDelay = `${index * 0.1}s`;
-                    
-                    hexagon.innerHTML = `
-                        <div class="hexagon-inner">
-                            <div class="hexagon-content">
-                                <div class="skill-icon-hex">${skill.icon}</div>
-                                <div class="skill-name-hex">${skill.name}</div>
-                                <div class="skill-level">
-                                    <div class="skill-level-fill" style="width: ${skill.level}%"></div>
-                                </div>
-                                <div class="skill-percentage-hex">${skill.level}%</div>
-                            </div>
-                        </div>
-                    `;
-                    
-                    skillsGrid.appendChild(hexagon);
-                });
+            // تحديد نصف قطر الدائرة حسب حجم الشاشة
+            let radius;
+            if (isMobile) {
+                radius = 350;
+            } else if (isTablet) {
+                radius = 450;
+            } else {
+                radius = 550;
             }
             
-            categoryTabs.forEach(tab => {
-                tab.addEventListener('click', () => {
-                    categoryTabs.forEach(t => t.classList.remove('active'));
-                    tab.classList.add('active');
-                    displaySkills(tab.dataset.category);
-                });
-            });
+            const angleStep = (2 * Math.PI) / totalItems;
             
-            displaySkills();
+            items.forEach((item, index) => {
+                // حساب الزاوية النسبية
+                const relativeIndex = (index - currentIndex + totalItems) % totalItems;
+                const angle = relativeIndex * angleStep;
+                
+                // حساب الموضع
+                const x = Math.sin(angle) * radius;
+                const z = Math.cos(angle) * radius - radius;
+                
+                // حساب الحجم والشفافية
+                const scale = 0.6 + (Math.cos(angle) * 0.4);
+                const opacity = 0.3 + (Math.cos(angle) * 0.7);
+                
+                // تطبيق التحويلات
+                item.style.transform = `
+                    translateX(-50%) 
+                    translateY(-50%) 
+                    translateX(${x}px) 
+                    translateZ(${z}px) 
+                    scale(${scale})
+                `;
+                item.style.opacity = opacity;
+                item.style.zIndex = Math.round(scale * 100);
+                
+                // إضافة/إزالة كلاس active
+                if (relativeIndex === 0) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
         }
 
-        // Event listeners
-        document.getElementById('nextBtn').addEventListener('click', nextSlide);
-        document.getElementById('prevBtn').addEventListener('click', prevSlide);
+        // تحديث المؤشرات (إذا كانت موجودة)
+        indicators.forEach((indicator, index) => {
+            if (index === currentIndex) {
+                indicator.classList.add('active');
+            } else {
+                indicator.classList.remove('active');
+            }
+        });
+    }
 
-        // Auto-rotate carousel
-        setInterval(nextSlide, 5000);
+    // دالة الانتقال للشريحة التالية
+    function nextSlide() {
+        currentIndex = (currentIndex + 1) % carouselData.length;
+        updateCarousel();
+    }
 
-        // Keyboard navigation
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowLeft') prevSlide();
-            if (e.key === 'ArrowRight') nextSlide();
+    // دالة الانتقال للشريحة السابقة
+    function prevSlide() {
+        currentIndex = (currentIndex - 1 + carouselData.length) % carouselData.length;
+        updateCarousel();
+    }
+
+    // دالة الانتقال لشريحة محددة
+    function goToSlide(index) {
+        currentIndex = index;
+        updateCarousel();
+    }
+
+    // إنشاء عناصر Carousel
+    carouselData.forEach((data, index) => {
+        const item = createCarouselItem(data, index);
+        carousel.appendChild(item);
+        
+        // إنشاء مؤشر (إذا كانت المؤشرات موجودة)
+        if (indicatorsContainer) {
+            const indicator = document.createElement('div');
+            indicator.className = 'indicator';
+            if (index === 0) indicator.classList.add('active');
+            indicator.dataset.index = index;
+            indicator.addEventListener('click', () => goToSlide(index));
+            indicatorsContainer.appendChild(indicator);
+        }
+    });
+    
+    updateCarousel();
+
+    // ربط أزرار التحكم
+    if (nextBtn) nextBtn.addEventListener('click', nextSlide);
+    if (prevBtn) prevBtn.addEventListener('click', prevSlide);
+
+    // التدوير التلقائي (فقط للـ Carousel الرئيسي)
+    if (!isSidebar) {
+        let autoRotate = setInterval(nextSlide, 5000);
+        
+        // إيقاف التدوير التلقائي عند التفاعل
+        carousel.addEventListener('mouseenter', () => {
+            clearInterval(autoRotate);
+        });
+        
+        // استئناف التدوير التلقائي عند مغادرة المؤشر
+        carousel.addEventListener('mouseleave', () => {
+            autoRotate = setInterval(nextSlide, 5000);
         });
 
-        // Update carousel on window resize
+        // التنقل بلوحة المفاتيح (فقط للـ Carousel الرئيسي)
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') nextSlide();
+            if (e.key === 'ArrowRight') prevSlide();
+        });
+    }
+
+    // تحديث Carousel عند تغيير حجم النافذة (فقط للـ Carousel الرئيسي)
+    if (!isSidebar) {
         let resizeTimeout;
         window.addEventListener('resize', () => {
             clearTimeout(resizeTimeout);
@@ -332,152 +579,53 @@ https://templatemo.com/tm-600-prism-flux
                 updateCarousel();
             }, 250);
         });
+    }
+}
 
-        // Initialize on load
-        initCarousel();
-        initSkillsGrid();
-        initParticles();
+// دالة فتح ملف PDF في تبويب جديد
+function openPDF(pdfPath) {
+    window.open(pdfPath, '_blank');
+}
 
-        // Mobile menu toggle
-        const menuToggle = document.getElementById('menuToggle');
-        const navMenu = document.getElementById('navMenu');
+// تهيئة Carousel عند تحميل الصفحة
+window.addEventListener('DOMContentLoaded', () => {
+    // تهيئة Carousel الرئيسي
+    initCarousel('carousel', 'indicators', 'prevBtn', 'nextBtn', false);
+    
+    // تهيئة Carousel الشريط الجانبي
+    initCarousel('sidebar-carousel', 'sidebar-indicators', 'sidebar-prevBtn', 'sidebar-nextBtn', true);
+});
+function createCarouselItem(data, index) {
+    const item = document.createElement('div');
+    item.className = 'carousel-item';
+    item.dataset.index = index;
+    
+    // إنشاء زر PDF إذا كان موجوداً
+    const pdfButton = data.pdf 
+        ? `<button class="card-cta" onclick="openPDF('${data.pdf}')">
+               <i class="fas fa-file-pdf"></i>
+               فتح ملف PDF
+           </button>`
+        : '';
+    
+    item.innerHTML = `
+        <div class="card">
+            <div class="card-number">0${data.id}</div>
+            <div class="card-image">
+                <img src="${data.image}" alt="${data.title}">
+            </div>
+            <h3 class="card-title">${data.title}</h3>
+            <p class="card-description">${data.description}</p>
+            ${pdfButton}
+        </div>
+    `;
+    
+    return item;
+}
 
-        menuToggle.addEventListener('click', () => {
-            navMenu.classList.toggle('active');
-            menuToggle.classList.toggle('active');
-        });
-
-        // Header scroll effect
-        const header = document.getElementById('header');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 100) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
-        });
-
-        // Smooth scrolling and active navigation
-        const sections = document.querySelectorAll('section[id]');
-        const navLinks = document.querySelectorAll('.nav-link');
-
-        navLinks.forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href').substring(1);
-                const targetSection = document.getElementById(targetId);
-                
-                if (targetSection) {
-                    const headerHeight = header.offsetHeight;
-                    const targetPosition = targetSection.offsetTop - headerHeight;
-                    
-                    window.scrollTo({
-                        top: targetPosition,
-                        behavior: 'smooth'
-                    });
-                    
-                    // Close mobile menu if open
-                    navMenu.classList.remove('active');
-                    menuToggle.classList.remove('active');
-                }
-            });
-        });
-
-        // Update active navigation on scroll
-        function updateActiveNav() {
-            const scrollPosition = window.scrollY + 100;
-            
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                const sectionHeight = section.offsetHeight;
-                const sectionId = section.getAttribute('id');
-                
-                if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
-                    navLinks.forEach(link => {
-                        link.classList.remove('active');
-                        const href = link.getAttribute('href').substring(1);
-                        if (href === sectionId) {
-                            link.classList.add('active');
-                        }
-                    });
-                }
-            });
-        }
-
-        window.addEventListener('scroll', updateActiveNav);
-
-        // Animated counter for stats
-        function animateCounter(element) {
-            const target = parseInt(element.dataset.target);
-            const duration = 2000;
-            const step = target / (duration / 16);
-            let current = 0;
-            
-            const counter = setInterval(() => {
-                current += step;
-                if (current >= target) {
-                    element.textContent = target;
-                    clearInterval(counter);
-                } else {
-                    element.textContent = Math.floor(current);
-                }
-            }, 16);
-        }
-
-        // Intersection Observer for stats animation
-        const observerOptions = {
-            threshold: 0.5,
-            rootMargin: '0px 0px -100px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const statNumbers = entry.target.querySelectorAll('.stat-number');
-                    statNumbers.forEach(number => {
-                        if (!number.classList.contains('animated')) {
-                            number.classList.add('animated');
-                            animateCounter(number);
-                        }
-                    });
-                }
-            });
-        }, observerOptions);
-
-        const statsSection = document.querySelector('.stats-section');
-        if (statsSection) {
-            observer.observe(statsSection);
-        }
-
-        // Form submission
-        const contactForm = document.getElementById('contactForm');
-        contactForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            // Get form data
-            const formData = new FormData(contactForm);
-            const data = Object.fromEntries(formData);
-            
-            // Show success message
-            alert(`Thank you ${data.name}! Your message has been transmitted successfully. We'll respond within 24 hours.`);
-            
-            // Reset form
-            contactForm.reset();
-        });
-
-        // Loading screen
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                const loader = document.getElementById('loader');
-                loader.classList.add('hidden');
-            }, 1500);
-        });
-
-        // Add parallax effect to hero section
-        window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            const parallax = document.querySelector('.hero');
-            if (parallax) {
-                parallax.style.transform = `translateY(${scrolled * 0.5}px)`;
-            }
-        });
+// تم نقل الدوال إلى دالة initCarousel لتجنب التعارض بين مثيلين
+// دالة فتح ملف PDF في تبويب جديد
+function openPDF(pdfPath) {
+    window.open(pdfPath, '_blank');
+}
+;

@@ -910,7 +910,7 @@ a:hover {
 
 #ziwo {
     background-image: url('images/ziwo-removebg-preview.png');
-    background-size: 60%; 
+    background-size: 40%; 
     background-repeat: no-repeat;
     background-position: center; 
     color: transparent; 
@@ -923,7 +923,7 @@ a:hover {
 }
 #apk1 {
     background-image: url('images/apk1.png');
-    background-size: 70%; 
+    background-size: 40%; 
     background-repeat: no-repeat;
     background-position: center; 
     color: transparent; 
@@ -936,7 +936,7 @@ a:hover {
 }
 #apk2{
     background-image: url('images/apk2.png');
-    background-size: 70%; 
+    background-size: 40%; 
     background-repeat: no-repeat;
     background-position: center; 
     color: transparent; 
@@ -965,7 +965,7 @@ a:hover {
 
 #apk {
     background-image: url('images/apk.png');
-    background-size: 60%; 
+    background-size: 40%; 
     background-repeat: no-repeat;
     background-position: center; 
     color: transparent; 
@@ -991,7 +991,7 @@ a:hover {
 }
 #GPT {
     background-image: url('images/GPT.png');
-    background-size: 70%; 
+    background-size: 68%; 
     background-repeat: no-repeat;
     background-position: center; 
     color: transparent; 
@@ -1053,84 +1053,6 @@ a:hover {
     margin: 0;
 }
 
-.card {
-    background-color: #fff;
-    width: 21.25em;
-    box-shadow: 0 5px 25px rgba(1 1 1 / 15%);
-    border-radius: 10px;
-    padding: 25px;
-    margin: 15px;
-    transition: 0.7s ease;
-}
-
-.card:hover {
-    transform: scale(1.1);
-}
-
-.card .icon {
-    color: #3a6cf4;
-    font-size: 8em;
-    text-align: center;
-}
-
-.info {
-    text-align: center;
-}
-
-.info h3{
-    color: #3a6cf4;
-    font-size: 1.2em;
-    font-weight: 700;
-    margin: 10px;
-}
-
-.projects {
-    background-color: #000016;
-}
-
-.projects .content{
-    margin-top: 30px;
-}
-
-.project-card {
-    background-color: #fff;
-    border: 1px solid #fff;
-    min-height: 14em;
-    width: 23em;
-    overflow: hidden;
-    border-radius: 10px;
-    margin: 20px;
-    transition: 0.7s ease;
-}
-
-.project-card:hover {
-   transform: scale(1.1);
-}
-
-.project-card:hover .project-image {
-    opacity: 0.9;
- }
-
-.project-image img{
-    width: 100%
-}
-
-.project-info {
-    padding: 1em;
-}
-
-.project-category {
-    font-size: 0.8em;
-    color: #000;
-}
-
-.project-title {
-    display: flex;
-    justify-content: space-between;
-    text-transform: uppercase;
-    font-weight: 800;
-    margin-top: 10px;
-}
 
 .more-details {
     text-decoration: none;
@@ -1141,85 +1063,6 @@ a:hover {
     color: #601cfc;
 }
 
-.title {
-    display: flex;
-    justify-content: center;
-    color: #3a6cf4;
-    font-size: 2.2em;
-    font-weight: 800;
-    margin-bottom: 30px;
-}
-
-.new-contact-section {
-    padding: 100px 200px;
-    text-align: center;
-    background-color: #f9f9f9; 
-}
-
-.new-contact-section .title {
-    color: #3a6cf4;
-    font-size: 2.2em;
-    font-weight: 800;
-    margin-bottom: 20px;
-}
-
-.new-contact-section .sub-title {
-    color: #000016;
-    font-size: 1.8em;
-    font-weight: 700;
-    margin-bottom: 50px;
-}
-
-.new-contact-section .content {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-}
-
-.new-contact-section .card {
-    background-color: #fff;
-    width: 21.25em;
-    box-shadow: 0 5px 25px rgba(1, 1, 1, 0.15);
-    border-radius: 10px;
-    padding: 25px;
-    margin: 15px;
-    transition: 0.7s ease;
-}
-
-.new-contact-section .card:hover {
-    transform: scale(1.1);
-}
-
-.new-contact-section .card .icon {
-    color: #51ff00;
-    font-size: 4.5em;
-    text-align: center;
-    margin-bottom: 10px;
-}
-
-.new-contact-section .info h3 {
-    color: #000000;
-    font-size: 1.2em;
-    font-weight: 700;
-    margin: 10px 0;
-}
-
-.new-contact-section .info p {
-    font-size: 1em;
-    color: #555;
-}
-
-.new-contact-section .more-details {
-    text-decoration: none;
-    color: #4c00ff;
-    font-weight: 600;
-    margin-top: 15px;
-    display: inline-block;
-}
-
-.new-contact-section .more-details:hover {
-    color: #0a49f6;
-}
 
 /* ============================================
    Responsive Design

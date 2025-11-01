@@ -12,22 +12,30 @@
     --accent-teal: #00B894;
 }
 
+* {
+    box-sizing: border-box;
+}
+
 body {
     font-family: 'Tajawal', sans-serif; /* Using Tajawal Arabic font */
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
     background-color: var(--light-color);
     color: var(--text-color);
     line-height: 1.6;
     direction: rtl; 
     text-align: right;
+    overflow-x: hidden; /* إضافة لمنع التمرير الأفقي */
 }
 
 .container {
     width: 100%;
-    max-width: 600px;
+    max-width: 1200px; /* تم توسيع الحد الأقصى للعرض ليتناسب مع الشاشات الأكبر */
+    /* إضافة قاعدة لمنع التمرير الأفقي غير المرغوب فيه */
+    overflow-x: hidden;
 }
+
+
 
 .button-wrapper {
     display: flex;
@@ -214,12 +222,7 @@ body {
     }
 }
 
-.container {
-    width: 90%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 15px;
-}
+
 
 h1, h2, h3, h4, h5, h6 {
     color: var(--heading-color);
@@ -1428,6 +1431,12 @@ a:hover {
 
 .sidebar.open {
     width: 250px; 
+}
+
+@media (max-width: 480px) {
+    .sidebar.open {
+        width: 80%; /* تحديد عرض مناسب على شاشات الجوال الصغيرة */
+    }
 }
 
 .sidebar-nav {

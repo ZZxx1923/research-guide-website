@@ -199,9 +199,9 @@ https://templatemo.com/tm-600-prism-flux
                 let spacing3 = 750;
                 
                 if (isMobile) {
-                    spacing1 = 280;  // Was 400, now 100px closer
-                    spacing2 = 420;  // Was 600, now 180px closer
-                    spacing3 = 550;  // Was 750, now 200px closer
+                    spacing1 = 200;  // تقليل المسافة أكثر على الجوال
+                    spacing2 = 300;  // تقليل المسافة أكثر على الجوال
+                    spacing3 = 400;  // تقليل المسافة أكثر على الجوال
                 } else if (isTablet) {
                     spacing1 = 340;
                     spacing2 = 520;

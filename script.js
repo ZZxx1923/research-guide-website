@@ -128,7 +128,7 @@ window.addEventListener('pageshow', () => {
 
 /* وظيفة لفتح وإغلاق الشريط الجانبي */
 function toggleSidebar() {
-    const sidebar = document.getElementById('sidebar');
+    const sidebar = document.getElementById('mySidebar');
     sidebar.classList.toggle('open');
 }
 

@@ -1,15 +1,7 @@
 /* General Styles */
+
 :root {
-    --primary-color: #ffffff; 
-    --secondary-color: #28a745; 
-    --dark-color: #343a40;
-    --light-color: #f8f9fa;
-    --text-color: #333;
-    --heading-color: #212529;
-    --border-color: #000000;
-    --accent-blue: #0056b3;
-    --accent-purple: #6C5CE7;
-    --accent-teal: #00B894;
+ 
 }
 
 body {
@@ -837,7 +829,7 @@ a:hover {
    ============================================ */
 #o {
     background-image: url('images/o.png');
-    background-size: 100%; 
+    background-size: 80%; 
     background-repeat: no-repeat;
     background-position: center; 
     color: transparent; 
@@ -850,7 +842,7 @@ a:hover {
 }
 #l {
     background-image: url('images/l-removebg-preview.png');
-    background-size: 110%; 
+    background-size: 100%; 
     background-repeat: no-repeat;
     background-position: center; 
     color: transparent; 
@@ -867,7 +859,7 @@ a:hover {
 }
 #p {
     background-image: url('images/p.png');
-    background-size: 130%; 
+    background-size: 100%; 
     background-repeat: no-repeat;
     background-position: center; 
     color: transparent; 

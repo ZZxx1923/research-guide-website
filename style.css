@@ -1388,3 +1388,51 @@ a:hover {
         padding: 8px 8px 8px 20px;
     }
 }
+/* ========================================================================== */
+/* تنسيقات عداد الزوار لملف settings.html */
+/* ========================================================================== */
+
+.visitor-counter-container {
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 50px;
+    border-top: 1px solid var(--metal-dark, #3a3a3a); /* استخدام لون من تصميم settings.html */
+    background-color: var(--carbon-dark, #121212); /* استخدام لون من تصميم settings.html */
+}
+
+#visitor-counter {
+    display: inline-block;
+    /* لضمان أن العداد نفسه يظهر في المنتصف */
+}
+
+/* تنسيق الرابط الإجباري للخدمة لجعله أقل وضوحًا */
+#visitor-counter a {
+    font-size: 0.7em;
+    color: var(--text-dim, #808080) !important; /* لون رمادي خافت */
+    text-decoration: none !important;
+    display: block; /* لجعل الرابط يظهر في سطر منفصل */
+    margin-top: 5px;
+    opacity: 0.5; /* تقليل الشفافية */
+    transition: opacity 0.3s ease;
+}
+
+#visitor-counter a:hover {
+    color: var(--accent-cyan, #00ffff) !important;
+    text-decoration: underline !important;
+    opacity: 1;
+}
+
+/* تنسيق الصورة التي تمثل العداد نفسه */
+#visitor-counter img {
+    display: block;
+    margin: 0 auto; /* لتوسيط الصورة */
+    border: 2px solid var(--metal-dark, #3a3a3a); /* إضافة إطار خفيف */
+    border-radius: 5px; /* حواف مستديرة */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* ظل خفيف */
+    transition: all 0.3s ease;
+}
+
+#visitor-counter img:hover {
+    border-color: var(--accent-purple, #9945ff); /* تغيير لون الإطار عند المرور */
+    box-shadow: 0 0 15px rgba(153, 69, 255, 0.5);
+}

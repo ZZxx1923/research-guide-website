@@ -1394,10 +1394,8 @@ a:hover {
 
 .visitor-counter-container {
     text-align: center;
-    padding: 20px 0;
-    margin-top: 50px;
-    border-top: 1px solid var(--metal-dark, #3a3a3a); /* استخدام لون من تصميم settings.html */
-    background-color: var(--carbon-dark, #121212); /* استخدام لون من تصميم settings.html */
+    margin-top: 30px;
+    display: none;
 }
 
 #visitor-counter {

@@ -1394,12 +1394,12 @@ a:hover {
 
 .visitor-counter-container {
     text-align: center;
-    margin-top: 30px;
-    display: none;
+    margin-top: 0px;
+   
 }
 
 #visitor-counter {
-    display: inline-block;
+    display: none
     /* لضمان أن العداد نفسه يظهر في المنتصف */
 }
 

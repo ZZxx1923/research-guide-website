@@ -65,9 +65,9 @@ function confirmPassword() {
 
 function executeAction(action, data) {
     if (action === 'add') {
-        performAddExcuse();
+        performAddExcuse(data); // data هنا هو نص التعذر
     } else if (action === 'edit') {
-        performEditExcuse();
+        performEditExcuse(data); // data هنا هو نص التعذر
     } else if (action === 'delete') {
         performDeleteExcuse(data);
     } else if (action === 'showSettings') {
@@ -91,7 +91,7 @@ function saveAppScriptUrl() {
 function loadSavedAppScriptUrl() {
     const savedUrl = localStorage.getItem('appScriptUrl');
     // تثبيت رابط Sheet الجديد
-    const savedSheetUrl = 'https://docs.google.com/spreadsheets/d/1mw5z6UWdk3GZHiprpr6-oFSVTAje3bE8KADSf3SMnaM/edit';
+    const savedSheetUrl = '1mw5z6UWdk3GZHiprpr6-oFSVTAje3bE8KADSf3SMnaM';
     const savedSheetName = localStorage.getItem('sheetName');
     
     if (savedUrl) {
@@ -281,12 +281,12 @@ function saveExcuse() {
         // في هذه الحالة، يجب أن يكون الإجراء المعلق هو 'add' أو 'edit'
         openPasswordModal(currentEditingRow === null ? 'add' : 'edit');
     } else {
-        executeAction(currentEditingRow === null ? 'add' : 'edit');
+        // نمرر النص أيضاً إلى executeAction
+        executeAction(currentEditingRow === null ? 'add' : 'edit', text);
     }
 }
 
-async function performAddExcuse() {
-    const text = document.getElementById('excuse-input').value.trim();
+async function performAddExcuse(text) {
     const appScriptUrl = localStorage.getItem('appScriptUrl');
     
     if (!appScriptUrl) {
@@ -319,8 +319,7 @@ async function performAddExcuse() {
     }
 }
 
-async function performEditExcuse() {
-    const text = document.getElementById('excuse-input').value.trim();
+async function performEditExcuse(text) {
     const appScriptUrl = localStorage.getItem('appScriptUrl');
     
     if (!appScriptUrl) {
@@ -414,7 +413,7 @@ function hideSettings() {
     document.getElementById('password-prompt').style.display = 'flex';
 }
 
-const ADMIN_PASSWORD = "Oxd2003"; 
+const ADMIN_PASSWORD = "Elm2003"; 
 let currentEditingRow = null; 
 let isAdminAuthenticated = false; 
 let pendingAction = null; 

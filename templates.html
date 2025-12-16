@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>قوالب طلبات المنصة والأنظمة الداخلية</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="prism-flux.css">
+
+    <style>
+        :root {
+            --primary-black: #0a0a0a;
+            --carbon-dark: #121212;
+            --carbon-medium: #1a1a1a;
+            --carbon-light: #2a2a2a;
+            --metal-dark: #3a3a3a;
+            --metal-light: #4a4a4a;
+            --accent-red: #ff3333;
+            --accent-blue: #00a8ff;
+            --accent-green: #00ff88;
+            --accent-purple: #9945ff;
+            --accent-cyan: #00ffff;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --text-dim: #808080;
+        }
+
+        body {
+            font-family: 'Tajawal', sans-serif; 
+            direction: rtl; 
+            text-align: right;
+            background: var(--primary-black);
+            color: var(--text-primary);
+        }
+
+        .header {
+            display: none !important;
+        }
+
+        .main-header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(18, 18, 18, 0.98);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 1000;
+            transition: all 0.3s ease;
+            padding: 15px 0;
+        }
+
+        .main-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .main-header .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .main-header .logo-img {
+            height: 50px; 
+            width: auto;
+            margin-left: 15px;
+            opacity: 0.95;
+        }
+
+        .main-header .site-title {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            display: block;
+        }
+
+        .menu-btn {
+            background: none;
+            border: none;
+            color: var(--accent-purple);
+            font-size: 24px;
+            cursor: pointer;
+            padding: 10px;
+            transition: color 0.3s ease;
+        }
+
+        .menu-btn:hover {
+            color: var(--accent-cyan);
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: -300px; 
+            width: 300px;
+            height: 100%;
+            background: var(--carbon-medium);
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.5);
+            z-index: 1001;
+            transition: right 0.3s ease;
+            padding: 20px;
+            padding-top: 80px;
+        }
+
+        .sidebar.open {
+            right: 0;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: none;
+            border: none;
+            color: var(--accent-red);
+            font-size: 30px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close-btn:hover {
+            color: var(--text-primary);
+        }
+
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .sidebar-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 12px 15px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-size: 1.1em;
+            border-right: 3px solid transparent;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sidebar-link:hover {
+            background: var(--carbon-dark);
+            color: var(--accent-cyan);
+            border-right-color: var(--accent-cyan);
+        }
+
+        .sidebar-link.active {
+            color: var(--accent-green);
+            font-weight: bold;
+        }
+
+        /* Template Form Styles */
+        .template-container {
+            padding-top: 100px;
+            min-height: 100vh;
+            background: var(--primary-black);
+        }
+
+        .max-w-6xl {
+            max-width: 80rem;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 0 20px;
+        }
+
+        .bg-white {
+            background-color: #ffffff;
+        }
+
+        .border-4 {
+            border: 4px solid #000000;
+        }
+
+        .border-black {
+            border-color: #000000;
+        }
+
+        .mb-0 {
+            margin-bottom: 0;
+        }
+
+        .p-8 {
+            padding: 2rem;
+        }
+
+        .border-b-4 {
+            border-bottom: 4px solid #000000;
+        }
+
+        .bg-blue-100 {
+            background-color: #dbeafe;
+        }
+
+        .header-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+        }
+
+        .logo-container {
+            flex-shrink: 0;
+        }
+
+        .logo-image {
+            max-width: 120px;
+            height: auto;
+        }
+
+        .title-container {
+            flex: 1;
+            text-align: center;
+            padding: 0 2rem;
+        }
+
+        .page-title {
+            font-size: 2.25rem;
+            font-weight: bold;
+            color: #111827;
+            margin: 0;
+        }
+
+        .tabs-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .tab-button {
+            padding: 1.25rem 1.25rem;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.125rem;
+            background-color: #ffffff;
+            color: #111827;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tab-button:hover {
+            background-color: #f3f4f6;
+        }
+
+        .tab-left {
+            border-left: 4px solid #000000;
+        }
+
+        .tab-button.active-tab {
+            background-color: #3b82f6;
+            color: white;
+            border-bottom: 4px solid #1d4ed8;
+        }
+
+        .form-container {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .form-label {
+            border-left: 4px solid #000000;
+            padding: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            background-color: #ffffff;
+        }
+
+        .form-label span {
+            color: #111827;
+            font-weight: bold;
+            font-size: 1.125rem;
+        }
+
+        .form-input {
+            padding: 2rem;
+            background-color: #ffffff;
+        }
+
+        .input-field {
+            width: 100%;
+            border: 2px solid #d1d5db;
+            padding: 1rem;
+            text-align: right;
+            background-color: #ffffff;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: #60a5fa;
+        }
+
+        select.input-field {
+            direction: rtl;
+        }
+
+        .input-counter {
+            font-size: 0.75rem;
+            color: #6b7280;
+            margin-top: 0.25rem;
+            text-align: right;
+        }
+
+        .input-error {
+            font-size: 0.75rem;
+            color: #ef4444;
+            margin-top: 0.25rem;
+            display: none;
+        }
+
+        .required-star {
+            color: #ef4444;
+        }
+
+        #messageSection {
+            display: none;
+        }
+
+        #messageSection.show {
+            display: block;
+        }
+
+        .message-box {
+            background-color: #f9fafb;
+            border: 2px solid #d1d5db;
+            padding: 1.5rem;
+            border-radius: 0.375rem;
+            text-align: right;
+            white-space: pre-wrap;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+            color: #1f2937;
+            margin-bottom: 1rem;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .buttons-container {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-weight: bold;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.375rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .btn-copy {
+            background-color: #3b82f6;
+            color: white;
+        }
+
+        .btn-copy:hover {
+            background-color: #1d4ed8;
+        }
+
+        .btn-email {
+            background-color: #16a34a;
+            color: white;
+        }
+
+        .btn-email:hover {
+            background-color: #15803d;
+        }
+
+        .email-info {
+            font-size: 0.75rem;
+            color: #6b7280;
+            margin-top: 0.75rem;
+            text-align: right;
+        }
+
+        .mb-6 {
+            margin-bottom: 1.5rem;
+        }
+
+        .mb-4 {
+            margin-bottom: 1rem;
+        }
+
+        .text-2xl {
+            font-size: 1.5rem;
+        }
+
+        .font-bold {
+            font-weight: bold;
+        }
+
+        .text-gray-900 {
+            color: #111827;
+        }
+
+        .text-right {
+            text-align: right;
+        }
+
+        .border-t-0 {
+            border-top: none;
+        }
+
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .tabs-container {
+                grid-template-columns: 1fr;
+            }
+
+            .buttons-container {
+                flex-direction: column;
+            }
+
+            .page-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <div class="container">
+            <button class="menu-btn" onclick="toggleSidebar()">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="logo">
+                <img src="images/hrsd_logo.png" alt="شعار وزارة الموارد البشرية" class="logo-img">
+                <span class="site-title">الدليل الإرشادي للباحثين</span>
+            </div>
+        </div>
+    </header>
+    
+    <div id="sidebar" class="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()">&times;</button>
+        <nav class="sidebar-nav">
+            <a href="index.html" class="sidebar-link">
+                <i class="fas fa-home"></i>
+                الرئيسية
+            </a>
+            <a href="videos.html" class="sidebar-link">
+                <i class="fas fa-video"></i>
+                شروحات وفيديوهات
+            </a>
+            <a href="File.html" class="sidebar-link">
+                <i class="fas fa-file-pdf"></i>
+                اهم ملفات PDF
+            </a>
+            <a href="templates.html" class="sidebar-link active" style="color: var(--accent-green); font-weight: bold;">
+                <i class="fas fa-file-alt"></i>
+                قوالب الطلبات
+            </a>
+            <a href="settings.html" class="sidebar-link" style="color: var(--accent-red); font-weight: bold;">
+                <i class="fas fa-cog"></i>
+                الإعدادات
+            </a>
+        </nav>
+    </div>
+
+    <div class="template-container">
+        <div class="max-w-6xl">
+            <!-- Header Section -->
+            <div class="bg-white border-4 border-black mb-0">
+                <div class="header-container border-b-4 border-black bg-blue-100 p-8">
+                    <!-- Logo Placeholder on the Left -->
+                    <div class="logo-container">
+                        <img src="Logo.jpeg" alt="Logo" class="logo-image">
+                    </div>
+
+                    <!-- Title -->
+                    <div class="title-container">
+                        <h1 class="page-title">
+                            قوالب طلبات المنصة والأنظمة الداخلية
+                        </h1>
+                    </div>
+                </div>
+
+                <!-- Tab Headers -->
+                <div class="tabs-container border-b-4 border-black">
+                    <button class="tab-button tab-left border-l-4 border-black" id="resetTab" onclick="switchTab('reset')">
+                        طلب إعادة تفعيل الحساب / تعيين كلمة المرور
+                    </button>
+                    <button class="tab-button tab-right active-tab" id="newAccountTab" onclick="switchTab('new-account')">
+                        طلب إنشاء حساب جديد
+                    </button>
+                </div>
+
+                <!-- Form Fields -->
+                <div class="form-container divide-y-4">
+                    <!-- Row 1 - Researcher Name -->
+                    <div class="form-row border-b-4 border-black">
+                        <div class="form-label border-l-4 border-black">
+                            <span>اسم الباحث : <span class="required-star" id="nameRequired">*</span></span>
+                        </div>
+                        <div class="form-input">
+                            <input type="text" id="name" class="input-field" placeholder="">
+                        </div>
+                    </div>
+
+                    <!-- Row 2 - ID Number -->
+                    <div class="form-row border-b-4 border-black">
+                        <div class="form-label border-l-4 border-black">
+                            <span>رقم الهوية : <span class="required-star" id="idRequired">*</span></span>
+                        </div>
+                        <div class="form-input">
+                            <input type="text" id="idNumber" class="input-field" placeholder="" maxlength="10">
+                            <p class="input-counter" id="idCounterContainer"><span id="idCounter">0</span>/10 أرقام</p>
+                            <p class="input-error" id="idError">فقط 10 أرقام</p>
+                        </div>
+                    </div>
+
+                    <!-- Row 3 - Phone Number -->
+                    <div class="form-row border-b-4 border-black">
+                        <div class="form-label border-l-4 border-black">
+                            <span>رقم الجوال : <span class="required-star" id="phoneRequired">*</span></span>
+                        </div>
+                        <div class="form-input">
+                            <input type="text" id="phone" class="input-field" placeholder="" maxlength="10">
+                            <p class="input-counter" id="phoneCounterContainer"><span id="phoneCounter">0</span>/10 أرقام</p>
+                            <p class="input-error" id="phoneError">فقط 10 أرقام</p>
+                        </div>
+                    </div>
+
+                    <!-- Row 4 - Scope -->
+                    <div class="form-row border-b-4 border-black">
+                        <div class="form-label border-l-4 border-black">
+                            <span>النطاق : <span class="required-star" id="scopeRequired">*</span></span>
+                        </div>
+                        <div class="form-input">
+                            <input type="text" id="scope" class="input-field" placeholder="">
+                        </div>
+                    </div>
+
+                    <!-- Row 5 - City -->
+                    <div class="form-row border-b-4 border-black">
+                        <div class="form-label border-l-4 border-black">
+                            <span>المدينة : <span class="required-star" id="cityRequired">*</span></span>
+                        </div>
+                        <div class="form-input">
+                            <input type="text" id="city" class="input-field" placeholder="">
+                        </div>
+                    </div>
+
+                    <!-- Row 6 - Platform Selection -->
+                    <div class="form-row">
+                        <div class="form-label border-l-4 border-black">
+                            <span>المنصة : <span class="required-star">*</span></span>
+                        </div>
+                        <div class="form-input">
+                            <select id="platform" class="input-field">
+                                <option value="">اختر المنصة</option>
+                                <option value="الضمان الاجتماعي">الضمان الاجتماعي</option>
+                                <option value="حساب المواطن">حساب المواطن</option>
+                                <option value="تطبيق الباحث">تطبيق الباحث</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Generated Message Section -->
+            <div id="messageSection" class="bg-white border-4 border-black border-t-0 p-8">
+                <div class="mb-6">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-4 text-right">الرسالة المنسقة جاهزة:</h2>
+                    <div class="message-box">
+                        <pre id="messageContent"></pre>
+                    </div>
+                    <div class="buttons-container">
+                        <button class="btn btn-copy" onclick="copyMessage()">
+                            <span id="copyBtnText">📋 نسخ الرسالة</span>
+                        </button>
+                        <button class="btn btn-email" onclick="sendEmail()">
+                            ✉️ إرسال عبر البريد
+                        </button>
+                    </div>
+                    <p class="email-info">البريد المرسل إليه: hsd@ek.com.sa</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

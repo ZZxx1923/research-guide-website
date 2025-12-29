@@ -225,7 +225,7 @@ function sendEmail() {
         ? 'طلب إنشاء حساب جديد'
         : 'طلب إعادة تفعيل الحساب / تعيين كلمة المرور';
     
-    const email = 'hsd@ek.com.sa';
+    const email = 'sm@ek.com.sa';
     const body = encodeURIComponent(message);
     const subjectEncoded = encodeURIComponent(subject);
     

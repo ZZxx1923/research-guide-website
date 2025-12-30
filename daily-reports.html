@@ -946,23 +946,18 @@
             const submitBtn = document.querySelector('.submit-btn');
             const originalBtnContent = submitBtn.innerHTML;
             submitBtn.disabled = true;
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الإرسال...';
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>جاري رفع التقرير';
 
             try {
-                // حفظ البيانات محلياً فوراً
-                let reports = JSON.parse(localStorage.getItem('reports')) || [];
-                reports.push(formDataToSubmit);
-                localStorage.setItem('reports', JSON.stringify(reports));
-                localStorage.setItem('lastResearcherName', formDataToSubmit.researcherName);
-
-                // إظهار النجاح فوراً للباحث دون انتظار استجابة السيرفر (Optimistic UI)
-                if (typeof showToastNotification === 'function') {
-                    showToastNotification(`تم إرسال تقريرك بنجاح يا ${formDataToSubmit.researcherName}! ✨`);
-                }
+                // استخدام الدالة الموحدة من config.js للحفظ والربط
+                const result = await saveReport(formDataToSubmit);
                 
-                // إرسال البيانات إلى Google Sheets في الخلفية
-                if (typeof saveToGoogleSheets === 'function') {
-                    saveToGoogleSheets(formDataToSubmit); // بدون await لسرعة الاستجابة
+                // إظهار رسالة نجاح مخصصة
+                if (typeof showToastNotification === 'function') {
+                    const syncMsg = result.synced ? "يعطيك العافية✅" : "وسيتمت المزامنة لاحقاً ⏳";
+                    showToastNotification(`تم حفظ تقريرك بنجاح يا ${formDataToSubmit.researcherName}! ${syncMsg}`);
+                } else {
+                    alert(`تم إرسال التقرير بنجاح يا ${formDataToSubmit.researcherName}!`);
                 }
                 
                 // إعادة تعيين النموذج
@@ -973,17 +968,18 @@
                 
                 updateDayName();
                 
-                // تحديث لوحة البيانات إذا كانت مفتوحة
-                if (typeof loadDashboardData === 'function') {
-                    loadDashboardData();
+                // تحديث لوحة البيانات إذا كانت مفتوحة (للمشرفين)
+                if (typeof loadReports === 'function') {
+                    loadReports();
                 }
             } catch (error) {
                 console.error('Error submitting report:', error);
-                alert('حدث خطأ أثناء إرسال التقرير. تم حفظه محلياً.');
+                alert('حدث خطأ أثناء إرسال التقرير. تم حفظه محلياً في المتصفح.');
             } finally {
                 // إعادة الزر لحالته الأصلية
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = originalBtnContent;
+                formDataToSubmit = null;
             }
         }
 

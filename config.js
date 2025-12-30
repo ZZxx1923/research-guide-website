@@ -1,9 +1,9 @@
-// ⚙️ إعدادات التطبيق
+// ⚙️ إعدادات التطبيق المحدثة للربط الكامل مع Google Sheets
 
 // معرّف Google Sheets
 const SPREADSHEET_ID = '1op4xbVAqVUEfcrY301PXk3kyDNllP47fF1bGhPkAywE';
 
-// رابط Google Apps Script Web App
+// رابط Google Apps Script Web App (تأكد من نشر السكريبت كـ Web App ومنح صلاحية الوصول للجميع Anyone)
 const GOOGLE_APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwaNSSVrb5qcR4U_3RMfiicZsIxYkwX79X0XHruvnxqNmlplU6RjsBfVkqV3LnT6S-aGQ/exec';
 
 // ⚙️ إعدادات التطبيق العامة
@@ -28,9 +28,8 @@ function validateReportData(data) {
     
     if (!data.date) errors.push('التاريخ مطلوب');
     if (!data.researcherName) errors.push('اسم الباحث مطلوب');
-    if (!data.assignedVisits || parseInt(data.assignedVisits) < 0) errors.push('عدد الزيارات المسندة غير صحيح');
-    if (!data.completedVisits || parseInt(data.completedVisits) < 0) errors.push('عدد الزيارات المنفذة غير صحيح');
-    if (parseInt(data.completedVisits) > parseInt(data.assignedVisits)) errors.push('الزيارات المنفذة لا يمكن أن تكون أكثر من المسندة');
+    if (data.assignedVisits === undefined || parseInt(data.assignedVisits) < 0) errors.push('عدد الزيارات المسندة غير صحيح');
+    if (data.completedVisits === undefined || parseInt(data.completedVisits) < 0) errors.push('عدد الزيارات المنفذة غير صحيح');
     
     return {
         isValid: errors.length === 0,
@@ -38,10 +37,10 @@ function validateReportData(data) {
     };
 }
 
-// 💾 دالة لحفظ التقرير
-function saveReport(reportData) {
+// 💾 دالة لحفظ التقرير محلياً وإرساله لـ Google Sheets
+async function saveReport(reportData) {
+    // 1. حفظ محلي للنسخ الاحتياطي
     const reports = getAllReports();
-    
     const newReport = {
         id: Date.now().toString(),
         timestamp: new Date().toISOString(),
@@ -50,58 +49,80 @@ function saveReport(reportData) {
     
     reports.push(newReport);
     localStorage.setItem('reports', JSON.stringify(reports));
+    localStorage.setItem('lastResearcherName', reportData.researcherName);
     
-    console.log('✅ تم حفظ التقرير بنجاح');
+    console.log('✅ تم حفظ التقرير محلياً');
     
-    // محاولة الحفظ إلى Google Sheets
+    // 2. إرسال إلى Google Sheets
     if (GOOGLE_APPS_SCRIPT_URL && !GOOGLE_APPS_SCRIPT_URL.includes('YOUR_DEPLOYMENT_ID')) {
-        saveToGoogleSheets(newReport);
+        const success = await saveToGoogleSheets(newReport);
+        return { report: newReport, synced: success };
     }
     
-    return newReport;
+    return { report: newReport, synced: false };
 }
 
-// 📤 دالة لحفظ التقرير في Google Sheets
+// 📤 دالة لإرسال البيانات إلى Google Sheets
 async function saveToGoogleSheets(reportData) {
     try {
-        console.log('📤 جاري حفظ التقرير في Google Sheets...');
+        console.log('جاري رفع التقرير');
         
-        // استخدام fetch مع mode: 'no-cors' لتجنب CORB
+        // حساب النسبة المئوية قبل الإرسال لضمان دقتها
+        const assigned = parseInt(reportData.assignedVisits) || 1;
+        const completed = parseInt(reportData.completedVisits) || 0;
+        reportData.completionRate = ((completed / assigned) * 100).toFixed(1) + '%';
+        
         const response = await fetch(GOOGLE_APPS_SCRIPT_URL, {
             method: 'POST',
-            mode: 'no-cors',
+            mode: 'no-cors', // مهم لتجنب مشاكل CORS مع Google Apps Script
             headers: {
                 'Content-Type': 'text/plain'
             },
             body: JSON.stringify(reportData)
         });
         
-        console.log('✅ تم إرسال التقرير إلى Google Sheets');
+        console.log('✅ تم إرسال الطلب إلى Google Sheets (no-cors mode)');
         return true;
     } catch (error) {
-        console.error('❌ خطأ في حفظ التقرير في Google Sheets:', error);
+        console.error('❌ خطأ في الاتصال بـ Google Sheets:', error);
         return false;
     }
 }
 
-// 📋 دالة لاسترجاع جميع التقارير
+// 📥 دالة لجلب البيانات من Google Sheets (للمشرفين)
+async function fetchFromGoogleSheets() {
+    try {
+        console.log('📥جاري رفع التقرير ');
+        const response = await fetch(`${GOOGLE_APPS_SCRIPT_URL}?type=reports`);
+        const data = await response.json();
+        
+        if (data.success) {
+            console.log('✅ تم جلب البيانات بنجاح:', data.reports.length, 'تقرير');
+            return data.reports;
+        }
+        return null;
+    } catch (error) {
+        console.error('❌ خطأ في جلب البيانات من Google Sheets:', error);
+        return null;
+    }
+}
+
+// 📋 دالة لاسترجاع جميع التقارير من التخزين المحلي
 function getAllReports() {
     try {
         const reportsJSON = localStorage.getItem('reports');
         return reportsJSON ? JSON.parse(reportsJSON) : [];
     } catch (error) {
-        console.error('❌ خطأ في جلب التقارير:', error);
+        console.error('❌ خطأ في جلب التقارير المحلية:', error);
         return [];
     }
 }
 
 // 🔍 دالة لتصفية التقارير
-function filterReports(date = null, researcher = null) {
-    const reports = getAllReports();
-    
+function filterReports(reports, date = null, researcher = null) {
     return reports.filter(report => {
         const dateMatch = !date || report.date === date;
-        const researcherMatch = !researcher || report.researcherName.toLowerCase().includes(researcher.toLowerCase());
+        const researcherMatch = !researcher || (report.researcherName && report.researcherName.toLowerCase().includes(researcher.toLowerCase()));
         
         return dateMatch && researcherMatch;
     });
@@ -122,10 +143,14 @@ function calculateStatistics(reports) {
     
     const totalAssignedVisits = reports.reduce((sum, r) => sum + parseInt(r.assignedVisits || 0), 0);
     const totalCompletedVisits = reports.reduce((sum, r) => sum + parseInt(r.completedVisits || 0), 0);
+    
     const successfulReports = reports.filter(r => {
-        const rate = (parseInt(r.completedVisits || 0) / parseInt(r.assignedVisits || 1)) * 100;
+        const assigned = parseInt(r.assignedVisits) || 1;
+        const completed = parseInt(r.completedVisits) || 0;
+        const rate = (completed / assigned) * 100;
         return rate >= 90 && parseInt(r.technicalIssues || 0) === 0;
     }).length;
+    
     const problemReports = reports.filter(r => parseInt(r.technicalIssues || 0) > 0).length;
     const completionRate = totalAssignedVisits > 0 ? ((totalCompletedVisits / totalAssignedVisits) * 100).toFixed(1) : 0;
     
@@ -139,69 +164,4 @@ function calculateStatistics(reports) {
     };
 }
 
-// 📆 دالة للحصول على اسم اليوم
-function getDayName(dateString) {
-    const date = new Date(dateString);
-    const days = ['الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'];
-    return days[date.getDay()];
-}
-
-// 💾 دالة لحفظ البيانات في localStorage
-function saveToLocalStorage(key, value) {
-    try {
-        localStorage.setItem(key, JSON.stringify(value));
-        return true;
-    } catch (error) {
-        console.error('❌ خطأ في حفظ البيانات:', error);
-        return false;
-    }
-}
-
-// 📥 دالة لجلب البيانات من localStorage
-function getFromLocalStorage(key) {
-    try {
-        const data = localStorage.getItem(key);
-        return data ? JSON.parse(data) : null;
-    } catch (error) {
-        console.error('❌ خطأ في جلب البيانات:', error);
-        return null;
-    }
-}
-
-// 🗑️ دالة لحذف البيانات من localStorage
-function removeFromLocalStorage(key) {
-    try {
-        localStorage.removeItem(key);
-        return true;
-    } catch (error) {
-        console.error('❌ خطأ في حذف البيانات:', error);
-        return false;
-    }
-}
-
-// 🎯 دالة لتحديد حالة الأداء
-function getPerformanceStatus(completedVisits, technicalIssues) {
-    if (technicalIssues > 0) {
-        return {
-            status: 'مشكلة تقنية',
-            color: '#ff0000',
-            icon: '❌'
-        };
-    }
-    
-    if (completedVisits >= APP_CONFIG.DAILY_TARGET) {
-        return {
-            status: 'محقق',
-            color: '#00ff00',
-            icon: '✅'
-        };
-    }
-    
-    return {
-        status: 'عادي',
-        color: '#ffff00',
-        icon: '⚠️'
-    };
-}
-
-console.log('✅ تم تحميل إعدادات التطبيق بنجاح');
+console.log('✅ تم تحديث إعدادات الربط بنجاح');

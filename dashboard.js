@@ -22,8 +22,8 @@ document.addEventListener('DOMContentLoaded', function() {
     if (refreshBtn) refreshBtn.addEventListener('click', loadReports);
 });
 
-// 📥 دالة لتحميل التقارير
-function loadReports() {
+// 📥 دالة لتحميل التقارير (من Google Sheets أولاً ثم محلياً)
+async function loadReports() {
     console.log('📥 جاري تحميل التقارير...');
     
     // إخفاء رسالة الخطأ
@@ -32,14 +32,25 @@ function loadReports() {
     
     // عرض رسالة التحميل
     const loadingMsg = document.getElementById('loadingMessage');
-    if (loadingMsg) loadingMsg.style.display = 'block';
+    if (loadingMsg) {
+        loadingMsg.style.display = 'block';
+        loadingMsg.innerHTML = '<i class="fas fa-sync fa-spin"></i> جاري جلب البيانات من Google Sheets...';
+    }
     
     try {
-        // الحصول على جميع التقارير
-        allReports = getAllReports();
-        filteredReports = allReports;
+        // 1. محاولة جلب البيانات من Google Sheets
+        let reportsFromSheets = await fetchFromGoogleSheets();
         
-        console.log('✅ تم تحميل', allReports.length, 'تقرير');
+        if (reportsFromSheets && reportsFromSheets.length > 0) {
+            allReports = reportsFromSheets;
+            console.log('✅ تم جلب البيانات من Google Sheets:', allReports.length);
+        } else {
+            // 2. إذا فشل أو كان فارغاً، نستخدم البيانات المحلية
+            allReports = getAllReports();
+            console.log('⚠️ تم استخدام البيانات المحلية:', allReports.length);
+        }
+        
+        filteredReports = allReports;
         
         // إخفاء رسالة التحميل
         if (loadingMsg) loadingMsg.style.display = 'none';
@@ -56,9 +67,16 @@ function loadReports() {
     } catch (error) {
         console.error('❌ خطأ في تحميل التقارير:', error);
         if (errorMsg) {
-            errorMsg.textContent = 'حدث خطأ في تحميل البيانات';
+            errorMsg.textContent = 'حدث خطأ في تحميل البيانات. تأكد من اتصالك بالإنترنت.';
             errorMsg.style.display = 'block';
         }
+        
+        // محاولة أخيرة باستخدام البيانات المحلية في حالة الخطأ
+        allReports = getAllReports();
+        filteredReports = allReports;
+        displayStatistics();
+        displayReportsTable();
+        displayChart();
     }
 }
 
@@ -270,7 +288,7 @@ function applyFilters() {
     
     console.log('🔍 تطبيق التصفية - التاريخ:', date, 'الباحث:', researcher);
     
-    filteredReports = filterReports(date, researcher);
+    filteredReports = filterReports(allReports, date, researcher);
     
     // تحديث العرض
     displayStatistics();

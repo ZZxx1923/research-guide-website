@@ -602,10 +602,10 @@
     </header>
 
     <!-- القائمة الجانبية -->
-    <div id="sidebar" class="sidebar">
+   <div id="sidebar" class="sidebar">
         <button class="close-btn" onclick="toggleSidebar()">&times;</button>
         <nav class="sidebar-nav">
-            <a href="index.html" class="sidebar-link">
+            <a href="index.html" class="sidebar-link active">
                 <i class="fas fa-home"></i>
                 الرئيسية
             </a>
@@ -617,7 +617,11 @@
                 <i class="fas fa-file-pdf"></i>
                 اهم ملفات PDF
             </a>
-            <a href="daily-reports.html" class="sidebar-link active" style="color: var(--accent-green); font-weight: bold;">
+            <a href="templates.html" class="sidebar-link" style="color: var(--accent-blue); font-weight: bold;">
+                <i class="fas fa-file-alt"></i>
+                قوالب الطلبات
+            </a>
+            <a href="daily-reports.html" class="sidebar-link" style="color: var(--accent-green); font-weight: bold;  border-right: 3px solid var(--accent-green); cursor: pointer;">
                 <i class="fas fa-chart-bar"></i>
                 التقارير اليومية
             </a>
@@ -665,45 +669,51 @@
 
                             <div class="form-group">
                                 <label for="researcherName">اسم الباحث:</label>
-                                <input type="text" id="researcherName" required placeholder="أدخل اسمك">
+                                <div style="display: flex; gap: 10px; align-items: flex-end;">
+                                    <div style="flex: 1;">
+                                        <input type="text" id="researcherName" required placeholder="أدخل اسمك" list="researcherList" autocomplete="off">
+                                        <datalist id="researcherList"></datalist>
+                                    </div>
+                                    
+                                </div>
                             </div>
 
                             <div class="form-row">
                                 <div class="form-group">
                                     <label for="assignedVisits">الزيارات المسندة:</label>
-                                    <input type="number" id="assignedVisits" required placeholder="0">
+                                    <input type="number" id="assignedVisits" value="0" min="0" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="completedVisits">الزيارات المنفذة:</label>
-                                    <input type="number" id="completedVisits" required placeholder="0">
+                                    <input type="number" id="completedVisits" value="0" min="0" required>
                                 </div>
                             </div>
 
                             <div class="form-row">
                                 <div class="form-group">
                                     <label for="excuses">التعذرات:</label>
-                                    <input type="number" id="excuses" required placeholder="0">
+                                    <input type="number" id="excuses" value="0" min="0" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="remainingVisits">المتبقية:</label>
-                                    <input type="number" id="remainingVisits" required placeholder="0">
+                                    <input type="number" id="remainingVisits" value="0" min="0" required>
                                 </div>
                             </div>
 
                             <div class="form-row">
                                 <div class="form-group">
                                     <label for="postponedVisits">المؤجلة:</label>
-                                    <input type="number" id="postponedVisits" required placeholder="0">
+                                    <input type="number" id="postponedVisits" value="0" min="0" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="technicalIssues">مشاكل تقنية:</label>
-                                    <input type="number" id="technicalIssues" required placeholder="0">
+                                    <input type="number" id="technicalIssues" value="0" min="0" required>
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label for="outOfScope">خارج النطاق:</label>
-                                <input type="number" id="outOfScope" required placeholder="0">
+                                <input type="number" id="outOfScope" value="0" min="0" required>
                             </div>
 
                             <div class="form-group">
@@ -711,8 +721,9 @@
                                 <textarea id="notes" placeholder="أضف ملاحظاتك هنا..."></textarea>
                             </div>
 
-                            <button type="submit" class="submit-btn">
+                            <button type="submit" class="submit-btn"  >
                                 <i class="fas fa-paper-plane"></i>
+                                <i id="submitBtn"></i>
                                 إرسال التقرير
                             </button>
                         </form>
@@ -752,7 +763,7 @@
                                         <th>المسندة</th>
                                         <th>المنفذة</th>
                                         <th>النسبة</th>
-                                        <th>المشاكل</th>
+                                        <th>المشاكل التقنية</th>
                                     </tr>
                                 </thead>
                                 <tbody id="tableBody">
@@ -772,8 +783,11 @@
     <div id="confirmationModal" class="modal">
         <div class="modal-content">
             <h2>تأكيد إرسال التقرير</h2>
-            <div id="confirmationDetails"></div>
-            <div class="modal-buttons">
+                <div id="confirmationDetails"></div>
+                <div id="achievementImage" style="display: none; text-align: center; margin: 15px 0;">
+                    <img id="achievementImg" src="" alt="إنجاز" style="max-width: 120px; height: 120px; border-radius: 10px; box-shadow: 0 0 20px rgba(0, 255, 136, 0.5);">
+                </div>
+                <div class="modal-buttons">
                 <button class="modal-btn confirm-btn" onclick="confirmSubmit()">
                     <i class="fas fa-check"></i> تأكيد
                 </button>
@@ -785,6 +799,9 @@
     </div>
 
     <script>
+        // منع القائمة اليمنى لزيادة الأمان
+        document.addEventListener('contextmenu', event => event.preventDefault());
+
         // متغيرات عامة
         let formDataToSubmit = null;
 
@@ -895,6 +912,7 @@
             
             // إنشاء محتوى التأكيد
             const confirmationDetails = document.getElementById('confirmationDetails');
+            const completedVisits = parseInt(formData.completedVisits) || 0;
             confirmationDetails.innerHTML = `
                 <div class="confirmation-item">
                     <strong>اسم الباحث:</strong> ${formData.researcherName}
@@ -918,26 +936,55 @@
         }
 
         // دالة لتأكيد الإرسال
-        function confirmSubmit() {
+        async function confirmSubmit() {
             if (!formDataToSubmit) return;
             
             // إغلاق نموذج التأكيد
             document.getElementById('confirmationModal').classList.remove('show');
             
-            // حفظ البيانات
-            let reports = JSON.parse(localStorage.getItem('reports')) || [];
-            reports.push(formDataToSubmit);
-            localStorage.setItem('reports', JSON.stringify(reports));
-            
-            // حفظ اسم الباحث
-            localStorage.setItem('lastResearcherName', formDataToSubmit.researcherName);
-            
-            // عرض رسالة النجاح
-            showSuccessMessage();
-            
-            // إعادة تعيين النموذج
-            document.getElementById('reportForm').reset();
-            updateDayName();
+            // إظهار حالة جاري الإرسال
+            const submitBtn = document.querySelector('.submit-btn');
+            const originalBtnContent = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الإرسال...';
+
+            try {
+                // حفظ البيانات محلياً فوراً
+                let reports = JSON.parse(localStorage.getItem('reports')) || [];
+                reports.push(formDataToSubmit);
+                localStorage.setItem('reports', JSON.stringify(reports));
+                localStorage.setItem('lastResearcherName', formDataToSubmit.researcherName);
+
+                // إظهار النجاح فوراً للباحث دون انتظار استجابة السيرفر (Optimistic UI)
+                if (typeof showToastNotification === 'function') {
+                    showToastNotification(`تم إرسال تقريرك بنجاح يا ${formDataToSubmit.researcherName}! ✨`);
+                }
+                
+                // إرسال البيانات إلى Google Sheets في الخلفية
+                if (typeof saveToGoogleSheets === 'function') {
+                    saveToGoogleSheets(formDataToSubmit); // بدون await لسرعة الاستجابة
+                }
+                
+                // إعادة تعيين النموذج
+                document.getElementById('reportForm').reset();
+                // إعادة تعيين القيم الافتراضية للأرقام إلى 0
+                const numberInputs = document.querySelectorAll('input[type="number"]');
+                numberInputs.forEach(input => input.value = "0");
+                
+                updateDayName();
+                
+                // تحديث لوحة البيانات إذا كانت مفتوحة
+                if (typeof loadDashboardData === 'function') {
+                    loadDashboardData();
+                }
+            } catch (error) {
+                console.error('Error submitting report:', error);
+                alert('حدث خطأ أثناء إرسال التقرير. تم حفظه محلياً.');
+            } finally {
+                // إعادة الزر لحالته الأصلية
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalBtnContent;
+            }
         }
 
         // دالة لإلغاء الإرسال
@@ -954,8 +1001,13 @@
             const successMessage = document.getElementById('successMessage');
             const motivationalMessage = document.getElementById('motivationalMessage');
             
+            // الحصول على عدد الزيارات المنفذة من آخر تقرير
+            const reports = JSON.parse(localStorage.getItem('reports')) || [];
+            const lastReport = reports[reports.length - 1];
+            const completedVisits = parseInt(lastReport?.completedVisits) || 0;
+            
             // رسائل تحفيز عشوائية
-            const messages = [
+            let messages = [
                 'شكراً لإنجازك! 🌟',
                 'احسنت! استمر بهذا الأداء 💪',
                 'عمل رائع! 🎉',
@@ -967,6 +1019,13 @@
                 'شكراً على الالتزام! 🙏',
                 'أنت الأفضل! 🌈'
             ];
+            
+            // إضافة رسائل خاصة إذا تجاوز 15 زيارة
+            if (completedVisits > 15) {
+                messages.push('🏅 أداء متفوق! تجاوزت المستهدف! 🏅');
+                messages.push('⭐ عمل استثنائي! أنت نجم اليوم! ⭐');
+                messages.push('🎖️ إنجاز مميز جداً! استمر هكذا! 🎖️');
+            }
             
             const randomMessage = messages[Math.floor(Math.random() * messages.length)];
             motivationalMessage.textContent = randomMessage;
@@ -994,7 +1053,8 @@
                 totalCompleted += parseInt(r.completedVisits) || 0;
             });
 
-            const completionRate = totalAssigned > 0 ? Math.round((totalCompleted / totalAssigned) * 100) : 0;
+            // حساب النسبة بناءً على 345 (المستهدف الكلي)
+            const completionRate = Math.round((totalCompleted / 345) * 100);
 
             // تحديث الإحصائيات
             document.getElementById('totalReports').textContent = totalReports;
@@ -1015,10 +1075,19 @@
             tableBody.innerHTML = sortedReports.map(r => {
                 const assigned = parseInt(r.assignedVisits) || 1;
                 const completed = parseInt(r.completedVisits) || 0;
-                const rate = Math.round((completed / assigned) * 100);
+                // حساب النسبة بناءً على 345
+                const rate = Math.round((completed / 345) * 100);
+                
+                // تحديد لون الصف بناءً على الأداء
+                let rowColor = '';
+                if (completed > 15) {
+                    rowColor = 'style="background-color: rgba(0, 255, 136, 0.1);"'; // أخضر للأداء المتفوق
+                } else if (completed >= 15) {
+                    rowColor = 'style="background-color: rgba(0, 168, 255, 0.1);"'; // أزرق للأداء الجيد
+                }
                 
                 return `
-                    <tr>
+                    <tr ${rowColor}>
                         <td>${r.date}</td>
                         <td>${r.researcherName}</td>
                         <td>${r.assignedVisits}</td>
@@ -1029,6 +1098,37 @@
                 `;
             }).join('');
         }
+    
+        // دالة لعرض قائمة الباحثين
+        function showResearcherList() {
+            const researcherName = document.getElementById('researcherName');
+            const reports = JSON.parse(localStorage.getItem('dailyReports') || '[]');
+            
+            // الحصول على قائمة الأسماء الفريدة
+            const uniqueNames = [...new Set(reports.map(r => r.researcherName))];
+            
+            // تحديث datalist
+            const datalist = document.getElementById('researcherList');
+            datalist.innerHTML = uniqueNames.map(name => 
+                `<option value="${name}">`
+            ).join('');
+            
+            // التركيز على حقل الإدخال
+            researcherName.focus();
+        }
+
+        // تحديث قائمة الباحثين عند تحميل الصفحة
+        window.addEventListener('load', function() {
+            showResearcherList();
+        });
+
+       
+      
     </script>
+     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="config.js"></script>
+    <script src="dashboard.js"></script>
+    <script src="script.js"></script>
+    <script src="notifications.js"></script>
 </body>
 </html>

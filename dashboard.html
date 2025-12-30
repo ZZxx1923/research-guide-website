@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>لوحة المشرفين - التقارير اليومية</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="yellow-circle">1</div>
+            <h1>📊 لوحة المشرفين</h1>
+            <p class="subtitle">متابعة التقارير اليومية للباحثين</p>
+        </header>
+
+        <nav class="navigation">
+            <a href="index.html" class="nav-link">إدخال التقرير</a>
+            <a href="dashboard.html" class="nav-link active">لوحة المشرفين</a>
+        </nav>
+
+        <div class="filters">
+            <div class="filter-group">
+                <label for="filterDate">التاريخ:</label>
+                <input type="date" id="filterDate">
+            </div>
+            <div class="filter-group">
+                <label for="filterResearcher">الباحث:</label>
+                <input type="text" id="filterResearcher" placeholder="اسم الباحث">
+            </div>
+            <button onclick="applyFilters()" class="filter-btn" style="background: #7c3aed;">تطبيق</button>
+            <button onclick="clearFilters()" class="filter-btn secondary">إعادة تعيين</button>
+            <button onclick="loadReports()" class="filter-btn refresh">🔄 تحديث</button>
+        </div>
+
+        <div id="statsCards" class="stats-container">
+            <!-- سيتم ملؤها ديناميكيًا -->
+        </div>
+
+        <div class="dashboard-card">
+            <div class="card-header">
+                <h2>📈 التقارير اليومية</h2>
+                <div class="legend">
+                    <span class="legend-item"><span class="indicator success"></span> محقق</span>
+                    <span class="legend-item"><span class="indicator warning"></span> مشكلة ❌</span>
+                    <span class="legend-item"><span class="indicator normal"></span> عادي</span>
+                </div>
+            </div>
+            
+            <div id="loadingMessage" class="loading">جاري تحميل البيانات...</div>
+            <div id="errorMessage" class="error-message" style="display: none;"></div>
+            
+            <div id="reportsTable" class="table-container">
+                <!-- سيتم ملؤها ديناميكيًا -->
+            </div>
+        </div>
+
+        <div class="chart-section">
+            <div class="chart-card">
+                <h3>📊 إحصائيات الأداء</h3>
+                <canvas id="performanceChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="config.js"></script>
+    <script src="dashboard.js"></script>
+</body>
+</html>

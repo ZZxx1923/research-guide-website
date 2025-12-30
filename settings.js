@@ -91,7 +91,7 @@ function saveAppScriptUrl() {
 function loadSavedAppScriptUrl() {
     const savedUrl = localStorage.getItem('appScriptUrl');
     // تثبيت رابط Sheet الجديد
-    const savedSheetUrl = '1mw5z6UWdk3GZHiprpr6-oFSVTAje3bE8KADSf3SMnaM';
+    const savedSheetUrl = 'https://docs.google.com/spreadsheets/d/1mw5z6UWdk3GZHiprpr6-oFSVTAje3bE8KADSf3SMnaM/edit';
     const savedSheetName = localStorage.getItem('sheetName');
     
     if (savedUrl) {
@@ -413,7 +413,7 @@ function hideSettings() {
     document.getElementById('password-prompt').style.display = 'flex';
 }
 
-const ADMIN_PASSWORD = "Elm2003"; 
+const ADMIN_PASSWORD = "Oxd2003"; 
 let currentEditingRow = null; 
 let isAdminAuthenticated = false; 
 let pendingAction = null; 

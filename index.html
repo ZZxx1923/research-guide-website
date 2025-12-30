@@ -478,6 +478,7 @@
 		</div>
     </header>
 	
+    
    <div id="sidebar" class="sidebar">
         <button class="close-btn" onclick="toggleSidebar()">&times;</button>
         <nav class="sidebar-nav">
@@ -507,6 +508,7 @@
             </a>
         </nav>
     </div>
+
    
     <section id="home" class="hero-section">
         <div class="container">
@@ -730,7 +732,8 @@
     <script src="script.js"></script>
     <!-- ملفات JavaScript -->
     <script src="script.js"></script>
-    <script src="prism-scripts.js"></script>
+    <script src="notifications.js"></script>
+</body>ript src="prism-scripts.js"></script>
     <script>
         // دالة لفتح وإغلاق القائمة الجانبية
         function toggleSidebar() {
@@ -772,7 +775,32 @@
 <div class="visitor-counter-container">
             <!-- عداد الزوار من freevisitorcounters.com -->
             <div id="visitor-counter">
-                <a href="http://www.freevisitorcounters.com/">Freevisitorcounters</a> </script> <script type="text/javascript" src="https://www.freevisitorcounters.com/en/home/counter/1436427/t/2"></script>
+                <a href="http://www.freevisitorcounters.com/">Freevisitorcounters</a> </script> <script type="text/javascript" src="https://www.freevisitorcounters.com/en/home/counter/1436427/t/2">
+        // حماية منع الضغط بالزر الأيمن
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            alert('ممنوع لغرض الأمان');
+            return false;
+        });
+
+        // منع اختيار النص
+        document.addEventListener('selectstart', function(e) {
+            e.preventDefault();
+            return false;
+        });
+
+        // منع F12 و Ctrl+Shift+I و Ctrl+Shift+C
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'F12' || 
+                (e.ctrlKey && e.shiftKey && e.key === 'I') ||
+                (e.ctrlKey && e.shiftKey && e.key === 'C')) {
+                e.preventDefault();
+                alert('ممنوع لغرض الأمان');
+                return false;
+            }
+        });
+
+    </script>
             </div>
         </div>
 </html>

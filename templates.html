@@ -462,10 +462,10 @@
         </div>
     </header>
     
-    <div id="sidebar" class="sidebar">
+<div id="sidebar" class="sidebar">
         <button class="close-btn" onclick="toggleSidebar()">&times;</button>
         <nav class="sidebar-nav">
-            <a href="index.html" class="sidebar-link">
+            <a href="index.html" class="sidebar-link active">
                 <i class="fas fa-home"></i>
                 الرئيسية
             </a>
@@ -477,9 +477,13 @@
                 <i class="fas fa-file-pdf"></i>
                 اهم ملفات PDF
             </a>
-            <a href="templates.html" class="sidebar-link active" style="color: var(--accent-green); font-weight: bold;">
+            <a href="templates.html" class="sidebar-link" style="color: var(--accent-blue); font-weight: bold;">
                 <i class="fas fa-file-alt"></i>
                 قوالب الطلبات
+            </a>
+            <a href="daily-reports.html" class="sidebar-link" style="color: var(--accent-green); font-weight: bold;  border-right: 3px solid var(--accent-green); cursor: pointer;">
+                <i class="fas fa-chart-bar"></i>
+                التقارير اليومية
             </a>
             <a href="settings.html" class="sidebar-link" style="color: var(--accent-red); font-weight: bold;">
                 <i class="fas fa-cog"></i>
@@ -487,7 +491,6 @@
             </a>
         </nav>
     </div>
-
     <div class="template-container">
         <div class="max-w-6xl">
             <!-- Header Section -->

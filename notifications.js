@@ -90,7 +90,7 @@ async function syncGlobalNotifications() {
                 const name = newReport.researcherName || newReport['اسم الباحث'] || 'باحث';
                 const region = newReport.region || newReport['المنطقة'] || '';
                 
-                showToastNotification(`قام الباحث ${name} بإرسال تقرير جديد من منطقة ${region} 🚀`, true);
+                showToastNotification(`قام الباحث ${name} بإرسال تقريره اليومي   ${region} 🚀`, true);
                 
                 // تحديث لوحة البيانات تلقائياً للجميع
                 if (typeof loadDashboardData === 'function') {

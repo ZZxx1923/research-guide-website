@@ -154,31 +154,38 @@ function displayReportsTable() {
         <tbody>
     `;
     
-    // صفوف البيانات
-    filteredReports.forEach(report => {
-        const completionRate = ((parseInt(report.completedVisits) / parseInt(report.assignedVisits)) * 100).toFixed(0);
-        const status = getReportStatus(report);
-        
-        tableHTML += `
-            <tr class="report-row">
-                <td>${report.date}</td>
-                <td>${report.researcherName}</td>
-                <td>${report.assignedVisits}</td>
-                <td>${report.completedVisits}</td>
-                <td>${completionRate}%</td>
-                <td>
-                    <span class="technical-issues ${parseInt(report.technicalIssues) > 0 ? 'has-issues' : ''}">
-                        ${parseInt(report.technicalIssues) > 0 ? '❌' : '✅'}
-                    </span>
-                </td>
-                <td>
-                    <span class="status-badge" style="background-color: ${status.color}">
-                        ${status.label}
-                    </span>
-                </td>
-            </tr>
-        `;
-    });
+        // صفوف البيانات
+        filteredReports.forEach(report => {
+            // معالجة الحقول لضمان عملها سواء كانت من Google Sheets أو LocalStorage
+            const assigned = parseInt(report.assignedVisits || report['الزيارات المسندة']) || 1;
+            const completed = parseInt(report.completedVisits || report['الزيارات المنفذة']) || 0;
+            const techIssues = parseInt(report.technicalIssues || report['المشاكل التقنية']) || 0;
+            const researcher = report.researcherName || report['اسم الباحث'] || 'غير معروف';
+            const date = report.date || report['التاريخ'] || '-';
+            
+            const completionRate = ((completed / assigned) * 100).toFixed(0);
+            const status = getReportStatus({completedVisits: completed, assignedVisits: assigned, technicalIssues: techIssues});
+            
+            tableHTML += `
+                <tr class="report-row">
+                    <td>${date}</td>
+                    <td>${researcher}</td>
+                    <td>${assigned}</td>
+                    <td>${completed}</td>
+                    <td>${completionRate}%</td>
+                    <td>
+                        <span class="technical-issues ${techIssues > 0 ? 'has-issues' : ''}">
+                            ${techIssues > 0 ? '❌' : '✅'}
+                        </span>
+                    </td>
+                    <td>
+                        <span class="status-badge" style="background-color: ${status.color}">
+                            ${status.label}
+                        </span>
+                    </td>
+                </tr>
+            `;
+        });
     
     tableHTML += '</tbody></table></div>';
     
@@ -414,6 +421,22 @@ function setupAutoRefresh(interval = 30000) {
         console.log('🔄 تحديث تلقائي للبيانات...');
         loadReports();
     }, interval);
+}
+
+// دالة لفحص الاتصال بـ Google Sheets
+async function checkSheetsConnection() {
+    alert('جاري فحص الاتصال بـ Google Sheets...');
+    try {
+        const response = await fetch(GOOGLE_APPS_SCRIPT_URL);
+        const data = await response.json();
+        if (data.success) {
+            alert('✅ الاتصال يعمل بنجاح!\nالرسالة: ' + data.message + '\nالأوراق الموجودة: ' + data.sheets.join(', '));
+        } else {
+            alert('❌ السكريبت رد بخطأ: ' + data.error);
+        }
+    } catch (error) {
+        alert('❌ فشل الاتصال تماماً. تأكد من:\n1. وضع الرابط الصحيح في config.js\n2. نشر السكريبت كـ Web App\n3. اختيار Anyone في صلاحيات الوصول');
+    }
 }
 
 // بدء التحديث التلقائي كل 30 ثانية

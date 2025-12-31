@@ -1,16 +1,15 @@
 /**
- * نظام الإشعارات اللحظية لـ PRISM FLUX
- * يقوم بفحص التغييرات في Google Sheets وعرض تنبيه عند إرسال تقرير جديد
+ * نظام الإشعارات اللحظية الجماعي لـ PRISM FLUX
+ * يقوم بفحص التغييرات في Google Sheets وعرض تنبيه لجميع المستخدمين عند إرسال تقرير جديد
  */
 
 const NOTIFICATION_CONFIG = {
-    checkInterval: 30000, // فحص كل 30 ثانية لتجنب تجاوز حدود Google Script
-    lastNotificationTime: localStorage.getItem('lastNotificationTime') || new Date().toISOString()
+    checkInterval: 15000, // فحص كل 15 ثانية لضمان السرعة
+    lastReportCount: parseInt(localStorage.getItem('lastReportCount')) || 0
 };
 
 // دالة لإنشاء وعرض الإشعار في الواجهة
-function showToastNotification(message) {
-    // إنشاء عنصر الإشعار إذا لم يكن موجوداً
+function showToastNotification(message, isGlobal = false) {
     let toastContainer = document.getElementById('toast-container');
     if (!toastContainer) {
         toastContainer = document.createElement('div');
@@ -34,7 +33,7 @@ function showToastNotification(message) {
         color: white;
         padding: 15px 25px;
         border-radius: 12px;
-        border-right: 4px solid #00ff88;
+        border-right: 4px solid ${isGlobal ? '#00d4ff' : '#00ff88'};
         box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         display: flex;
         align-items: center;
@@ -48,11 +47,11 @@ function showToastNotification(message) {
     `;
 
     toast.innerHTML = `
-        <div style="background: rgba(0, 255, 136, 0.1); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #00ff88;">
-            <i class="fas fa-bell"></i>
+        <div style="background: rgba(0, 212, 255, 0.1); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: ${isGlobal ? '#00d4ff' : '#00ff88'};">
+            <i class="fas ${isGlobal ? 'fa-users' : 'fa-check-circle'}"></i>
         </div>
         <div style="flex: 1;">
-            <div style="font-weight: bold; color: #00ff88; margin-bottom: 3px; font-size: 0.9em;">تنبيه جديد</div>
+            <div style="font-weight: bold; color: ${isGlobal ? '#00d4ff' : '#00ff88'}; margin-bottom: 3px; font-size: 0.9em;">${isGlobal ? 'تحديث ميداني' : 'تم الإرسال'}</div>
             <div style="font-size: 0.95em; line-height: 1.4;">${message}</div>
         </div>
         <button onclick="this.parentElement.remove()" style="background: none; border: none; color: #888; cursor: pointer; font-size: 18px;">&times;</button>
@@ -60,19 +59,17 @@ function showToastNotification(message) {
 
     toastContainer.appendChild(toast);
 
-    // تحريك الإشعار للداخل
     setTimeout(() => {
         toast.style.transform = 'translateX(0)';
     }, 100);
 
-    // تشغيل صوت تنبيه بسيط (اختياري)
+    // تشغيل صوت التنبيه القديم
     try {
         const audio = new Audio('https://assets.mixkit.co/active_storage/sfx/2354/2354-preview.mp3');
-        audio.volume = 0.3;
+        audio.volume = 0.4;
         audio.play();
     } catch (e) { console.log('Audio play blocked'); }
 
-    // إخفاء الإشعار بعد 8 ثوانٍ
     setTimeout(() => {
         toast.style.transform = 'translateX(-120%)';
         toast.style.opacity = '0';
@@ -80,36 +77,47 @@ function showToastNotification(message) {
     }, 8000);
 }
 
-// دالة لفحص الإشعارات الجديدة من Google Script
-async function checkForNewNotifications() {
-    if (!GOOGLE_APPS_SCRIPT_URL) return;
+// دالة لفحص التقارير الجديدة وتنبيه الجميع
+async function syncGlobalNotifications() {
+    if (typeof fetchFromGoogleSheets !== 'function') return;
 
     try {
-        const response = await fetch(`${GOOGLE_APPS_SCRIPT_URL}?type=notifications`);
-        const data = await response.json();
-
-        if (data.success && data.notifications && data.notifications.length > 0) {
-            const latest = data.notifications[0];
-            
-            // التحقق مما إذا كان الإشعار جديداً
-            if (new Date(latest.timestamp) > new Date(NOTIFICATION_CONFIG.lastNotificationTime)) {
-                showToastNotification(latest.message);
+        const reports = await fetchFromGoogleSheets();
+        if (reports && reports.length > 0) {
+            // إذا زاد عدد التقارير عن آخر مرة، يعني هناك تقرير جديد
+            if (NOTIFICATION_CONFIG.lastReportCount > 0 && reports.length > NOTIFICATION_CONFIG.lastReportCount) {
+                const newReport = reports[0]; // آخر تقرير مضاف
+                const name = newReport.researcherName || newReport['اسم الباحث'] || 'باحث';
+                const region = newReport.region || newReport['المنطقة'] || '';
                 
-                // تحديث وقت آخر إشعار
-                NOTIFICATION_CONFIG.lastNotificationTime = latest.timestamp;
-                localStorage.setItem('lastNotificationTime', latest.timestamp);
+                showToastNotification(`قام الباحث ${name} بإرسال تقرير جديد من منطقة ${region} 🚀`, true);
+                
+                // تحديث لوحة البيانات تلقائياً للجميع
+                if (typeof loadDashboardData === 'function') {
+                    loadDashboardData();
+                }
             }
+            
+            // تحديث العدد في الذاكرة
+            NOTIFICATION_CONFIG.lastReportCount = reports.length;
+            localStorage.setItem('lastReportCount', reports.length);
         }
     } catch (error) {
-        console.error('Error checking notifications:', error);
+        console.error('Notification Sync Error:', error);
     }
 }
 
-// بدء الفحص الدوري عند تحميل الصفحة
+// بدء الفحص الدوري
 document.addEventListener('DOMContentLoaded', () => {
-    // فحص أول مرة بعد 5 ثوانٍ من التحميل
-    setTimeout(checkForNewNotifications, 5000);
-    
-    // ضبط الفحص الدوري
-    setInterval(checkForNewNotifications, NOTIFICATION_CONFIG.checkInterval);
+    // تعيين العدد الأولي دون تنبيه
+    setTimeout(async () => {
+        if (typeof fetchFromGoogleSheets === 'function') {
+            const reports = await fetchFromGoogleSheets();
+            NOTIFICATION_CONFIG.lastReportCount = reports ? reports.length : 0;
+            localStorage.setItem('lastReportCount', NOTIFICATION_CONFIG.lastReportCount);
+        }
+    }, 2000);
+
+    // فحص كل 15 ثانية
+    setInterval(syncGlobalNotifications, NOTIFICATION_CONFIG.checkInterval);
 });

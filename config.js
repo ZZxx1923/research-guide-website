@@ -65,7 +65,7 @@ async function saveReport(reportData) {
 // 📤 دالة لإرسال البيانات إلى Google Sheets
 async function saveToGoogleSheets(reportData) {
     try {
-        console.log('جاري رفع التقرير');
+        console.log('📤 جاري إرسال البيانات إلى Google Sheets...');
         
         // حساب النسبة المئوية قبل الإرسال لضمان دقتها
         const assigned = parseInt(reportData.assignedVisits) || 1;
@@ -92,17 +92,33 @@ async function saveToGoogleSheets(reportData) {
 // 📥 دالة لجلب البيانات من Google Sheets (للمشرفين)
 async function fetchFromGoogleSheets() {
     try {
-        console.log('📥جاري رفع التقرير ');
-        const response = await fetch(`${GOOGLE_APPS_SCRIPT_URL}?type=reports`);
+        console.log('📥 جاري جلب البيانات من Google Sheets...');
+        
+        // إضافة timestamp لمنع الكاش (Cache Busting)
+        const url = `${GOOGLE_APPS_SCRIPT_URL}?type=reports&t=${Date.now()}`;
+        
+        const response = await fetch(url);
+        if (!response.ok) throw new Error('Network response was not ok');
+        
         const data = await response.json();
         
-        if (data.success) {
-            console.log('✅ تم جلب البيانات بنجاح:', data.reports.length, 'تقرير');
+        if (data && data.success && Array.isArray(data.reports)) {
+            console.log('✅ تم جلب البيانات بنجاح من Google Sheets:', data.reports.length, 'تقرير');
+            // تخزين نسخة محلية محدثة للطوارئ
+            localStorage.setItem('reports_backup', JSON.stringify(data.reports));
             return data.reports;
         }
+        
+        console.warn('⚠️ استجابة Google Sheets غير متوقعة:', data);
         return null;
     } catch (error) {
         console.error('❌ خطأ في جلب البيانات من Google Sheets:', error);
+        // محاولة استعادة النسخة الاحتياطية إذا فشل الجلب
+        const backup = localStorage.getItem('reports_backup');
+        if (backup) {
+            console.log('ℹ️ تم استخدام النسخة الاحتياطية المزامنة مسبقاً');
+            return JSON.parse(backup);
+        }
         return null;
     }
 }

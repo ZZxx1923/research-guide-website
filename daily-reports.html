@@ -505,7 +505,9 @@
 
             try {
                 let url = `${GOOGLE_APPS_SCRIPT_URL}?type=reports`;
-                if (historyDate) url += `&date=${historyDate}`;
+                if (historyDate && historyDate !== '') {
+                    url += `&date=${encodeURIComponent(historyDate)}`;
+                }
                 
                 const res = await fetch(url);
                 if (!res.ok) throw new Error('استجابة الخادم غير صحيحة');
@@ -583,8 +585,39 @@
             }
         }
 
+        async function loadArchiveDays() {
+            const select = document.getElementById('historyDate');
+            if (!select) return;
+
+            try {
+                const url = `${GOOGLE_APPS_SCRIPT_URL}?type=getArchiveDays`;
+                const res = await fetch(url);
+                const json = await res.json();
+
+                if (json.status === 'success' && json.days) {
+                    // الاحتفاظ بالخيار الأول (اليوم الحالي)
+                    const firstOption = select.options[0];
+                    select.innerHTML = '';
+                    select.appendChild(firstOption);
+
+                    json.days.forEach(day => {
+                        const option = document.createElement('option');
+                        option.value = day;
+                        option.textContent = day;
+                        select.appendChild(option);
+                    });
+                }
+            } catch (e) {
+                console.error('Error loading archive days:', e);
+            }
+        }
+
         window.onload = function() {
             setInitialDate();
+            loadArchiveDays();
+            
+            // تعطيل القائمة اليمنى للأمان
+            document.addEventListener('contextmenu', event => event.preventDefault());
         };
     </script>
 </body>

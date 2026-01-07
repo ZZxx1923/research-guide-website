@@ -78,7 +78,7 @@ function updateHiddenMessages(dayName, dateString) {
     const researcherGender = document.getElementById('researcherGender')?.value || 'male';
     
     // جملة المحرم تظهر فقط إذا كان المختار "باحث" (male)
-    const mahramNote = researcherGender === 'male' ? '\n✓ الزامي حضور محرم لنساء .' : '';
+    const mahramNote = researcherGender === 'male' ? '\n✓ الزامي حضور محرم للنساء .' : '';
     
     // تحديث رسالة الضمان (message1)
     const message1 = document.getElementById('message1');

@@ -462,10 +462,10 @@
         </div>
     </header>
     
-<div id="sidebar" class="sidebar">
+    <div id="sidebar" class="sidebar">
         <button class="close-btn" onclick="toggleSidebar()">&times;</button>
         <nav class="sidebar-nav">
-            <a href="index.html" class="sidebar-link active">
+            <a href="index.html" class="sidebar-link">
                 <i class="fas fa-home"></i>
                 الرئيسية
             </a>
@@ -477,11 +477,11 @@
                 <i class="fas fa-file-pdf"></i>
                 اهم ملفات PDF
             </a>
-            <a href="templates.html" class="sidebar-link" style="color: var(--accent-blue); font-weight: bold;">
+            <a href="templates.html" class="sidebar-link active" style="color: var(--accent-blue); font-weight: bold;">
                 <i class="fas fa-file-alt"></i>
                 قوالب الطلبات
             </a>
-            <a href="daily-reports.html" class="sidebar-link" style="color: var(--accent-green); font-weight: bold;  border-right: 3px solid var(--accent-green); cursor: pointer;">
+            <a href="daily-reports.html" class="sidebar-link" style="color: var(--accent-green); font-weight: bold;">
                 <i class="fas fa-chart-bar"></i>
                 التقارير اليومية
             </a>
@@ -497,7 +497,10 @@
             <!-- Header Section -->
             <div class="bg-white border-4 border-black mb-0">
                 <div class="header-container border-b-4 border-black bg-blue-100 p-8">
-                   
+                    <!-- Logo -->
+                    <div class="logo-container">
+                        <img src="images/hrsd_logo.png" alt="HRSD Logo" class="logo-image">
+                    </div>
 
                     <!-- Title -->
                     <div class="title-container">
@@ -611,6 +614,115 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        let currentTab = 'new-account';
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('open');
+        }
+
+        function switchTab(tab) {
+            currentTab = tab;
+            const resetTab = document.getElementById('resetTab');
+            const newAccountTab = document.getElementById('newAccountTab');
+            
+            if (tab === 'reset') {
+                resetTab.classList.add('active-tab');
+                newAccountTab.classList.remove('active-tab');
+                document.getElementById('phoneRequired').style.display = 'none';
+                document.getElementById('scopeRequired').style.display = 'none';
+                document.getElementById('cityRequired').style.display = 'none';
+            } else {
+                newAccountTab.classList.add('active-tab');
+                resetTab.classList.remove('active-tab');
+                document.getElementById('phoneRequired').style.display = 'inline';
+                document.getElementById('scopeRequired').style.display = 'inline';
+                document.getElementById('cityRequired').style.display = 'inline';
+            }
+            updateMessage();
+        }
+
+        function updateMessage() {
+            const name = document.getElementById('name').value || '........';
+            const idNumber = document.getElementById('idNumber').value || '........';
+            const phone = document.getElementById('phone').value || '........';
+            const scope = document.getElementById('scope').value || '........';
+            const city = document.getElementById('city').value || '........';
+            const platform = document.getElementById('platform').value || '........';
+
+            let message = '';
+            if (currentTab === 'new-account') {
+                message = `طلب إنشاء حساب جديد\n\nالمنصة: ${platform}\nاسم الباحث: ${name}\nرقم الهوية: ${idNumber}\nرقم الجوال: ${phone}\nالنطاق: ${scope}\nالمدينة: ${city}`;
+            } else {
+                message = `طلب إعادة تفعيل الحساب / تعيين كلمة المرور\n\nالمنصة: ${platform}\nاسم الباحث: ${name}\nرقم الهوية: ${idNumber}`;
+            }
+
+            document.getElementById('messageContent').textContent = message;
+            document.getElementById('messageSection').classList.add('show');
+        }
+
+        // إضافة مستمعات الأحداث لجميع الحقول
+        const inputs = ['name', 'idNumber', 'phone', 'scope', 'city', 'platform'];
+        inputs.forEach(id => {
+            const element = document.getElementById(id);
+            if (element) {
+                element.addEventListener('input', updateMessage);
+                if (element.tagName === 'SELECT') {
+                    element.addEventListener('change', updateMessage);
+                }
+            }
+        });
+
+        // عداد الأرقام للهوية والجوال
+        function setupCounter(id, counterId, errorId) {
+            const input = document.getElementById(id);
+            const counter = document.getElementById(counterId);
+            const error = document.getElementById(errorId);
+
+            input.addEventListener('input', () => {
+                const val = input.value.replace(/\D/g, '');
+                input.value = val;
+                counter.textContent = val.length;
+                if (val.length > 0 && val.length < 10) {
+                    error.style.display = 'block';
+                } else {
+                    error.style.display = 'none';
+                }
+            });
+        }
+
+        setupCounter('idNumber', 'idCounter', 'idError');
+        setupCounter('phone', 'phoneCounter', 'phoneError');
+
+        function copyMessage() {
+            const text = document.getElementById('messageContent').textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                const btnText = document.getElementById('copyBtnText');
+                const originalText = btnText.textContent;
+                btnText.textContent = '✅ تم النسخ!';
+                setTimeout(() => {
+                    btnText.textContent = originalText;
+                }, 2000);
+            });
+        }
+
+        function sendEmail() {
+            const text = document.getElementById('messageContent').textContent;
+            const subject = currentTab === 'new-account' ? 'طلب إنشاء حساب جديد' : 'طلب إعادة تفعيل حساب';
+            const email = 'sm@ek.com.sa';
+            const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(text)}`;
+            window.location.href = mailtoLink;
+        }
+
+        // استرجاع اسم الباحث من localStorage إذا كان موجوداً
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedName = localStorage.getItem('researcherName');
+            if (savedName) {
+                document.getElementById('name').value = savedName;
+                updateMessage();
+            }
+        });
+    </script>
 </body>
 </html>

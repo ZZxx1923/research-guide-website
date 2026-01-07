@@ -521,8 +521,12 @@
         <div class="container">
             <p style="color: var(--text-secondary);"> نماذج رسائل الزيارات الميدانية (يتم تحديث التاريخ واليوم تلقائيًا مع إمكانية التعديل اليدوي)</p>
             <div class="button-wrapper">
-                <div class="researcher-info" style="margin-bottom: 15px;">
-                    <input type="text" id="researcherNameInput" placeholder="أدخل اسم الباحث/ة هنا" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--metal-dark); background: var(--carbon-dark); color: var(--text-primary); text-align: center; font-size: 1.1em; font-family: 'Tajawal', sans-serif;">
+                <div class="researcher-info" style="margin-bottom: 15px; display: flex; gap: 10px;">
+                    <input type="text" id="researcherNameInput" placeholder="أدخل اسم الباحث/ة هنا" style="flex: 2; padding: 12px; border-radius: 8px; border: 1px solid var(--metal-dark); background: var(--carbon-dark); color: var(--text-primary); text-align: center; font-size: 1.1em; font-family: 'Tajawal', sans-serif;">
+                    <select id="researcherGender" style="flex: 1; padding: 12px; border-radius: 8px; border: 1px solid var(--metal-dark); background: var(--carbon-dark); color: var(--text-primary); text-align: center; font-size: 1.1em; font-family: 'Tajawal', sans-serif; cursor: pointer;">
+                        <option value="male">باحث</option>
+                        <option value="female">باحثة</option>
+                    </select>
                 </div>
                 <div class="date-info">
                     <span class="day-name" id="dayName">الأحد</span>

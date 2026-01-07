@@ -75,6 +75,10 @@ function resetDate() {
 // تحديث الرسائل المخفية بالتاريخ واليوم واسم الباحث
 function updateHiddenMessages(dayName, dateString) {
     const researcherName = document.getElementById('researcherNameInput')?.value || '……..';
+    const researcherGender = document.getElementById('researcherGender')?.value || 'male';
+    
+    // جملة المحرم تظهر فقط إذا كان المختار "باحث" (male)
+    const mahramNote = researcherGender === 'male' ? '\n✓ الزامي حضور محرم لنساء .' : '';
     
     // تحديث رسالة الضمان (message1)
     const message1 = document.getElementById('message1');
@@ -104,9 +108,9 @@ function updateHiddenMessages(dayName, dateString) {
 ✓ العنوان الوطني موثق من سبل او توكلنا مهم جداً.
 ✓ صك الطلاق/ صك الحضانة.
 ✓ التقرير الطبي اذا كان هناك مرض اواعاقة لاسمح الله.
-✓ وجود جميع التابعين فالمنزل لمن لديه تابع ماعادا الطلاب.
+✓ وجود جميع التابعين فالمنزل لمن لديه تابع ماعادا الطلاب.${mahramNote}
 
-لايوجد وقت محدد لموعد الزيارة وسوف يتم الابلاغ قبل القدوم بنصف ساعه .
+🔸 يتم تحديد وقت الزيارة حسب جدول الزيارات، وسيتم الإبلاغ قبل القدوم بنصف ساعة.
 
 شكراً لكم ....`;
     message1.textContent = messageText1;
@@ -134,7 +138,7 @@ function updateHiddenMessages(dayName, dateString) {
 1- الهويه الوطنيه .
 2- عقد الايجار.
 3- العنوان الوطني.
-4- فاتورة الكهرباء .`;
+4- فاتورة الكهرباء .${mahramNote}`;
     message2.textContent = messageText2;
 }
 
@@ -183,12 +187,22 @@ function showCopyFeedback() {
 document.addEventListener('DOMContentLoaded', () => {
     fetchInternetDate();
     
-    // حفظ اسم الباحث في localStorage وتحديثه عند التغيير
+    // حفظ اسم الباحث وجنسه في localStorage وتحديثهما عند التغيير
     const researcherInput = document.getElementById('researcherNameInput');
+    const researcherGenderSelect = document.getElementById('researcherGender');
+    
     if (researcherInput) {
         researcherInput.value = localStorage.getItem('researcherName') || '';
         researcherInput.addEventListener('input', () => {
             localStorage.setItem('researcherName', researcherInput.value);
+            updateDateTime();
+        });
+    }
+    
+    if (researcherGenderSelect) {
+        researcherGenderSelect.value = localStorage.getItem('researcherGender') || 'male';
+        researcherGenderSelect.addEventListener('change', () => {
+            localStorage.setItem('researcherGender', researcherGenderSelect.value);
             updateDateTime();
         });
     }

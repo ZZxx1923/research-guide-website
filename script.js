@@ -12,25 +12,46 @@ const daysInArabic = [
 // متغير لتتبع التاريخ الذي يتم عرضه وتحديثه
 let currentDate = new Date();
 
+// دالة لتحويل التاريخ الميلادي إلى هجري (أرقام فقط)
+function getHijriDate(date) {
+    return new Intl.DateTimeFormat('ar-SA-u-ca-islamic-umalqura-nu-latn', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric'
+    }).format(date).replace(/هـ/g, '').trim();
+}
+
+// دالة لجلب التاريخ من الإنترنت (WorldTimeAPI) لضمان الدقة
+async function fetchInternetDate() {
+    try {
+        const response = await fetch('https://worldtimeapi.org/api/timezone/Asia/Riyadh');
+        const data = await response.json();
+        if (data && data.datetime) {
+            currentDate = new Date(data.datetime);
+            console.log('تم جلب التاريخ من الإنترنت بنجاح:', currentDate);
+        }
+    } catch (error) {
+        console.error('فشل جلب التاريخ من الإنترنت، سيتم استخدام تاريخ الجهاز:', error);
+        currentDate = new Date();
+    }
+    updateDateTime();
+}
+
 // تحديث التاريخ واسم اليوم
 function updateDateTime() {
-    
     // الحصول على اسم اليوم من التاريخ الحالي المتحكم به
     const dayIndex = currentDate.getDay();
     const dayName = daysInArabic[dayIndex];
     
-    // تنسيق التاريخ (DD/MM/YYYY)
-    const day = String(currentDate.getDate()).padStart(2, '0');
-    const month = String(currentDate.getMonth() + 1).padStart(2, '0');
-    const year = currentDate.getFullYear();
-    const dateString = `${day}/${month}/${year}`;
+    // تحويل التاريخ إلى هجري (أرقام فقط)
+    const hijriDateString = getHijriDate(currentDate);
     
     // تحديث العناصر في الصفحة
     document.getElementById('dayName').textContent = dayName;
-    document.getElementById('dateDisplay').textContent = dateString;
+    document.getElementById('dateDisplay').textContent = hijriDateString;
     
     // تحديث الرسائل المخفية بالتاريخ واليوم الجديد
-    updateHiddenMessages(dayName, dateString);
+    updateHiddenMessages(dayName, hijriDateString);
 }
 
 // دالة للانتقال إلى اليوم التالي
@@ -51,24 +72,69 @@ function resetDate() {
     updateDateTime();
 }
 
-// تحديث الرسائل المخفية بالتاريخ واليوم
+// تحديث الرسائل المخفية بالتاريخ واليوم واسم الباحث
 function updateHiddenMessages(dayName, dateString) {
+    const researcherName = document.getElementById('researcherNameInput')?.value || '……..';
+    
     // تحديث رسالة الضمان (message1)
     const message1 = document.getElementById('message1');
-    let messageText1 = message1.textContent;
-    // استبدال اليوم مع الأقواس
-    messageText1 = messageText1.replace(/لديكم موعد زياره يوم \([^)]*\)/g, `لديكم موعد زياره يوم (${dayName})`);
-    // استبدال التاريخ
-    messageText1 = messageText1.replace(/بتاريخ : \d{2}\/\d{2}\/\d{4}/g, `بتاريخ : ${dateString}`);
+    let messageText1 = `السلام عليكم ورحمة الله وبركاته ...
+
+عزيزي/تي المستفيد/ة :
+
+معك (الباحث /ــه الإجتماعية) : ${researcherName}••
+
+وزارة الموارد البشرية والتنمية الإجتماعيه...
+
+(الضمان الاجتماعي)
+
+لديكم موعد زياره يوم (${dayName})
+
+بتاريخ : ${dateString}
+
+* آمل منكم ارسال موقع المنزل وصوره للمنزل من الخارج فقط...
+
+🔹ملاحظه مهمه جدا :
+
+وتجنباً للتأخير على المستفيدين الآخرين يجب تجهيز الطلبات التاليه وتكون بحوزة المستفيد اثناء الزياره :
+
+✓ الهويه الوطنيه او كرت العائله.
+✓ رخصة السير (الاستماره) للمستفيد او احد التابعين في حال امتلاك سيارة.
+✓ عقد الايجار / او صك الملك في حال كان البيت ملك/صك الورثه.
+✓ العنوان الوطني موثق من سبل او توكلنا مهم جداً.
+✓ صك الطلاق/ صك الحضانة.
+✓ التقرير الطبي اذا كان هناك مرض اواعاقة لاسمح الله.
+✓ وجود جميع التابعين فالمنزل لمن لديه تابع ماعادا الطلاب.
+
+لايوجد وقت محدد لموعد الزيارة وسوف يتم الابلاغ قبل القدوم بنصف ساعه .
+
+شكراً لكم ....`;
     message1.textContent = messageText1;
     
     // تحديث رسالة حساب المواطن (message2)
     const message2 = document.getElementById('message2');
-    let messageText2 = message2.textContent;
-    // استبدال اليوم مع الأقواس
-    messageText2 = messageText2.replace(/لديكم موعد زياره يوم \([^)]*\)/g, `لديكم موعد زياره يوم (${dayName})`);
-    // استبدال التاريخ
-    messageText2 = messageText2.replace(/بتاريخ : \d{2}\/\d{2}\/\d{4}/g, `بتاريخ : ${dateString}`);
+    let messageText2 = `السلام عليكم ورحمة الله وبركاته .
+
+عزيزي المستفيد /  
+
+معك ( الباحثـ.   / ــه  الإجتماعي) : ${researcherName} -
+        
+وزارة الموارد البشرية والتنمية الإجتماعيه.
+(حساب المواطن)
+
+لديكم موعد زياره يوم (${dayName})
+
+بتاريخ : ${dateString}
+
+      
+آمل منكم ارسال موقع المنزل وصوره للمنزل من الخارج  فقط..
+
+🔸🔸🔸ملاحظه مهمه جدا وتجنبا للتأخير  على المستفيدين الآخرين يجب تجهيز الطلبات التاليه وتكون بحوزة المستفيد اثناء الزياره .
+
+1- الهويه الوطنيه .
+2- عقد الايجار.
+3- العنوان الوطني.
+4- فاتورة الكهرباء .`;
     message2.textContent = messageText2;
 }
 
@@ -115,10 +181,20 @@ function showCopyFeedback() {
 
 // تحديث التاريخ والوقت عند تحميل الصفحة
 document.addEventListener('DOMContentLoaded', () => {
-    updateDateTime();
+    fetchInternetDate();
     
-    // تحديث الوقت كل دقيقة للتأكد من أن التاريخ يعود لليوم الفعلي عند بداية يوم جديد
-    setInterval(resetDate, 60000 * 60); // كل ساعة
+    // حفظ اسم الباحث في localStorage وتحديثه عند التغيير
+    const researcherInput = document.getElementById('researcherNameInput');
+    if (researcherInput) {
+        researcherInput.value = localStorage.getItem('researcherName') || '';
+        researcherInput.addEventListener('input', () => {
+            localStorage.setItem('researcherName', researcherInput.value);
+            updateDateTime();
+        });
+    }
+
+    // تحديث الوقت كل ساعة للتأكد من أن التاريخ يعود لليوم الفعلي عند بداية يوم جديد
+    setInterval(fetchInternetDate, 60000 * 60); // كل ساعة
 });
 
 // تحديث الوقت عند استعادة الصفحة من الذاكرة المؤقتة

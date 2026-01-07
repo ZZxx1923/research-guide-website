@@ -1,5 +1,5 @@
 /**
- * PRISM FLUX - Google Apps Script (Final Version V4)
+ * الدليل الإرشادي للباحثين - Google Apps Script (Final Version V4)
  * يدعم: حفظ التقارير، جلب البيانات، ونظام عداد المتصلين الحقيقي (آخر 5 دقائق)
  */
 

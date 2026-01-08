@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>التقارير اليومية - Prism Flux</title>
+    <title>التقارير اليومية</title>
     <link rel="stylesheet" href="prism-flux.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
@@ -255,6 +255,10 @@
         <div id="input-tab" class="tab-content">
             <div class="form-section">
                 <form id="reportForm">
+                    <div class="form-group">
+                        <label>اسم الباحث:</label>
+                        <input type="text" id="researcherName" required placeholder="أدخل اسمك">
+                    </div>
                     <div class="form-row">
                         <div class="form-group">
                             <label>التاريخ:</label>
@@ -265,10 +269,7 @@
                             <input type="text" id="day" readonly style="background: #222;">
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label>اسم الباحث:</label>
-                        <input type="text" id="researcherName" required placeholder="أدخل اسمك">
-                    </div>
+                    
                     <div class="form-row">
                         <div class="form-group"><label>المسندة:</label><input type="number" id="assignedVisits" value="0" min="0" required></div>
                         <div class="form-group"><label>المنفذة:</label><input type="number" id="completedVisits" value="0" min="0" required></div>
@@ -489,48 +490,47 @@
         }
 
         async function confirmSubmit() {
-            if (!formDataToSubmit) return;
-            
-            document.getElementById('confirmationModal').classList.remove('show');
-            document.getElementById('loadingOverlay').style.display = 'flex';
+    if (!formDataToSubmit) return;
+    
+    document.getElementById('confirmationModal').classList.remove('show');
+    document.getElementById('loadingOverlay').style.display = 'flex';
 
-            try {
-                const response = await fetch(GOOGLE_APPS_SCRIPT_URL, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    cache: 'no-cache',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(formDataToSubmit)
-                });
+    try {
+        const response = await fetch(GOOGLE_APPS_SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            cache: 'no-cache',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(formDataToSubmit)
+        });
 
-                // إرسال إشعار لحظي لـ Firebase
-                if (typeof triggerInstantNotification === 'function') {
-                    triggerInstantNotification(formDataToSubmit.researcherName, formDataToSubmit.region || '');
-                } else if (typeof sendInstantNotification === 'function') {
-                    // محاولة استدعاء الدالة بمسمى آخر إذا وجد
-                    sendInstantNotification(formDataToSubmit.researcherName);
-                }
-
-                if (typeof showToastNotification === 'function') {
-                    showToastNotification('تم إرسال التقرير بنجاح ✅', false);
-                } else {
-                    alert('تم إرسال التقرير بنجاح ✅');
-                }
-                
-                document.getElementById('reportForm').reset();
-                setInitialDate();
-            } catch (error) {
-                console.error('Error:', error);
-                if (typeof showToastNotification === 'function') {
-                    showToastNotification('حدث خطأ أثناء الإرسال ❌', true);
-                } else {
-                    alert('حدث خطأ أثناء الإرسال ❌');
-                }
-            } finally {
-                document.getElementById('loadingOverlay').style.display = 'none';
-                formDataToSubmit = null;
-            }
+        // 1. إظهار رسالة النجاح التقليدية للباحث
+        if (typeof showToastNotification === 'function') {
+            showToastNotification('تم إرسال التقرير بنجاح ✅', false);
         }
+
+        // 2. إظهار إشعار "التحديث الميداني" للباحث (نفس الذي يظهر للبقية)
+        const researcherName = formDataToSubmit.researcherName || "باحث";
+        if (typeof triggerInstantNotification === 'function') {
+            // أضفت تأخير بسيط (نصف ثانية) لكي لا تظهر الرسالتان فوق بعضهما تماماً
+            setTimeout(() => {
+                triggerInstantNotification(researcherName, formDataToSubmit.region || '');
+            }, 500);
+        }
+        
+        document.getElementById('reportForm').reset();
+        setInitialDate();
+    } catch (error) {
+        console.error('Error:', error);
+        if (typeof showToastNotification === 'function') {
+            showToastNotification('حدث خطأ أثناء الإرسال ❌', true);
+        }
+    } finally {
+        document.getElementById('loadingOverlay').style.display = 'none';
+        formDataToSubmit = null;
+    }
+}
+
 
         async function loadDashboardData() {
             const tbody = document.getElementById('tableBody');

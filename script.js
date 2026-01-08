@@ -807,6 +807,11 @@ function handleSubmit(event) {
         const report = saveReport(formData);
         showSuccess('✅ تم حفظ التقرير بنجاح!');
         
+        // إرسال إشعار لحظي لـ Firebase
+        if (typeof triggerInstantNotification === 'function') {
+            triggerInstantNotification(formData.researcherName, formData.region || '');
+        }
+        
         // إعادة تعيين النموذج
         resetForm();
         
@@ -1043,6 +1048,29 @@ function shareData() {
         navigator.clipboard.writeText(shareText).then(() => {
             showSuccess('✅ تم نسخ الملخص إلى الحافظة');
         });
+    }
+}
+
+// دالة إرسال الإشارة لـ Firebase فور إتمام التقرير
+async function triggerInstantNotification(name, region) {
+    const researcherName = name || "باحث";
+    // نستخدم POST لإنشاء سجل جديد تماماً، مما يضمن تنبيه Firebase لجميع المشتركين
+    const url = "https://notificationsfirebase-9a183-default-rtdb.firebaseio.com/notifications.json";
+    const payload = {
+        name: researcherName,
+        region: region || "",
+        timestamp: Date.now(),
+        message: `أتم الباحث ${researcherName} تقريره اليومي وأرسله بنجاح ✅`
+    };
+    
+    try {
+        await fetch(url, {
+            method: 'POST',
+            body: JSON.stringify(payload)
+        });
+        console.log("✅ تم إرسال إشارة الإشعار اللحظي");
+    } catch (e) {
+        console.error("❌ فشل إرسال إشارة الإشعار:", e);
     }
 }
 

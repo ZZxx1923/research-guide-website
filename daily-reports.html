@@ -503,12 +503,29 @@
                     body: JSON.stringify(formDataToSubmit)
                 });
 
-                showNotification('تم إرسال التقرير بنجاح ✅', 'success');
+                // إرسال إشعار لحظي لـ Firebase
+                if (typeof triggerInstantNotification === 'function') {
+                    triggerInstantNotification(formDataToSubmit.researcherName, formDataToSubmit.region || '');
+                } else if (typeof sendInstantNotification === 'function') {
+                    // محاولة استدعاء الدالة بمسمى آخر إذا وجد
+                    sendInstantNotification(formDataToSubmit.researcherName);
+                }
+
+                if (typeof showToastNotification === 'function') {
+                    showToastNotification('تم إرسال التقرير بنجاح ✅', false);
+                } else {
+                    alert('تم إرسال التقرير بنجاح ✅');
+                }
+                
                 document.getElementById('reportForm').reset();
                 setInitialDate();
             } catch (error) {
                 console.error('Error:', error);
-                showNotification('حدث خطأ أثناء الإرسال ❌', 'error');
+                if (typeof showToastNotification === 'function') {
+                    showToastNotification('حدث خطأ أثناء الإرسال ❌', true);
+                } else {
+                    alert('حدث خطأ أثناء الإرسال ❌');
+                }
             } finally {
                 document.getElementById('loadingOverlay').style.display = 'none';
                 formDataToSubmit = null;

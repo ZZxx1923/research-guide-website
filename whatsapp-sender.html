@@ -250,8 +250,8 @@
             justify-content: space-between;
             padding: 15px;
             background: var(--carbon-dark);
-            border: 1px solid var(--metal-dark);
-            border-radius: 8px;
+            border: 0ch solid var(--metal-dark);
+            border-radius: 0px;
             transition: all 0.3s ease;
             animation: slideIn 0.3s ease-out;
         }
@@ -263,7 +263,17 @@
         }
 
         .contact-info {
-            flex: 1;
+              display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px;
+            background: var(--carbon-dark);
+            border: 0ch solid var(--metal-dark);
+            border-radius: 0px;
+            transition: all 0.3s ease;
+            animation: slideIn 0.3s ease-out;
+            flex: 10;
+            
         }
 
         .contact-name {
@@ -361,126 +371,47 @@
         .input-field:focus,
         .select-field:focus {
             outline: none;
-            border-color: var(--accent-cyan);
-            box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
-            background: var(--carbon-light);
-        }
-
-        .btn-add {
-            background: linear-gradient(135deg, var(--accent-purple) 0%, var(--accent-blue) 100%);
-            color: var(--text-primary);
-            border: none;
-            padding: 15px 20px;
-            border-radius: 8px;
-            font-weight: 700;
-            cursor: pointer;
-            font-size: 1em;
-            transition: all 0.3s ease;
-            margin-top: 10px;
-        }
-
-        .btn-add:hover {
-            box-shadow: 0 0 20px rgba(153, 69, 255, 0.5);
-            transform: translateY(-2px);
-        }
-
-        .divider {
-            height: 1px;
-            background: var(--metal-dark);
-            margin: 10px 0;
-        }
-
-        .message-info {
-            background: rgba(0, 168, 255, 0.1);
-            border-left: 3px solid var(--accent-blue);
-            padding: 12px 15px;
-            border-radius: 6px;
-            color: var(--accent-blue);
-            font-size: 0.9em;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .clear-btn {
-            background: var(--accent-red);
-            color: var(--text-primary);
-            border: none;
-            padding: 10px 15px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            font-size: 0.9em;
-            width: 100%;
-            margin-top: 15px;
-        }
-
-        .clear-btn:hover {
-            box-shadow: 0 0 15px rgba(255, 51, 51, 0.5);
-            transform: translateY(-2px);
+            border-color: var(--accent-purple);
+            box-shadow: 0 0 10px rgba(153, 69, 255, 0.3);
         }
 
         .researcher-info {
             background: var(--carbon-dark);
+            padding: 20px;
+            border-radius: 10px;
             border: 1px solid var(--metal-dark);
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 15px;
         }
 
         .researcher-row {
             display: flex;
-            gap: 10px;
-            margin-bottom: 10px;
-        }
-
-        .researcher-row input,
-        .researcher-row select {
-            flex: 1;
-            padding: 12px;
-            border-radius: 8px;
-            border: 1px solid var(--metal-dark);
-            background: var(--carbon-dark);
-            color: var(--text-primary);
-            text-align: center;
-            font-size: 1.1em;
-            font-family: 'Tajawal', sans-serif;
-        }
-
-        .researcher-row input:focus,
-        .researcher-row select:focus {
-            outline: none;
-            border-color: var(--accent-cyan);
-            box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
-        }
-
-        .researcher-row input[type="text"] {
-            flex: 2;
+            gap: 15px;
         }
 
         .date-info {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
             background: var(--carbon-dark);
-            border-radius: 10px;
             padding: 15px;
-            margin-bottom: 15px;
-            border: 1px solid var(--metal-dark);
-            text-align: center;
+            border-radius: 10px;
+            border: 1px solid var(--accent-cyan);
         }
 
-        .day-name, .date-display {
-            color: var(--accent-cyan);
+        .day-name {
+            font-size: 1.3em;
             font-weight: 700;
+            color: var(--accent-cyan);
+        }
+
+        .date-display {
             font-size: 1.2em;
-            display: block;
-            margin-bottom: 5px;
+            color: var(--text-primary);
         }
 
         .date-controls {
-            width: 100%;
-            margin-bottom: 15px;
             display: flex;
-            gap: 10px;
+            gap: 15px;
         }
 
         .date-control-btn {
@@ -488,17 +419,65 @@
             background: var(--metal-dark);
             color: var(--text-primary);
             border: 1px solid var(--metal-light);
+            padding: 10px;
             border-radius: 8px;
-            padding: 10px 15px;
-            transition: all 0.3s ease;
             cursor: pointer;
-            font-weight: 600;
+            transition: all 0.3s ease;
+            font-family: 'Tajawal', sans-serif;
         }
 
         .date-control-btn:hover {
             background: var(--accent-blue);
-            box-shadow: 0 0 15px rgba(0, 168, 255, 0.5);
+            border-color: var(--accent-blue);
+        }
+
+        .btn-add {
+            background: linear-gradient(135deg, var(--accent-cyan) 0%, var(--accent-blue) 100%);
+            color: var(--primary-black);
+            border: none;
+            padding: 15px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        .btn-add:hover {
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
             transform: translateY(-2px);
+        }
+
+        .clear-btn {
+            background: none;
+            border: 1px solid var(--accent-red);
+            color: var(--accent-red);
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        .clear-btn:hover {
+            background: var(--accent-red);
+            color: var(--text-primary);
+        }
+
+        .message-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-dim);
+            font-size: 0.9em;
+            justify-content: center;
+        }
+
+        .divider {
+            height: 1px;
+            background: var(--metal-dark);
+            margin: 10px 0;
         }
 
         .buttons-container {
@@ -531,6 +510,50 @@
             box-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
         }
 
+        /* WhatsApp Version Selector */
+        .whatsapp-version-selector {
+            background: var(--carbon-dark);
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid var(--accent-purple);
+            margin-bottom: 10px;
+        }
+
+        .whatsapp-version-selector label {
+            display: block;
+            color: var(--accent-purple);
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 0.95em;
+            text-align: center;
+        }
+
+        .version-options {
+            display: flex;
+            gap: 10px;
+        }
+
+        .version-option {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px;
+            background: var(--metal-dark);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+            font-weight: bold;
+        }
+
+        .version-option.active {
+            background: rgba(153, 69, 255, 0.2);
+            border-color: var(--accent-purple);
+            color: var(--accent-purple);
+        }
+
         @keyframes slideIn {
             from {
                 opacity: 0;
@@ -545,6 +568,7 @@
         @media (max-width: 768px) {
             .main-container {
                 grid-template-columns: 1fr;
+                padding: 15px;
             }
 
             .hero-content h1 {
@@ -562,6 +586,14 @@
 
             .buttons-container {
                 flex-direction: column;
+            }
+            
+            .main-header .site-title {
+                font-size: 1.1em;
+            }
+            
+            .left-panel, .right-panel {
+                padding: 15px;
             }
         }
 
@@ -586,10 +618,10 @@
     </header>
 
     <!-- Sidebar -->
-   <div id="sidebar" class="sidebar">
+    <div id="sidebar" class="sidebar">
         <button class="close-btn" onclick="toggleSidebar()">&times;</button>
         <nav class="sidebar-nav">
-            <a href="index.html" class="sidebar-link active">
+            <a href="index.html" class="sidebar-link">
                 <i class="fas fa-home"></i>
                 الرئيسية
             </a>
@@ -613,14 +645,13 @@
                 <i class="fas fa-cog"></i>
                 الإعدادات
             </a>
-            <a href="whatsapp-sender.html" class="sidebar-link" style="color: var(--accent-purple); font-weight: bold;">
+            <a href="whatsapp-sender.html" class="sidebar-link active" style="color: var(--accent-purple); font-weight: bold; border-right: 3px solid var(--accent-purple);">
                 <i class="fas fa-comments"></i>
                 إرسال الرسائل الجماعية
             </a>
         </nav>
     </div>
 
-   
     <!-- Main Content -->
     <section class="hero-section">
         <div class="container">
@@ -630,20 +661,6 @@
             </div>
         </div>
 
-        <div class="main-container">
-            <!-- Left Panel - Contacts List -->
-            <div class="left-panel">
-                <div class="panel-header">
-                    <h2>جهات الاتصال</h2>
-                    <span class="contact-count" id="contactCount">0</span>
-                </div>
-                <div class="contacts-list" id="contactsList">
-                    <div class="empty-state">
-                        <i class="fas fa-inbox"></i>
-                        <p>لم تضف أي جهات اتصال بعد</p>
-                    </div>
-                </div>
-            </div>
 
             <!-- Right Panel - Messages -->
             <div class="right-panel">
@@ -651,8 +668,8 @@
                     <!-- Researcher Info -->
                     <div class="researcher-info">
                         <div class="researcher-row">
-                            <input type="text" id="researcherNameInput" placeholder="أدخل اسم الباحث/ة هنا" style="flex: 2;">
-                            <select id="researcherGender" style="flex: 1;">
+                            <input type="text" id="researcherNameInput" placeholder="أدخل اسم الباحث/ة هنا" style="flex: 2;" class="input-field">
+                            <select id="researcherGender" style="flex: 1;" class="select-field">
                                 <option value="male">باحث</option>
                                 <option value="female">باحثة</option>
                             </select>
@@ -662,7 +679,7 @@
                     <!-- Date Info -->
                     <div class="date-info">
                         <span class="day-name" id="dayName">الأحد</span>
-                        <span class="date-display" id="dateDisplay">20/7/1447</span>
+                        <span class="date-display" id="dateDisplay">--/--/----</span>
                     </div>
 
                     <!-- Date Controls -->
@@ -675,9 +692,22 @@
                         </button>
                     </div>
 
+                    <!-- WhatsApp Version Selector -->
+                    <div class="whatsapp-version-selector">
+                        <label><i class="fab fa-whatsapp"></i> نسخة الواتساب المستخدمة:</label>
+                        <div class="version-options">
+                            <div class="version-option active" id="verNormal" onclick="setWhatsappVersion('normal')">
+                                <i class="fab fa-whatsapp"></i> عادي
+                            </div>
+                            <div class="version-option" id="verBusiness" onclick="setWhatsappVersion('business')">
+                                <i class="fas fa-briefcase"></i> أعمال
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Message Selection -->
                     <div class="buttons-container">
-                        <button class="message-btn" id="messageBtn1" onclick="selectMessage(1)">
+                        <button class="message-btn active" id="messageBtn1" onclick="selectMessage(1)">
                             رسالة الضمان
                         </button>
                         <button class="message-btn" id="messageBtn2" onclick="selectMessage(2)">
@@ -708,14 +738,29 @@
 
                     <div class="message-info">
                         <i class="fas fa-info-circle"></i>
-                        <span>تحت التجربه v1</span>
+                        <span>سيتم إرسال الرسالة المختارة لجميع جهات الاتصال</span>
                     </div>
 
                     <button id="clearAllBtn" class="clear-btn">
-                        <i class="fas fa-trash"></i> مسح  التخزين المؤقت
+                        <i class="fas fa-trash"></i> مسح جميع جهات الاتصال
                     </button>
                 </div>
             </div>
+                    <div class="main-container">
+            <!-- Left Panel - Contacts List -->
+            <div class="left-panel">
+                <div class="panel-header">
+                    <h2>جهات الاتصال</h2>
+                    <span class="contact-count" id="contactCount">0</span>
+                </div>
+                <div class="contacts-list" id="contactsList">
+                    <div class="empty-state">
+                        <i class="fas fa-inbox"></i>
+                        <p>لم تضف أي جهات اتصال بعد</p>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </section>
 
@@ -739,6 +784,7 @@
         let contacts = JSON.parse(localStorage.getItem('whatsappContacts')) || [];
         let currentDate = new Date();
         let selectedMessage = 1;
+        let whatsappVersion = localStorage.getItem('whatsappVersion') || 'normal';
 
         // DOM Elements
         const researcherNameInput = document.getElementById('researcherNameInput');
@@ -754,6 +800,14 @@
         const dayNameEl = document.getElementById('dayName');
         const dateDisplayEl = document.getElementById('dateDisplay');
 
+        // WhatsApp Version Control
+        function setWhatsappVersion(ver) {
+            whatsappVersion = ver;
+            localStorage.setItem('whatsappVersion', ver);
+            document.getElementById('verNormal').classList.toggle('active', ver === 'normal');
+            document.getElementById('verBusiness').classList.toggle('active', ver === 'business');
+        }
+
         // Get Hijri Date
         function getHijriDate(date) {
             return new Intl.DateTimeFormat('ar-SA-u-ca-islamic-umalqura-nu-latn', {
@@ -768,36 +822,33 @@
             try {
                 const response = await fetch('https://worldtimeapi.org/api/timezone/Asia/Riyadh');
                 const data = await response.json();
-                if (data && data.datetime) {
-                    currentDate = new Date(data.datetime);
-                }
+                currentDate = new Date(data.datetime);
+                updateDateTime();
             } catch (error) {
-                currentDate = new Date();
+                console.log('Error fetching date, using local time');
+                updateDateTime();
             }
-            updateDateTime();
         }
 
-        // Update Date and Time
+        // Update Date and Time Display
         function updateDateTime() {
-            const dayIndex = currentDate.getDay();
-            const dayName = daysInArabic[dayIndex];
-            const hijriDateString = getHijriDate(currentDate);
+            const dayName = daysInArabic[currentDate.getDay()];
+            const dateString = getHijriDate(currentDate);
             
             dayNameEl.textContent = dayName;
-            dateDisplayEl.textContent = hijriDateString;
+            dateDisplayEl.textContent = dateString;
             
-            updateHiddenMessages(dayName, hijriDateString);
+            updateHiddenMessages(dayName, dateString);
         }
 
-        // Next Day
-        function nextDay() {
-            currentDate.setDate(currentDate.getDate() + 1);
+        // Date Navigation
+        function previousDay() {
+            currentDate.setDate(currentDate.getDate() - 1);
             updateDateTime();
         }
 
-        // Previous Day
-        function previousDay() {
-            currentDate.setDate(currentDate.getDate() - 1);
+        function nextDay() {
+            currentDate.setDate(currentDate.getDate() + 1);
             updateDateTime();
         }
 
@@ -942,7 +993,7 @@
                     </div>
                     <div class="contact-actions">
                         <button class="btn-send" onclick="sendMessage(${contact.id})">
-                            <i class="fas fa-paper-plane"></i> إرسال
+                            <i class="fab fa-whatsapp"></i> إرسال
                         </button>
                         <button class="btn-delete" onclick="deleteContact(${contact.id})">
                             <i class="fas fa-trash"></i>
@@ -992,7 +1043,10 @@
             }
 
             const encodedMessage = encodeURIComponent(message);
-            const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+            
+            // Use appropriate URL based on version
+            const baseUrl = whatsappVersion === 'business' ? 'https://wa.me/' : 'https://api.whatsapp.com/send';
+            const whatsappUrl = `${baseUrl}?phone=${phoneNumber}&text=${encodedMessage}`;
 
             window.open(whatsappUrl, '_blank');
         }
@@ -1007,7 +1061,7 @@
         document.addEventListener('click', (e) => {
             const sidebar = document.getElementById('sidebar');
             const menuBtn = document.querySelector('.menu-btn');
-            if (!sidebar.contains(e.target) && !menuBtn.contains(e.target)) {
+            if (sidebar.classList.contains('open') && !sidebar.contains(e.target) && !menuBtn.contains(e.target)) {
                 sidebar.classList.remove('open');
             }
         });
@@ -1038,6 +1092,7 @@
             if (savedName) researcherNameInput.value = savedName;
             if (savedGender) researcherGenderSelect.value = savedGender;
 
+            setWhatsappVersion(whatsappVersion);
             fetchInternetDate();
             renderContacts();
             selectMessage(1);

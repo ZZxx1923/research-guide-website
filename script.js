@@ -13,11 +13,13 @@ let currentDate = new Date();
 
 // دالة لتحويل التاريخ الميلادي إلى هجري (أرقام فقط)
 function getHijriDate(date) {
-    return new Intl.DateTimeFormat('ar-SA-u-ca-islamic-umalqura-nu-latn', {
+    const hijriDate = new Intl.DateTimeFormat('ar-SA-u-ca-islamic-umalqura-nu-latn', {
         day: '2-digit',
         month: '2-digit',
         year: 'numeric'
-    }).format(date).replace(/هـ/g, '').trim();
+    }).format(date);
+    // إزالة جميع الأحرف العربية والرموز والبقاء بالأرقام والفاصلة فقط
+    return hijriDate.replace(/[^0-9/]/g, '').trim();
 }
 
 // دالة لجلب التاريخ من الإنترنت (WorldTimeAPI) لضمان الدقة

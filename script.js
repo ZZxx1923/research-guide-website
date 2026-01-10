@@ -14,22 +14,41 @@ let currentDate = new Date();
 // دالة لتحويل التاريخ الميلادي إلى هجري (أرقام فقط)
 function getHijriDate(date) {
     try {
-        const hijriDate = new Intl.DateTimeFormat('ar-SA-u-ca-islamic-umalqura-nu-latn', {
+        // استخدام formatToParts للحصول على كل جزء من التاريخ بشكل منفصل
+        // هذا يضمن الحصول على الأرقام حتى لو كان المتصفح يحاول عرض اسم الشهر
+        const formatter = new Intl.DateTimeFormat('ar-SA-u-ca-islamic-umalqura-nu-latn', {
             day: '2-digit',
             month: '2-digit',
             year: 'numeric'
-        }).format(date);
-        // التأكد من أن التنسيق هو DD/MM/YYYY
-        // أحياناً Intl قد يعيد رموزاً غير مرئية أو تنسيقاً مختلفاً حسب المتصفح
-        const parts = hijriDate.split('/');
-        if (parts.length === 3) {
-            return hijriDate.replace(/[^0-9/]/g, '').trim();
+        });
+        
+        const parts = formatter.formatToParts(date);
+        let day, month, year;
+        
+        parts.forEach(part => {
+            if (part.type === 'day') day = part.value;
+            if (part.type === 'month') month = part.value;
+            if (part.type === 'year') year = part.value;
+        });
+        
+        // التأكد من أن القيم أرقام فقط (في حال كانت تحتوي على أرقام عربية أو رموز)
+        const cleanNum = (num) => num.replace(/[^0-9]/g, '');
+        
+        // إذا فشل الحصول على الشهر كأرقام (بعض المتصفحات قد تعيد اسم الشهر في part.value)
+        // سنقوم بمحاولة إضافية باستخدام التنسيق الرقمي الصريح
+        if (isNaN(cleanNum(month)) || cleanNum(month) === '') {
+             const fallbackFormatter = new Intl.DateTimeFormat('en-u-ca-islamic-umalqura-nu-latn', {
+                month: 'numeric'
+            });
+            month = fallbackFormatter.format(date);
         }
-        // إذا فشل التنسيق المتوقع، نستخدم طريقة يدوية بسيطة أو نرجع التاريخ كما هو بعد التنظيف
-        return hijriDate.replace(/[^0-9/]/g, '').trim();
+
+        return `${cleanNum(day)}/${cleanNum(month)}/${cleanNum(year)}`;
     } catch (e) {
         console.error('Error formatting Hijri date:', e);
-        return date.toLocaleDateString('ar-SA');
+        // حل احتياطي أخير: تنظيف أي مخرجات من التنسيق الافتراضي
+        const fallback = date.toLocaleDateString('ar-SA-u-ca-islamic-umalqura');
+        return fallback.replace(/[^0-9/]/g, '');
     }
 }
 

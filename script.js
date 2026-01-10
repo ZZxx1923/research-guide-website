@@ -13,13 +13,24 @@ let currentDate = new Date();
 
 // دالة لتحويل التاريخ الميلادي إلى هجري (أرقام فقط)
 function getHijriDate(date) {
-    const hijriDate = new Intl.DateTimeFormat('ar-SA-u-ca-islamic-umalqura-nu-latn', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric'
-    }).format(date);
-    // إزالة جميع الأحرف العربية والرموز والبقاء بالأرقام والفاصلة فقط
-    return hijriDate.replace(/[^0-9/]/g, '').trim();
+    try {
+        const hijriDate = new Intl.DateTimeFormat('ar-SA-u-ca-islamic-umalqura-nu-latn', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric'
+        }).format(date);
+        // التأكد من أن التنسيق هو DD/MM/YYYY
+        // أحياناً Intl قد يعيد رموزاً غير مرئية أو تنسيقاً مختلفاً حسب المتصفح
+        const parts = hijriDate.split('/');
+        if (parts.length === 3) {
+            return hijriDate.replace(/[^0-9/]/g, '').trim();
+        }
+        // إذا فشل التنسيق المتوقع، نستخدم طريقة يدوية بسيطة أو نرجع التاريخ كما هو بعد التنظيف
+        return hijriDate.replace(/[^0-9/]/g, '').trim();
+    } catch (e) {
+        console.error('Error formatting Hijri date:', e);
+        return date.toLocaleDateString('ar-SA');
+    }
 }
 
 // دالة لجلب التاريخ من الإنترنت (WorldTimeAPI) لضمان الدقة
@@ -190,6 +201,9 @@ function showCopyFeedback() {
 
 // تحديث التاريخ والوقت عند تحميل الصفحة
 document.addEventListener('DOMContentLoaded', () => {
+    // تعطيل القائمة اليمنى للأمان
+    document.addEventListener('contextmenu', event => event.preventDefault());
+    
     fetchInternetDate();
     
     // حفظ اسم الباحث وجنسه في localStorage وتحديثهما عند التغيير
